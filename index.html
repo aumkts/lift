@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="th">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
@@ -1129,11 +1129,11 @@ select.input{
 <div id="toast"></div>
 <div id="confirm-modal" class="modal-overlay" onclick="closeConfirm(event)">
   <div class="modal-sheet">
-    <div class="modal-title" id="confirm-title">ยืนยัน?</div>
+    <div class="modal-title" id="confirm-title">Confirm?</div>
     <div class="modal-body" id="confirm-body"></div>
     <div class="modal-actions">
-      <button class="btn btn-ghost" onclick="closeConfirm()">ยกเลิก</button>
-      <button class="btn btn-danger" id="confirm-ok">ลบ</button>
+      <button class="btn btn-ghost" onclick="closeConfirm()">Cancel</button>
+      <button class="btn btn-danger" id="confirm-ok">Delete</button>
     </div>
   </div>
 </div>
@@ -1141,18 +1141,18 @@ select.input{
 <div id="plan-modal" class="plan-modal" onclick="closePlanModal(event)">
   <div class="plan-modal-inner">
     <div class="plan-modal-header">
-      <div class="plan-modal-title" id="plan-modal-title">สร้างแผนใหม่</div>
+      <div class="plan-modal-title" id="plan-modal-title">New Plan</div>
       <button class="plan-modal-close" onclick="closePlanModal()">×</button>
     </div>
     <div class="plan-modal-body">
-      <div class="field"><label>ชื่อแผน</label><input id="plan-name-inp" class="input" type="text" placeholder="เช่น Push Day, Leg Day A"></div>
+      <div class="field"><label>Plan Name</label><input id="plan-name-inp" class="input" type="text" placeholder="e.g. Push Day, Leg Day A"></div>
       <div id="plan-ex-list"></div>
       <button onclick="addPlanExBlock()" class="btn btn-ghost" style="margin-bottom:6px">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" style="margin-right:6px"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>เพิ่มท่า
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" style="margin-right:6px"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add Exercise
       </button>
     </div>
     <div style="padding:14px 18px;border-top:1px solid var(--bd);flex-shrink:0">
-      <button id="btn-save-plan" onclick="savePlan()" class="btn">บันทึกแผน</button>
+      <button id="btn-save-plan" onclick="savePlan()" class="btn">Save Plan</button>
     </div>
   </div>
 </div>
@@ -1160,7 +1160,7 @@ select.input{
 <div id="pick-plan-sheet" class="pick-plan-sheet" onclick="closePickPlan(event)">
   <div class="pick-plan-inner">
     <div class="pick-plan-header">
-      <div class="pick-plan-title">เลือกแผน</div>
+      <div class="pick-plan-title">Select Plan</div>
       <button class="plan-modal-close" onclick="closePickPlan()">×</button>
     </div>
     <div class="pick-plan-list" id="pick-plan-list"></div>
@@ -1170,27 +1170,27 @@ select.input{
   <div class="auth-inner">
     <div class="auth-brand"><span class="auth-logo">LIFT</span><div class="auth-tagline">Workout Tracker</div></div>
     <div class="auth-tabs">
-      <button class="auth-tab active" id="tab-login" onclick="setAuthTab('login')">เข้าสู่ระบบ</button>
-      <button class="auth-tab" id="tab-reg" onclick="setAuthTab('reg')">สมัครสมาชิก</button>
+      <button class="auth-tab active" id="tab-login" onclick="setAuthTab('login')">Login</button>
+      <button class="auth-tab" id="tab-reg" onclick="setAuthTab('reg')">Register</button>
     </div>
     <form id="form-login" onsubmit="doLogin(event)">
-      <div class="field"><label>ชื่อผู้ใช้</label><input id="l-user" class="input" type="text" autocomplete="username" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="username"></div>
-      <div class="field" style="margin-bottom:22px"><label>รหัสผ่าน</label><input id="l-pass" class="input" type="password" autocomplete="current-password" placeholder="••••••"></div>
-      <button id="btn-login" class="btn" type="submit">เข้าสู่ระบบ</button>
+      <div class="field"><label>Username</label><input id="l-user" class="input" type="text" autocomplete="username" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="username"></div>
+      <div class="field" style="margin-bottom:22px"><label>Password</label><input id="l-pass" class="input" type="password" autocomplete="current-password" placeholder="••••••"></div>
+      <button id="btn-login" class="btn" type="submit">Login</button>
     </form>
     <form id="form-reg" class="hidden" onsubmit="doRegister(event)">
-      <div class="field"><label>ชื่อที่แสดง</label><input id="r-name" class="input" type="text" autocapitalize="words" placeholder="ชื่อของคุณ"></div>
-      <div class="field"><label>ชื่อผู้ใช้</label><input id="r-user" class="input" type="text" autocomplete="username" autocapitalize="off" spellcheck="false" placeholder="username (ภาษาอังกฤษ)"></div>
-      <div class="field"><label>รหัสผ่าน (อย่างน้อย 6 ตัว)</label><input id="r-pass" class="input" type="password" autocomplete="new-password" placeholder="••••••"></div>
-      <div class="field" style="margin-bottom:22px"><label>ยืนยันรหัสผ่าน</label><input id="r-cfm" class="input" type="password" autocomplete="new-password" placeholder="••••••"></div>
-      <button id="btn-reg" class="btn" type="submit">สมัครสมาชิก</button>
+      <div class="field"><label>Display Name</label><input id="r-name" class="input" type="text" autocapitalize="words" placeholder="Your name"></div>
+      <div class="field"><label>Username</label><input id="r-user" class="input" type="text" autocomplete="username" autocapitalize="off" spellcheck="false" placeholder="username (letters only)"></div>
+      <div class="field"><label>Password (min 6 chars)</label><input id="r-pass" class="input" type="password" autocomplete="new-password" placeholder="••••••"></div>
+      <div class="field" style="margin-bottom:22px"><label>Confirm Password</label><input id="r-cfm" class="input" type="password" autocomplete="new-password" placeholder="••••••"></div>
+      <button id="btn-reg" class="btn" type="submit">Register</button>
     </form>
   </div>
 </div>
 <div id="v-main" class="view hidden">
   <header class="header">
     <div class="header-logo">LIFT</div>
-    <div class="header-right"><span class="header-user" id="u-name"></span><button class="header-out" onclick="doLogout()">ออก</button></div>
+    <div class="header-right"><span class="header-user" id="u-name"></span><button class="header-out" onclick="doLogout()">Logout</button></div>
   </header>
   <div id="tab-dash" class="tab-pane">
     <div id="today-action-wrap"></div>
@@ -1199,27 +1199,27 @@ select.input{
 
 <div class="recent-summary-card" id="recent-summary-card" style="margin-top:14px">
   <div style="display:flex;justify-content:space-between;align-items:center;gap:12px">
-    <div style="font-size:12px;color:var(--ts)">7 วันล่าสุด</div>
-    <div style="font-size:12px;color:var(--a)" id="recent-summary-range">สรุปการฝึกล่าสุด</div>
+    <div style="font-size:12px;color:var(--ts)">Last 7 Days</div>
+    <div style="font-size:12px;color:var(--a)" id="recent-summary-range">Recent Summary</div>
   </div>
 
 <div class="heatmap-card" id="workout-heatmap-card">
   <div style="display:flex;justify-content:space-between;align-items:center;gap:12px">
     <div style="font-size:12px;color:var(--ts)">Workout Heatmap</div>
-    <div style="font-size:12px;color:var(--a)">30 วันล่าสุด</div>
+    <div style="font-size:12px;color:var(--a)">Last 30 Days</div>
   </div>
   <div class="heatmap-legend">
-    <span>น้อย</span>
+    <span>Low</span>
     <div class="heatmap-legend-box level-0"></div>
     <div class="heatmap-legend-box level-1"></div>
     <div class="heatmap-legend-box level-2"></div>
     <div class="heatmap-legend-box level-3"></div>
-    <span>มาก</span>
+    <span>High</span>
   </div>
   <div class="heatmap-grid" id="workout-heatmap-grid"></div>
   <div class="heatmap-week-labels">
-    <span>4 สัปดาห์ก่อน</span>
-    <span>วันนี้</span>
+    <span>4 Weeks Ago</span>
+    <span>Today</span>
   </div>
 </div>
 
@@ -1227,12 +1227,12 @@ select.input{
     <div class="recent-summary-box">
       <div class="recent-summary-k">Sessions</div>
       <div class="recent-summary-v" id="recent-sessions">0</div>
-      <div class="recent-summary-sub">จำนวนวันที่ฝึก</div>
+      <div class="recent-summary-sub">Workout Days</div>
     </div>
     <div class="recent-summary-box">
       <div class="recent-summary-k">Sets</div>
       <div class="recent-summary-v" id="recent-sets">0</div>
-      <div class="recent-summary-sub">จำนวนเซตรวม</div>
+      <div class="recent-summary-sub">Total Sets</div>
     </div>
     <div class="recent-summary-box">
       <div class="recent-summary-k">Volume</div>
@@ -1242,20 +1242,20 @@ select.input{
     <div class="recent-summary-box">
       <div class="recent-summary-k">Recovery</div>
       <div class="recent-summary-v" id="recent-rest-days">0</div>
-      <div class="recent-summary-sub">วันพักล่าสุด</div>
+      <div class="recent-summary-sub">Last Rest Day</div>
     </div>
   </div>
   <div class="recent-insight-list">
     <div class="recent-insight-row">
-      <div class="recent-insight-label">Body part ที่ฝึกน้อยสุด</div>
+      <div class="recent-insight-label">Least Trained Body Part</div>
       <div class="recent-insight-value" id="recent-least-bodypart">—</div>
     </div>
     <div class="recent-insight-row">
-      <div class="recent-insight-label">ควรทำต่อ</div>
+      <div class="recent-insight-label">Next Focus</div>
       <div class="recent-insight-value" id="recent-next-focus">—</div>
     </div>
     <div class="recent-insight-row">
-      <div class="recent-insight-label">เป้าสัปดาห์นี้</div>
+      <div class="recent-insight-label">Weekly Goal</div>
       <div class="recent-insight-value" id="recent-goal-status">—</div>
     </div>
   </div>
@@ -1266,29 +1266,29 @@ select.input{
       <span id="dash-meta" style="font-size:11px;color:var(--ts)"></span>
     </div>
     <div class="chart-card">
-      <div class="chart-label"><span>กิจกรรม</span></div>
+      <div class="chart-label"><span>Activity</span></div>
       <div id="dash-chart"></div>
     </div>
   </div>
   <div id="tab-prog" class="tab-pane hidden">
     <div class="sec-head" style="margin-top:0"><div class="sec-title">Progress</div></div>
     <div style="margin-bottom:12px">
-      <div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--ts);margin-bottom:8px">ช่วงเวลา</div>
+      <div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--ts);margin-bottom:8px">Period</div>
       <div class="chip-row" id="period-chips">
-        <button class="chip active" data-p="7"   onclick="setProgPeriod('7')">7 วัน</button>
-        <button class="chip"        data-p="30"  onclick="setProgPeriod('30')">30 วัน</button>
-        <button class="chip"        data-p="90"  onclick="setProgPeriod('90')">3 เดือน</button>
-        <button class="chip"        data-p="180" onclick="setProgPeriod('180')">6 เดือน</button>
-        <button class="chip"        data-p="all" onclick="setProgPeriod('all')">ทั้งหมด</button>
+        <button class="chip active" data-p="7"   onclick="setProgPeriod('7')">7 Days</button>
+        <button class="chip"        data-p="30"  onclick="setProgPeriod('30')">30 Days</button>
+        <button class="chip"        data-p="90"  onclick="setProgPeriod('90')">3 Months</button>
+        <button class="chip"        data-p="180" onclick="setProgPeriod('180')">6 Months</button>
+        <button class="chip"        data-p="all" onclick="setProgPeriod('all')">All</button>
       </div>
     </div>
     <div class="filter-card" style="margin-bottom:12px">
       <div class="row2" style="margin-bottom:10px">
-        <div class="field" style="margin-bottom:0"><label>Body Part</label><select id="prog-bp" class="input" onchange="onProgBP()"><option value="">ทั้งหมด</option></select></div>
-        <div class="field" style="margin-bottom:0"><label>ท่า</label><select id="prog-ex" class="input" onchange="onProgEx()"><option value="">ทั้งหมด</option></select></div>
+        <div class="field" style="margin-bottom:0"><label>Body Part</label><select id="prog-bp" class="input" onchange="onProgBP()"><option value="">All</option></select></div>
+        <div class="field" style="margin-bottom:0"><label>Exercise</label><select id="prog-ex" class="input" onchange="onProgEx()"><option value="">All</option></select></div>
       </div>
       <div class="metric-tabs" id="metric-tabs">
-        <button class="metric-tab active" data-m="weight"   onclick="setMetric('weight')">น้ำหนัก</button>
+        <button class="metric-tab active" data-m="weight"   onclick="setMetric('weight')">Weight</button>
         <button class="metric-tab"        data-m="volume"   onclick="setMetric('volume')">Volume</button>
         <button class="metric-tab"        data-m="reps"     onclick="setMetric('reps')">Reps</button>
         <button class="metric-tab"        data-m="sessions" onclick="setMetric('sessions')">Sessions</button>
@@ -1297,104 +1297,104 @@ select.input{
     <div id="prog-insight-wrap"></div>
     <div class="prog-kpi-row" id="prog-kpi"></div>
     <div class="chart-card">
-      <div class="chart-label"><span id="prog-chart-label">กราฟ</span><span class="chart-label-r" id="prog-chart-range"></span></div>
+      <div class="chart-label"><span id="prog-chart-label">Chart</span><span class="chart-label-r" id="prog-chart-range"></span></div>
       <div id="prog-chart"></div>
     </div>
     <div id="top-ex-card" class="chart-card" style="display:none">
-      <div class="chart-label"><span>Top ท่าที่ฝึกบ่อย</span></div>
+      <div class="chart-label"><span>Top Exercises</span></div>
       <div id="top-ex-list"></div>
     </div>
   </div>
   <div id="tab-log" class="tab-pane hidden">
-    <div class="sec-head" style="margin-top:0"><div class="sec-title">บันทึก Workout</div></div>
+    <div class="sec-head" style="margin-top:0"><div class="sec-title">Log Workout</div></div>
     <!-- Use Plan Banner -->
     <button class="use-plan-btn" onclick="openPickPlan()">
       <div class="use-plan-btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10,9 9,9 8,9"/></svg></div>
       <div class="use-plan-btn-text">
-        <div class="use-plan-btn-title" id="use-plan-title">เลือกแผน Workout</div>
-        <div class="use-plan-btn-sub" id="use-plan-sub">โหลดท่าจาก Planner ของคุณ</div>
+        <div class="use-plan-btn-title" id="use-plan-title">Select Plan Workout</div>
+        <div class="use-plan-btn-sub" id="use-plan-sub">Load exercises from your Planner</div>
       </div>
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="color:var(--td);flex-shrink:0"><polyline points="9,18 15,12 9,6"/></svg>
     </button>
-    <div class="field" style="margin-bottom:18px"><label>วันที่</label><input id="log-date" class="input" type="date"></div>
+    <div class="field" style="margin-bottom:18px"><label>Date</label><input id="log-date" class="input" type="date"></div>
     <div class="log-summary">
       <div class="log-summary-card">
         <div class="log-summary-lbl">Exercises</div>
         <div class="log-summary-val" id="log-summary-ex">1</div>
-        <div class="log-summary-sub">จำนวนท่าที่กำลังบันทึก</div>
+        <div class="log-summary-sub">Exercises to log</div>
       </div>
       <div class="log-summary-card">
         <div class="log-summary-lbl">Sets</div>
         <div class="log-summary-val" id="log-summary-set">1</div>
-        <div class="log-summary-sub">รวมทุกเซตของวันนี้</div>
+        <div class="log-summary-sub">Today's total sets</div>
       </div>
     </div>
     <div id="log-exercises"></div>
     <button onclick="addExBlock()" class="btn btn-ghost" style="margin-bottom:12px">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" style="margin-right:6px"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>เพิ่มท่า
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" style="margin-right:6px"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add Exercise
     </button>
-    <button id="btn-save" onclick="saveWorkout()" class="btn">บันทึก Workout 💪</button>
+    <button id="btn-save" onclick="saveWorkout()" class="btn">Log Workout 💪</button>
   </div>
   <!-- PLAN TAB (includes history sub-tab) -->
   <div id="tab-plan" class="tab-pane hidden">
     <!-- Sub-tabs -->
     <div class="subtab-row">
-      <button class="subtab active" id="subtab-plan" onclick="setPlanSubTab('plan')">📋 แผนของฉัน</button>
-      <button class="subtab"        id="subtab-hist" onclick="setPlanSubTab('hist')">🕐 ประวัติ</button>
+      <button class="subtab active" id="subtab-plan" onclick="setPlanSubTab('plan')">📋 My Plans</button>
+      <button class="subtab"        id="subtab-hist" onclick="setPlanSubTab('hist')">🕐 History</button>
     </div>
     <!-- Plan sub-view -->
     <div id="plan-subview">
       <div id="plans-list"></div>
       <button onclick="openNewPlan()" class="btn">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" style="margin-right:8px"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>สร้างแผนใหม่
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" style="margin-right:8px"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>New Plan
       </button>
     </div>
     <!-- History sub-view -->
     <div id="hist-subview" class="hidden">
       <div class="filter-card">
-        <div class="sec-title" style="margin-bottom:12px">กรอง</div>
+        <div class="sec-title" style="margin-bottom:12px">Filter</div>
         <div class="row2" style="margin-bottom:10px">
-          <div class="field" style="margin-bottom:0"><label>จากวันที่</label><input id="f-from" class="input" type="date" onchange="resetHistLimit();loadHist()"></div>
-          <div class="field" style="margin-bottom:0"><label>ถึงวันที่</label><input id="f-to" class="input" type="date" onchange="resetHistLimit();loadHist()"></div>
+          <div class="field" style="margin-bottom:0"><label>From Date</label><input id="f-from" class="input" type="date" onchange="resetHistLimit();loadHist()"></div>
+          <div class="field" style="margin-bottom:0"><label>To Date</label><input id="f-to" class="input" type="date" onchange="resetHistLimit();loadHist()"></div>
         </div>
         <div class="row2">
-          <div class="field" style="margin-bottom:0"><label>Body Part</label><select id="f-bp" class="input" onchange="onHistBP()"><option value="">ทั้งหมด</option></select></div>
-          <div class="field" style="margin-bottom:0"><label>ท่า</label><select id="f-ex" class="input" onchange="resetHistLimit();loadHist()"><option value="">ทั้งหมด</option></select></div>
+          <div class="field" style="margin-bottom:0"><label>Body Part</label><select id="f-bp" class="input" onchange="onHistBP()"><option value="">All</option></select></div>
+          <div class="field" style="margin-bottom:0"><label>Exercise</label><select id="f-ex" class="input" onchange="resetHistLimit();loadHist()"><option value="">All</option></select></div>
         </div>
       </div>
       <div id="hist-list"></div>
     </div>
   </div>
   <div id="tab-settings" class="tab-pane hidden">
-    <div class="sec-head" style="margin-top:0"><div class="sec-title">ตั้งค่า</div></div>
+    <div class="sec-head" style="margin-top:0"><div class="sec-title">Settings</div></div>
     <div class="settings-card">
-      <div class="settings-hd"><div class="settings-hd-title">โปรไฟล์</div><button class="btn btn-ghost btn-sm" id="btn-edit-profile" onclick="toggleEditProfile()">แก้ไข</button></div>
+      <div class="settings-hd"><div class="settings-hd-title">Profile</div><button class="btn btn-ghost btn-sm" id="btn-edit-profile" onclick="toggleEditProfile()">Edit</button></div>
       <div style="display:flex;align-items:center;gap:14px;padding:16px">
         <div class="avatar" id="profile-avatar">?</div>
         <div><div style="font-size:17px;font-weight:600;margin-bottom:2px" id="profile-name-display">—</div><div style="font-size:12px;color:var(--ts)" id="profile-username-display"></div></div>
       </div>
       <div id="profile-edit-form" class="hidden" style="padding:0 16px 16px">
-        <div class="field" style="margin-bottom:10px"><label>ชื่อที่แสดง</label><input id="edit-display-name" class="input" type="text" autocapitalize="words"></div>
-        <div class="field" style="margin-bottom:12px"><label>รหัสผ่านใหม่ (เว้นว่างถ้าไม่เปลี่ยน)</label><input id="edit-password" class="input" type="password" autocomplete="new-password" placeholder="••••••"></div>
-        <div class="row2"><button class="btn btn-ghost" onclick="toggleEditProfile()">ยกเลิก</button><button class="btn" style="font-size:16px;font-family:'VT323',monospace;font-weight:600;letter-spacing:0" onclick="saveProfile()">บันทึก</button></div>
+        <div class="field" style="margin-bottom:10px"><label>Display Name</label><input id="edit-display-name" class="input" type="text" autocapitalize="words"></div>
+        <div class="field" style="margin-bottom:12px"><label>New Password (leave blank to keep)</label><input id="edit-password" class="input" type="password" autocomplete="new-password" placeholder="••••••"></div>
+        <div class="row2"><button class="btn btn-ghost" onclick="toggleEditProfile()">Cancel</button><button class="btn" style="font-size:16px;font-family:'VT323',monospace;font-weight:600;letter-spacing:0" onclick="saveProfile()">Save</button></div>
       </div>
     </div>
     <div class="settings-card">
       <div class="settings-hd">
-        <div class="settings-hd-title">ท่าออกกำลังกาย</div>
-        <button class="btn btn-ghost btn-sm" onclick="toggleAddExForm()">+ เพิ่ม</button>
+        <div class="settings-hd-title">Exercises</div>
+        <button class="btn btn-ghost btn-sm" onclick="toggleAddExForm()">+ Add</button>
       </div>
       <div id="add-ex-form" class="hidden add-ex-form-wrap">
         <div class="row2" style="margin-bottom:10px">
-          <div class="field" style="margin-bottom:0"><label>ชื่อท่า</label><input id="new-ex-name" class="input" type="text" placeholder="เช่น Push Up"></div>
-          <div class="field" style="margin-bottom:0"><label>Body Part</label><select id="new-ex-bp" class="input"><option value="">— เลือก —</option></select></div>
+          <div class="field" style="margin-bottom:0"><label>Exercise Name</label><input id="new-ex-name" class="input" type="text" placeholder="e.g. Push Up"></div>
+          <div class="field" style="margin-bottom:0"><label>Body Part</label><select id="new-ex-bp" class="input"><option value="">— Select —</option></select></div>
         </div>
-        <button class="btn" style="height:42px;padding:0;font-size:16px;font-family:'VT323',monospace;font-weight:600;letter-spacing:0" onclick="addExercise()">เพิ่มท่า</button>
+        <button class="btn" style="height:42px;padding:0;font-size:16px;font-family:'VT323',monospace;font-weight:600;letter-spacing:0" onclick="addExercise()">Add Exercise</button>
       </div>
       <div style="padding:10px 14px 6px">
         <div class="search-wrap">
           <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-          <input class="input" type="text" id="ex-search" placeholder="ค้นหาท่า..." oninput="renderExList(this.value)" style="font-size:14px;padding:9px 14px 9px 34px">
+          <input class="input" type="text" id="ex-search" placeholder="Search exercises..." oninput="renderExList(this.value)" style="font-size:14px;padding:9px 14px 9px 34px">
         </div>
       </div>
       <div id="ex-list" style="max-height:420px;overflow-y:auto"></div>
@@ -1403,35 +1403,35 @@ select.input{
     <div class="settings-card">
       <div class="settings-hd">
         <div class="settings-hd-title">Body Part</div>
-        <button class="btn btn-ghost btn-sm" onclick="toggleAddBPForm()">+ เพิ่ม</button>
+        <button class="btn btn-ghost btn-sm" onclick="toggleAddBPForm()">+ Add</button>
       </div>
       <div id="add-bp-form" class="hidden add-ex-form-wrap">
-        <div class="field" style="margin-bottom:10px"><label>ชื่อ Body Part</label><input id="new-bp-name" class="input" type="text" placeholder="เช่น Glutes"></div>
-        <button class="btn" style="height:42px;padding:0;font-size:16px;font-family:'VT323',monospace;font-weight:600;letter-spacing:0" onclick="addBodyPart()">เพิ่ม</button>
+        <div class="field" style="margin-bottom:10px"><label>Body Part Name</label><input id="new-bp-name" class="input" type="text" placeholder="e.g. Glutes"></div>
+        <button class="btn" style="height:42px;padding:0;font-size:16px;font-family:'VT323',monospace;font-weight:600;letter-spacing:0" onclick="addBodyPart()">Add</button>
       </div>
       <div id="bp-list"></div>
     </div>
     <!-- Unit preference -->
     <div class="settings-card">
-      <div class="settings-hd"><div class="settings-hd-title">หน่วยน้ำหนัก</div></div>
+      <div class="settings-hd"><div class="settings-hd-title">Weight Unit</div></div>
       <div style="padding:14px 16px">
         <div class="unit-toggle">
           <button class="unit-btn active" id="unit-kg" onclick="setUnit('kg')">kg</button>
           <button class="unit-btn" id="unit-lbs" onclick="setUnit('lbs')">lbs</button>
         </div>
-        <div style="margin-top:8px;font-size:12px;color:var(--ts)">1 kg = 2.2046 lbs · ค่าจะถูกแสดงในหน่วยที่เลือก</div>
+        <div style="margin-top:8px;font-size:12px;color:var(--ts)">1 kg = 2.2046 lbs · values shown in selected unit</div>
       </div>
     </div>
     <div class="settings-card">
       <div class="settings-hd"><div class="settings-hd-title">Training Preferences</div></div>
       <div style="padding:14px 16px">
         <div class="pref-grid">
-          <div class="pref-item"><div class="pref-item-k">เป้าหมายต่อสัปดาห์</div><input id="goal-sessions" class="input" type="number" min="1" max="7" value="4" style="padding:10px 12px;font-size:15px"></div>
-          <div class="pref-item"><div class="pref-item-k">พักระหว่างเซต</div><input id="default-rest" class="input" type="number" min="15" step="15" value="90" style="padding:10px 12px;font-size:15px"></div>
-          <div class="pref-item"><div class="pref-item-k">เพิ่มน้ำหนักครั้งละ</div><input id="default-inc" class="input" type="number" min="0.5" step="0.5" value="2.5" style="padding:10px 12px;font-size:15px"></div>
-          <div class="pref-item"><div class="pref-item-k">หน่วยปัจจุบัน</div><div id="pref-unit-label" style="font-size:15px;font-weight:600">kg</div></div>
+          <div class="pref-item"><div class="pref-item-k">Weekly Goal</div><input id="goal-sessions" class="input" type="number" min="1" max="7" value="4" style="padding:10px 12px;font-size:15px"></div>
+          <div class="pref-item"><div class="pref-item-k">Rest Between Sets</div><input id="default-rest" class="input" type="number" min="15" step="15" value="90" style="padding:10px 12px;font-size:15px"></div>
+          <div class="pref-item"><div class="pref-item-k">Weight Increment</div><input id="default-inc" class="input" type="number" min="0.5" step="0.5" value="2.5" style="padding:10px 12px;font-size:15px"></div>
+          <div class="pref-item"><div class="pref-item-k">Current Unit</div><div id="pref-unit-label" style="font-size:15px;font-weight:600">kg</div></div>
         </div>
-        <button class="btn" style="margin-top:12px;font-size:16px;font-family:'VT323',monospace;font-weight:600;letter-spacing:0" onclick="savePrefs()">บันทึก Preferences</button>
+        <button class="btn" style="margin-top:12px;font-size:16px;font-family:'VT323',monospace;font-weight:600;letter-spacing:0" onclick="savePrefs()">Save Preferences</button>
       </div>
     </div>
     <!-- Version -->
@@ -1442,40 +1442,40 @@ select.input{
   </div>
   <nav class="bottom-nav">
     <button class="nav-btn active" data-tab="dash" onclick="setTab('dash')">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>หน้าหลัก
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>Home
     </button>
     <button class="nav-btn" data-tab="prog" onclick="setTab('prog')">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/></svg>Progress
     </button>
     <button class="nav-center" data-tab="log" onclick="setTab('log')"><div class="nav-circle" id="nav-circle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div></button>
     <button class="nav-btn" data-tab="plan" onclick="setTab('plan')">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10,9 9,9 8,9"/></svg>แผน
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10,9 9,9 8,9"/></svg>Plans
     </button>
     <button class="nav-btn" data-tab="settings" onclick="setTab('settings')">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>ตั้งค่า
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>Settings
     </button>
   </nav>
 
 <!-- Edit History Modal -->
 <div id="edit-hist-modal" class="edit-hist-modal" onclick="closeEditHist(event)">
   <div class="edit-hist-inner">
-    <div style="font-size:17px;font-weight:700;margin-bottom:16px" id="edit-hist-title">แก้ไขเซต</div>
-    <div class="field" style="margin-bottom:12px"><label>วันที่</label><input id="eh-date" class="input" type="date"></div>
-    <div class="field" style="margin-bottom:12px"><label>ท่าออกกำลังกาย</label><input id="eh-ex" class="input" type="text"></div>
+    <div style="font-size:17px;font-weight:700;margin-bottom:16px" id="edit-hist-title">Edit Set</div>
+    <div class="field" style="margin-bottom:12px"><label>Date</label><input id="eh-date" class="input" type="date"></div>
+    <div class="field" style="margin-bottom:12px"><label>Exercises</label><input id="eh-ex" class="input" type="text"></div>
     <div class="row2" style="margin-bottom:12px">
       <div class="field" style="margin-bottom:0">
         <label id="eh-val-lbl">Reps</label>
         <input id="eh-reps" class="input" type="number" min="0" inputmode="numeric">
       </div>
       <div class="field" style="margin-bottom:0">
-        <label id="eh-wt-lbl">น้ำหนัก</label>
+        <label id="eh-wt-lbl">Weight</label>
         <input id="eh-weight" class="input" type="number" min="0" step="0.5" inputmode="decimal">
       </div>
     </div>
-    <div class="field" style="margin-bottom:18px"><label>หมายเหตุ</label><input id="eh-notes" class="input" type="text" placeholder="(ไม่บังคับ)"></div>
+    <div class="field" style="margin-bottom:18px"><label>Notes</label><input id="eh-notes" class="input" type="text" placeholder="(optional)"></div>
     <div class="row2">
-      <button class="btn btn-ghost" onclick="closeEditHist()">ยกเลิก</button>
-      <button class="btn" style="font-family:'VT323',monospace;font-size:16px;font-weight:600;letter-spacing:0" onclick="saveEditHist()">บันทึก</button>
+      <button class="btn btn-ghost" onclick="closeEditHist()">Cancel</button>
+      <button class="btn" style="font-family:'VT323',monospace;font-size:16px;font-weight:600;letter-spacing:0" onclick="saveEditHist()">Save</button>
     </div>
   </div>
 </div>
@@ -1484,7 +1484,7 @@ select.input{
 
 <script>
 // ════════════════════════════════════════════════════
-//  🔥 FIREBASE CONFIG — วางค่าจาก Firebase Console
+//  🔥 FIREBASE CONFIG — paste values from Firebase Console
 //  Project Settings → Your apps → SDK setup
 // ════════════════════════════════════════════════════
 const FIREBASE_CONFIG = {
@@ -1501,7 +1501,7 @@ firebase.initializeApp(FIREBASE_CONFIG);
 const auth = firebase.auth();
 const db   = firebase.firestore();
 
-// Enable offline persistence (ใช้งานได้แม้ไม่มีอินเทอร์เน็ต)
+// Enable offline persistence (works without internet)
 db.enablePersistence({ synchronizeTabs: true }).catch(() => {});
 
 // ── Firestore refs ─────────────────────────────────
@@ -1530,20 +1530,20 @@ const S = {
   prefs: JSON.parse(localStorage.getItem('lift_prefs')||'{"goalSessions":4,"defaultRest":90,"defaultIncrement":2.5}'),
 };
 
-const DEFAULT_BODY_PARTS = ['อก','หลัง','ไหล่','แขน','ขา','Core','Cardio','Full Body','อื่นๆ'];
+const DEFAULT_BODY_PARTS = ['Chest','Back','Shoulders','Arms','Legs','Core','Cardio','Full Body','Other'];
 function getBodyParts(){
   const stored=localStorage.getItem('lift_bps');
   return stored?JSON.parse(stored):[...DEFAULT_BODY_PARTS];
 }
 function saveBodyParts(arr){localStorage.setItem('lift_bps',JSON.stringify(arr));}
 function BODY_PARTS_LIST(){return getBodyParts();}
-const DAYS_TH    = ['อา.','จ.','อ.','พ.','พฤ.','ศ.','ส.'];
-const MONTHS_TH  = ['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
+const DAYS_TH    = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+const MONTHS_TH  = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
 // ── Exercise helpers ───────────────────────────────
 function getAllEx(){ return S.exercises; }
-function getExCat(name){ return S.exercises.find(e=>e.name===name)?.cat||'อื่นๆ'; }
-function getDistinctBPs(){ return [...new Set(S.exercises.map(e=>e.cat||'อื่นๆ'))].sort(); }
+function getExCat(name){ return S.exercises.find(e=>e.name===name)?.cat||'Other'; }
+function getDistinctBPs(){ return [...new Set(S.exercises.map(e=>e.cat||'Other'))].sort(); }
 function buildExOpts(){
   const groups={};
   S.exercises.forEach(e=>{(groups[e.cat]=groups[e.cat]||[]).push(e);});
@@ -1552,7 +1552,7 @@ function buildExOpts(){
 }
 async function loadExercises(){
   const snap = await exCol().orderBy('name').get();
-  S.exercises = snap.docs.map(d=>({ id:d.id, name:d.data().name, cat:d.data().category||'อื่นๆ' }));
+  S.exercises = snap.docs.map(d=>({ id:d.id, name:d.data().name, cat:d.data().category||'Other' }));
   buildExOpts();
 }
 
@@ -1586,7 +1586,7 @@ function toast(msg,type=''){
 }
 
 // ── Confirm ────────────────────────────────────────
-function showConfirm(title,body,onOk,okLabel='ลบ'){
+function showConfirm(title,body,onOk,okLabel='Delete'){
   document.getElementById('confirm-title').textContent=title;
   document.getElementById('confirm-body').textContent=body;
   const btn=document.getElementById('confirm-ok');
@@ -1647,14 +1647,14 @@ async function doLogin(e){
   const btn=document.getElementById('btn-login');
   const username=document.getElementById('l-user').value.trim();
   const password=document.getElementById('l-pass').value;
-  if(!username||!password)return toast('กรอกข้อมูลให้ครบ','err');
-  btn.disabled=true;btn.textContent='กำลังเข้า...';
+  if(!username||!password)return toast('Please fill in all fields','err');
+  btn.disabled=true;btn.textContent='Logging in...';
   try{
     await auth.signInWithEmailAndPassword(toEmail(username),password);
-    // onAuthStateChanged จะ handle showMain() ให้เอง
+    // onAuthStateChanged will handle showMain() automatically
   }catch(err){
-    btn.disabled=false;btn.textContent='เข้าสู่ระบบ';
-    const msg={'auth/user-not-found':'ไม่พบผู้ใช้นี้','auth/wrong-password':'รหัสผ่านไม่ถูกต้อง','auth/invalid-credential':'ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง'};
+    btn.disabled=false;btn.textContent='Login';
+    const msg={'auth/user-not-found':'User not found','auth/wrong-password':'Wrong password','auth/invalid-credential':'Invalid username or password'};
     toast(msg[err.code]||err.message,'err');
   }
 }
@@ -1665,12 +1665,12 @@ async function doRegister(e){
   const password   =document.getElementById('r-pass').value;
   const confirm    =document.getElementById('r-cfm').value;
   const displayName=document.getElementById('r-name').value.trim();
-  if(!username||!password)return toast('กรอกข้อมูลให้ครบ','err');
-  if(username.length<3)   return toast('username ต้องมีอย่างน้อย 3 ตัวอักษร','err');
-  if(password.length<6)   return toast('รหัสผ่านต้องมีอย่างน้อย 6 ตัว','err');
-  if(password!==confirm)  return toast('รหัสผ่านไม่ตรงกัน','err');
+  if(!username||!password)return toast('Please fill in all fields','err');
+  if(username.length<3)   return toast('Username must be at least 3 characters','err');
+  if(password.length<6)   return toast('Password must be at least 6 characters','err');
+  if(password!==confirm)  return toast('Passwords do not match','err');
   const btn=document.getElementById('btn-reg');
-  btn.disabled=true;btn.textContent='กำลังสมัคร...';
+  btn.disabled=true;btn.textContent='Registering...';
   try{
     const cred=await auth.createUserWithEmailAndPassword(toEmail(username),password);
     // Save profile to Firestore
@@ -1679,10 +1679,10 @@ async function doRegister(e){
       displayName:displayName||username,
       createdAt:TS(),
     });
-    // onAuthStateChanged จะ handle showMain()
+    // onAuthStateChanged will handle showMain()
   }catch(err){
-    btn.disabled=false;btn.textContent='สมัครสมาชิก';
-    const msg={'auth/email-already-in-use':'ชื่อผู้ใช้นี้ถูกใช้แล้ว'};
+    btn.disabled=false;btn.textContent='Register';
+    const msg={'auth/email-already-in-use':'Username already taken'};
     toast(msg[err.code]||err.message,'err');
   }
 }
@@ -1780,8 +1780,8 @@ function renderStats(d){
   const empties=streak<8?Array.from({length:8-streak},()=>`<div style="height:5px;flex:1;border-radius:3px;background:var(--s3)"></div>`).join(''):'';
   document.getElementById('stats-wrap').innerHTML=`
     <div class="stats-grid">
-      <div class="stat-card" style="animation:countUp .35s ease"><div class="stat-num accent">${d.weekSessions}</div><div class="stat-lbl">สัปดาห์นี้</div></div>
-      <div class="stat-card" style="animation:countUp .35s .06s ease both"><div class="stat-num">${d.totalSessions}</div><div class="stat-lbl">ทั้งหมด</div></div>
+      <div class="stat-card" style="animation:countUp .35s ease"><div class="stat-num accent">${d.weekSessions}</div><div class="stat-lbl">This Week</div></div>
+      <div class="stat-card" style="animation:countUp .35s .06s ease both"><div class="stat-num">${d.totalSessions}</div><div class="stat-lbl">All</div></div>
     </div>
     <div style="background:var(--s2);border:1px solid var(--bd);border-radius:var(--r2);padding:15px 17px;margin-bottom:10px;display:flex;align-items:center;gap:16px;animation:countUp .35s .09s ease both">
       <div style="text-align:center;flex-shrink:0">
@@ -1790,12 +1790,12 @@ function renderStats(d){
       </div>
       <div style="flex:1;min-width:0">
         <div style="font-size:14px;font-weight:600;margin-bottom:4px">Weekly Streak ${flames}</div>
-        <div style="font-size:11px;color:var(--ts);margin-bottom:8px">${streak?`${streak} สัปดาห์ติดต่อกัน`:'เริ่ม streak สัปดาห์นี้เลย!'}</div>
+        <div style="font-size:11px;color:var(--ts);margin-bottom:8px">${streak?`${streak} weeks in a row`:'Start your streak this week!'}</div>
         <div style="display:flex;gap:3px">${bars}${empties}</div>
       </div>
     </div>
-    <div class="stat-wide" style="animation:countUp .35s .13s ease both"><div class="stat-wide-lbl">ควรเพิ่มน้ำหนัก</div><div class="stat-wide-val">${esc(d.favoriteExercise||'—')}</div></div>
-    <div class="stat-wide" style="animation:countUp .35s .17s ease both"><div class="stat-wide-lbl">Volume สัปดาห์นี้</div><div class="stat-big"><span>${d.totalWeight.toLocaleString()}</span><span class="stat-unit" id="stat-unit-lbl">kg</span></div></div>`;
+    <div class="stat-wide" style="animation:countUp .35s .13s ease both"><div class="stat-wide-lbl">Try Adding Weight</div><div class="stat-wide-val">${esc(d.favoriteExercise||'—')}</div></div>
+    <div class="stat-wide" style="animation:countUp .35s .17s ease both"><div class="stat-wide-lbl">This Week's Volume</div><div class="stat-big"><span>${d.totalWeight.toLocaleString()}</span><span class="stat-unit" id="stat-unit-lbl">kg</span></div></div>`;
 }
 
 function renderDashChart(workouts){
@@ -1803,7 +1803,7 @@ function renderDashChart(workouts){
   const days=[];
   for(let i=29;i>=0;i--){const d=new Date(today);d.setDate(d.getDate()-i);days.push({date:d.toISOString().slice(0,10),d,count:0});}
   workouts.forEach(w=>{const f=days.find(x=>x.date===w.date);if(f)f.count++;});
-  document.getElementById('dash-meta').textContent=`${days.filter(d=>d.count>0).length} วันที่ออกกำลังกาย`;
+  document.getElementById('dash-meta').textContent=`${days.filter(d=>d.count>0).length} workout days`;
   const maxV=Math.max(...days.map(d=>d.count),1);
   const W=360,H=110,PL=6,PR=6,PT=14,PB=28,cW=W-PL-PR,cH=H-PT-PB,n=days.length;
   const xs=i=>PL+(i/(n-1))*cW,ys=v=>PT+cH-(v/maxV)*cH;
@@ -1812,7 +1812,7 @@ function renderDashChart(workouts){
   const yLines=[0,.5,1].map(t=>`<line x1="${PL}" y1="${ys(maxV*t).toFixed(1)}" x2="${W-PR}" y2="${ys(maxV*t).toFixed(1)}" stroke="rgba(255,255,255,.04)" stroke-width="1"/>`).join('');
   const xLabels=days.map((d,i)=>{
     if(i!==0&&i!==14&&i!==n-1)return'';
-    const isT=d.date===todayStr,lbl=isT?'วันนี้':`${d.d.getDate()}/${d.d.getMonth()+1}`;
+    const isT=d.date===todayStr,lbl=isT?'Today':`${d.d.getDate()}/${d.d.getMonth()+1}`;
     return`<text x="${xs(i).toFixed(1)}" y="${H-5}" text-anchor="${i===0?'start':i===n-1?'end':'middle'}" fill="${isT?'#f8d030':'#7a7a96'}" font-size="10" font-weight="${isT?'700':'400'}" font-family="monospace">${lbl}</text>`;
   }).join('');
   const dots=days.map((d,i)=>{
@@ -1837,25 +1837,25 @@ function renderTodayActionCard(allWO=[]){
   const plan=chooseSuggestedPlan();
   const lastWorkoutDate=[...new Set(allWO.map(w=>w.date))].sort().pop()||'';
   const daysSince=lastWorkoutDate?Math.floor((Date.now()-new Date(lastWorkoutDate+'T00:00:00').getTime())/86400000):null;
-  const recoveryTxt=daysSince==null?'ยังไม่มีประวัติการฝึก':daysSince===0?'เล่นแล้ววันนี้':daysSince===1?'พักมา 1 วัน':`พักมา ${daysSince} วัน`;
+  const recoveryTxt=daysSince==null?'No workout history yet':daysSince===0?'Worked out today':daysSince===1?'Rested 1 day':`Rested ${daysSince} days`;
   if(!plan){
-    wrap.innerHTML=`<div class="action-card"><div class="action-eyebrow">Today’s Action</div><div class="action-title">เริ่มต้นด้วยแผนแรกของคุณ</div><div class="action-sub">สร้างแผนก่อน แล้วหน้าแรกจะช่วยดึง workout ที่ควรทำวันนี้ขึ้นมาให้อัตโนมัติ</div><div class="action-btn-row"><button class="btn" onclick="setTab('plan')">ไปสร้างแผน</button><button class="btn btn-ghost" onclick="setTab('log')">บันทึกแบบเร็ว</button></div></div>`;
+    wrap.innerHTML=`<div class="action-card"><div class="action-eyebrow">Today’s Action</div><div class="action-title">Start with your first plan</div><div class="action-sub">create a plan first — Home will automatically suggest today's workout</div><div class="action-btn-row"><button class="btn" onclick="setTab('plan')">Go to Planner</button><button class="btn btn-ghost" onclick="setTab('log')">Quick Log</button></div></div>`;
     return;
   }
   const totalSets=(plan.exercises||[]).reduce((s,e)=>s+(Number(e.sets)||0),0);
   wrap.innerHTML=`<div class="action-card">
     <div class="action-eyebrow">Today’s Action</div>
     <div class="action-title">${esc(plan.name)}</div>
-    <div class="action-sub">แนะนำให้เล่นแผนนี้วันนี้เพื่อรักษาความต่อเนื่องและเริ่มบันทึกได้ทันที</div>
+    <div class="action-sub">Recommended plan for today — stay consistent and log right away</div>
     <div class="action-meta-row">
-      <div class="action-mini"><div class="action-mini-k">จำนวนท่า</div><div class="action-mini-v">${(plan.exercises||[]).length} ท่า</div></div>
-      <div class="action-mini"><div class="action-mini-k">เวลาประมาณ</div><div class="action-mini-v">${estimatePlanMinutes(plan)} นาที</div></div>
-      <div class="action-mini"><div class="action-mini-k">จำนวนเซต</div><div class="action-mini-v">${totalSets} เซต</div></div>
+      <div class="action-mini"><div class="action-mini-k">Exercises</div><div class="action-mini-v">${(plan.exercises||[]).length} Exercise</div></div>
+      <div class="action-mini"><div class="action-mini-k">Est. Time</div><div class="action-mini-v">${estimatePlanMinutes(plan)} min</div></div>
+      <div class="action-mini"><div class="action-mini-k">Sets</div><div class="action-mini-v">${totalSets} sets</div></div>
       <div class="action-mini"><div class="action-mini-k">Recovery</div><div class="action-mini-v">${recoveryTxt}</div></div>
     </div>
     <div class="action-btn-row">
-      <button class="btn" onclick="startFromPlan('${esc(plan.id)}')">เริ่ม Workout</button>
-      <button class="btn btn-ghost" onclick="setTab('plan')">ดูรายละเอียดแผน</button>
+      <button class="btn" onclick="startFromPlan('${esc(plan.id)}')">Start Workout</button>
+      <button class="btn btn-ghost" onclick="setTab('plan')">View Plan Details</button>
     </div>
   </div>`;
 }
@@ -1875,9 +1875,9 @@ function renderDashInsights(statsData, allWO=[]){
   wrap.innerHTML=`<div class="insight-card">
     <div class="insight-eyebrow">Quick Insights</div>
     <div class="insight-list">
-      <div class="insight-row"><div class="insight-label">เหลืออีกกี่ session ถึงเป้าสัปดาห์นี้</div><div class="insight-value">${left===0?'ครบเป้าแล้ว ✓':`อีก ${left} session`}</div></div>
-      <div class="insight-row"><div class="insight-label">ครั้งล่าสุดที่เล่น</div><div class="insight-value">${lastWorkoutDate==='—'?'—':esc(relDate(lastWorkoutDate))}</div></div>
-      <div class="insight-row"><div class="insight-label">Body part ที่ฝึกน้อยสุดช่วง 14 วัน</div><div class="insight-value">${esc(leastBP)}</div></div>
+      <div class="insight-row"><div class="insight-label">Sessions left to weekly goal</div><div class="insight-value">${left===0?'Goal reached ✓':`${left} more session(s)`}</div></div>
+      <div class="insight-row"><div class="insight-label">Last workout</div><div class="insight-value">${lastWorkoutDate==='—'?'—':esc(relDate(lastWorkoutDate))}</div></div>
+      <div class="insight-row"><div class="insight-label">Least trained body part (14 days)</div><div class="insight-value">${esc(leastBP)}</div></div>
     </div>
   </div>`;
 }
@@ -1889,7 +1889,7 @@ function onProgBP(){S.pf.bp=document.getElementById('prog-bp').value;S.pf.ex='';
 function onProgEx(){S.pf.ex=document.getElementById('prog-ex').value;renderProg();}
 function populateProgFilters(){
   const bpSel=document.getElementById('prog-bp');
-  bpSel.innerHTML=`<option value="">ทั้งหมด</option>`+getDistinctBPs().map(b=>`<option value="${esc(b)}" ${b===S.pf.bp?'selected':''}>${esc(b)}</option>`).join('');
+  bpSel.innerHTML=`<option value="">All</option>`+getDistinctBPs().map(b=>`<option value="${esc(b)}" ${b===S.pf.bp?'selected':''}>${esc(b)}</option>`).join('');
   populateProgExSel();
   document.querySelectorAll('#metric-tabs .metric-tab').forEach(c=>c.classList.toggle('active',c.dataset.m===S.pf.metric));
   document.querySelectorAll('#period-chips .chip').forEach(c=>c.classList.toggle('active',c.dataset.p===S.pf.period));
@@ -1897,7 +1897,7 @@ function populateProgFilters(){
 function populateProgExSel(){
   const sel=document.getElementById('prog-ex'),bp=S.pf.bp;
   const filt=bp?getAllEx().filter(e=>e.cat===bp):getAllEx();
-  sel.innerHTML=`<option value="">ทั้งหมด</option>`+filt.map(e=>`<option value="${esc(e.name)}" ${e.name===S.pf.ex?'selected':''}>${esc(e.name)}</option>`).join('');
+  sel.innerHTML=`<option value="">All</option>`+filt.map(e=>`<option value="${esc(e.name)}" ${e.name===S.pf.ex?'selected':''}>${esc(e.name)}</option>`).join('');
 }
 function getPeriodRange(){
   const p=S.pf.period;if(p==='all')return{from:'',to:''};
@@ -1909,7 +1909,7 @@ async function renderProg(){
   document.getElementById('prog-chart').innerHTML=`<div style="height:130px;display:flex;align-items:flex-end;gap:3px">${Array(12).fill('<div class="skel" style="flex:1;border-radius:3px 3px 0 0"></div>').join('')}</div>`;
 
   const{from,to}=getPeriodRange();
-  document.getElementById('prog-chart-range').textContent=from?`${from.slice(5).replace('-','/')} – ${to.slice(5).replace('-','/')}`:'ทั้งหมด';
+  document.getElementById('prog-chart-range').textContent=from?`${from.slice(5).replace('-','/')} – ${to.slice(5).replace('-','/')}`:'All';
 
   const ck=S.pf.period;
   let workouts;
@@ -1926,7 +1926,7 @@ async function renderProg(){
     }catch(err){
       // Composite index not created yet — show link hint
       if(err.code==='failed-precondition'){
-        document.getElementById('prog-chart').innerHTML=`<div class="no-data" style="font-size:12px;line-height:2">ต้องสร้าง Index ก่อน<br><a href="${err.message.match(/https[^\s]+/)?.[0]||'https://console.firebase.google.com'}" target="_blank" style="color:var(--a)">คลิกที่นี่เพื่อสร้าง Index อัตโนมัติ ↗</a></div>`;
+        document.getElementById('prog-chart').innerHTML=`<div class="no-data" style="font-size:12px;line-height:2">Create Index first<br><a href="${err.message.match(/https[^\s]+/)?.[0]||'https://console.firebase.google.com'}" target="_blank" style="color:var(--a)">Click here to create Index automatically ↗</a></div>`;
         document.getElementById('prog-kpi').innerHTML='';
         return;
       }
@@ -1961,28 +1961,28 @@ async function renderProg(){
     renderKPIs(calcKPIs(filt,metric),metric);
     document.getElementById('prog-chart-label').textContent=`${exName} — ${metricLbl(metric)}`;
     document.getElementById('top-ex-card').style.display='none';
-    document.getElementById('prog-chart').innerHTML=ld.length?svgProgressChart(ld,metric,`${exName} — ${metricLbl(metric)}`):`<div class="progress-chart-shell"><div class="progress-empty">ยังไม่มีข้อมูลในช่วงนี้ 📭</div></div>`;
+    document.getElementById('prog-chart').innerHTML=ld.length?svgProgressChart(ld,metric,`${exName} — ${metricLbl(metric)}`):`<div class="progress-chart-shell"><div class="progress-empty">No data in this period 📭</div></div>`;
   }else if(bp){
     if(metric==='sessions'){
       const grp={};filt.forEach(w=>{if(!grp[w.exerciseName])grp[w.exerciseName]=new Set();grp[w.exerciseName].add(w.date);});
       const bar=Object.entries(grp).sort((a,b)=>b[1].size-a[1].size).slice(0,10).map(([l,s])=>({l,v:s.size}));
       renderKPIsOv(filt);document.getElementById('prog-chart-label').textContent=`${bp} — Sessions`;
       document.getElementById('top-ex-card').style.display='none';
-      document.getElementById('prog-chart').innerHTML=bar.length?svgBar(bar):`<div class="no-data">ยังไม่มีข้อมูล 📭</div>`;
+      document.getElementById('prog-chart').innerHTML=bar.length?svgBar(bar):`<div class="no-data">No data 📭</div>`;
     }else{
       const top5=Object.entries(filt.reduce((g,w)=>{g[w.exerciseName]=(g[w.exerciseName]||0)+1;return g;},{})).sort((a,b)=>b[1]-a[1]).slice(0,5).map(([n])=>n);
       const series=top5.map(n=>({name:n,data:buildLineData(filt.filter(w=>w.exerciseName===n),metric)})).filter(s=>s.data.length);
       const kpiEx=series[0]?.name||'';
       renderKPIs(kpiEx?calcKPIs(filt.filter(w=>w.exerciseName===kpiEx),metric):{pr:0,sessions:0,avg:0},metric);
-      document.getElementById('prog-chart-label').textContent=`${bp} — ${metricLbl(metric)} (Top ${series.length} ท่า)`;
+      document.getElementById('prog-chart-label').textContent=`${bp} — ${metricLbl(metric)} (Top ${series.length} Exercise)`;
       document.getElementById('top-ex-card').style.display='none';
-      document.getElementById('prog-chart').innerHTML=series.length?svgMultiLine(series,metric):`<div class="no-data">ยังไม่มีข้อมูล 📭</div>`;
+      document.getElementById('prog-chart').innerHTML=series.length?svgMultiLine(series,metric):`<div class="no-data">No data 📭</div>`;
     }
   }else{
     const ld=buildLineData(filt,metric==='sessions'?'sessions':metric);
     renderKPIsOv(filt);
-    document.getElementById('prog-chart-label').textContent=metric==='sessions'?'Sessions ต่อวัน':`${metricLbl(metric)} รายวัน`;
-    document.getElementById('prog-chart').innerHTML=ld.length?svgProgressChart(ld,metric,metric==='sessions'?'Sessions ต่อวัน':`${metricLbl(metric)} รายวัน`):`<div class="progress-chart-shell"><div class="progress-empty">ยังไม่มีข้อมูล 🏋️</div></div>`;
+    document.getElementById('prog-chart-label').textContent=metric==='sessions'?'Daily Sessions':`Daily ${metricLbl(metric)}`;
+    document.getElementById('prog-chart').innerHTML=ld.length?svgProgressChart(ld,metric,metric==='sessions'?'Daily Sessions':`Daily ${metricLbl(metric)}`):`<div class="progress-chart-shell"><div class="progress-empty">No data yet 🏋️</div></div>`;
     renderTopEx(filt);
   }
 }
@@ -2005,14 +2005,14 @@ function calcKPIs(ws,m){
 }
 function renderKPIs({pr,sessions,avg},m){
   const u=m==='weight'?' '+unitLabel():'';
-  document.getElementById('prog-kpi').innerHTML=`<div class="prog-kpi"><span class="prog-kpi-val">${fmt(pr)}${u}</span><div class="prog-kpi-lbl">PR</div></div><div class="prog-kpi"><span class="prog-kpi-val">${sessions}</span><div class="prog-kpi-lbl">Sessions</div></div><div class="prog-kpi"><span class="prog-kpi-val">${fmt(avg)}${u}</span><div class="prog-kpi-lbl">เฉลี่ย</div></div>`;
+  document.getElementById('prog-kpi').innerHTML=`<div class="prog-kpi"><span class="prog-kpi-val">${fmt(pr)}${u}</span><div class="prog-kpi-lbl">PR</div></div><div class="prog-kpi"><span class="prog-kpi-val">${sessions}</span><div class="prog-kpi-lbl">Sessions</div></div><div class="prog-kpi"><span class="prog-kpi-val">${fmt(avg)}${u}</span><div class="prog-kpi-lbl">Avg</div></div>`;
 }
 function renderKPIsOv(ws){
   const sessions=[...new Set(ws.map(w=>w.date))].length,exCount=[...new Set(ws.map(w=>w.exerciseName))].length;
   const volKg=ws.reduce((s,w)=>s+(Number(w.reps)||0)*(Number(w.weight)||0),0);
   const vol=toDisplayVolume(volKg);
   const volText=vol>=1000?(vol/1000).toFixed(1)+'k':Math.round(vol).toLocaleString();
-  document.getElementById('prog-kpi').innerHTML=`<div class="prog-kpi"><span class="prog-kpi-val">${sessions}</span><div class="prog-kpi-lbl">Sessions</div></div><div class="prog-kpi"><span class="prog-kpi-val">${exCount}</span><div class="prog-kpi-lbl">ท่า</div></div><div class="prog-kpi"><span class="prog-kpi-val">${volText}</span><div class="prog-kpi-lbl">Volume (${unitLabel()})</div></div>`;
+  document.getElementById('prog-kpi').innerHTML=`<div class="prog-kpi"><span class="prog-kpi-val">${sessions}</span><div class="prog-kpi-lbl">Sessions</div></div><div class="prog-kpi"><span class="prog-kpi-val">${exCount}</span><div class="prog-kpi-lbl">Exercise</div></div><div class="prog-kpi"><span class="prog-kpi-val">${volText}</span><div class="prog-kpi-lbl">Volume (${unitLabel()})</div></div>`;
 }
 
 function compareProgressBlocks(cur, prev){
@@ -2024,11 +2024,11 @@ function compareProgressBlocks(cur, prev){
   const c=s(cur),p=s(prev);
   const delta=(a,b)=> b?(((a-b)/b)*100):0;
   document.getElementById('prog-insight-wrap').innerHTML=`<div class="insight-card" style="margin-bottom:10px">
-    <div class="insight-eyebrow">สรุปเทียบช่วงก่อนหน้า</div>
+    <div class="insight-eyebrow">Comparison vs Previous Period</div>
     <div class="insight-list">
-      <div class="insight-row"><div class="insight-label">Sessions</div><div class="insight-value ${c.sessions>=p.sessions?'delta-up':'delta-down'}">${c.sessions} (${p.sessions?`${delta(c.sessions,p.sessions)>=0?'+':''}${delta(c.sessions,p.sessions).toFixed(0)}%`:'ใหม่'})</div></div>
-      <div class="insight-row"><div class="insight-label">Volume รวม</div><div class="insight-value ${c.volume>=p.volume?'delta-up':'delta-down'}">${Math.round(toDisplayVolume(c.volume)).toLocaleString()} ${unitLabel()} (${p.volume?`${delta(c.volume,p.volume)>=0?'+':''}${delta(c.volume,p.volume).toFixed(0)}%`:'ใหม่'})</div></div>
-      <div class="insight-row"><div class="insight-label">น้ำหนักสูงสุด</div><div class="insight-value ${c.maxWeight>=p.maxWeight?'delta-up':'delta-down'}">${fmt(toDisplay(c.maxWeight))} ${unitLabel()}</div></div>
+      <div class="insight-row"><div class="insight-label">Sessions</div><div class="insight-value ${c.sessions>=p.sessions?'delta-up':'delta-down'}">${c.sessions} (${p.sessions?`${delta(c.sessions,p.sessions)>=0?'+':''}${delta(c.sessions,p.sessions).toFixed(0)}%`:'New'})</div></div>
+      <div class="insight-row"><div class="insight-label">Total Volume</div><div class="insight-value ${c.volume>=p.volume?'delta-up':'delta-down'}">${Math.round(toDisplayVolume(c.volume)).toLocaleString()} ${unitLabel()} (${p.volume?`${delta(c.volume,p.volume)>=0?'+':''}${delta(c.volume,p.volume).toFixed(0)}%`:'New'})</div></div>
+      <div class="insight-row"><div class="insight-label">Max Weight</div><div class="insight-value ${c.maxWeight>=p.maxWeight?'delta-up':'delta-down'}">${fmt(toDisplay(c.maxWeight))} ${unitLabel()}</div></div>
     </div>
   </div>`;
 }
@@ -2047,7 +2047,7 @@ function renderTopEx(ws){
     </div>`).join('');
 }
 const fmt=n=>Number.isFinite(n)?Math.round(n*10)/10:0;
-const metricLbl=m=>({weight:`น้ำหนัก (${unitLabel()})`,volume:'Volume',reps:'Reps',sessions:'Sessions'}[m]||m);
+const metricLbl=m=>({weight:`Weight (${unitLabel()})`,volume:'Volume',reps:'Reps',sessions:'Sessions'}[m]||m);
 
 // ── SVG Charts ─────────────────────────────────────
 
@@ -2146,9 +2146,9 @@ function svgLine(data,metric,showTrend=false){
 }
 const MULTI_COLORS=['#f8d030','#38bdf8','#fb923c','#a78bfa','#f472b6'];
 function svgMultiLine(series,metric){
-  if(!series.length)return'<div class="no-data">ไม่มีข้อมูล</div>';
+  if(!series.length)return'<div class="no-data">No data</div>';
   const allDates=[...new Set(series.flatMap(s=>s.data.map(d=>d.date)))].sort();
-  if(allDates.length<2)return`<svg viewBox="0 0 360 40" style="width:100%"><text x="180" y="24" text-anchor="middle" fill="#7a7a96" font-size="12" font-family="monospace">ต้องมีอย่างน้อย 2 วัน</text></svg>`;
+  if(allDates.length<2)return`<svg viewBox="0 0 360 40" style="width:100%"><text x="180" y="24" text-anchor="middle" fill="#7a7a96" font-size="12" font-family="monospace">Need at least 2 dates</text></svg>`;
   const allVals=series.flatMap(s=>s.data.map(d=>d.v)),minV=Math.min(...allVals),maxV=Math.max(...allVals),vR=maxV-minV||1;
   const n=allDates.length,W=360,H=200,PL=46,PR=14,PT=12,PB=44,cW=W-PL-PR,cH=H-PT-PB;
   const xs=i=>PL+(i/(n-1))*cW,ys=v=>PT+cH-((v-minV)/vR)*cH;
@@ -2161,7 +2161,7 @@ function svgMultiLine(series,metric){
   return`<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">${yLines}${lines}${xLabels}${legend}</svg>`;
 }
 function svgBar(data){
-  if(!data.length)return'<div class="no-data">ไม่มีข้อมูล</div>';
+  if(!data.length)return'<div class="no-data">No data</div>';
   const maxV=Math.max(...data.map(d=>d.v));
   const rowH=32,gap=7,W=360,PL=74,PR=44,bW=W-PL-PR,H=data.length*(rowH+gap)+gap;
   const bars=data.map((d,i)=>{const y=gap+i*(rowH+gap),bw=Math.max((d.v/maxV)*bW,4);const lbl=d.l.length>9?d.l.slice(0,9)+'…':d.l;return`<text x="${PL-8}" y="${(y+rowH*.66).toFixed(1)}" text-anchor="end" fill="#eeeef4" font-size="12" font-weight="500" font-family="monospace">${esc(lbl)}</text><rect x="${PL}" y="${y+7}" width="${bw.toFixed(1)}" height="${rowH-14}" rx="5" fill="rgba(248,208,48,.75)"/><text x="${(PL+bw+7).toFixed(1)}" y="${(y+rowH*.66).toFixed(1)}" fill="#7a7a96" font-size="12" font-weight="600" font-family="monospace">${d.v}</text>`;}).join('');
@@ -2172,8 +2172,8 @@ function svgBar(data){
 function initLog(){
   document.getElementById('log-date').value=todayStr();
   document.getElementById('log-exercises').innerHTML='';
-  document.getElementById('use-plan-title').textContent='เลือกแผน Workout';
-  document.getElementById('use-plan-sub').textContent='โหลดท่าจาก Planner ของคุณ';
+  document.getElementById('use-plan-title').textContent='Select Plan Workout';
+  document.getElementById('use-plan-sub').textContent='Load exercises from your Planner';
   addExBlock();
   refreshLogEditor();
 }
@@ -2183,12 +2183,12 @@ function addExBlock(){
   div.innerHTML=`
     <div class="ex-block-head">
       <span class="ex-block-num">EXERCISE ${idx+1}</span>
-      <button type="button" class="ex-block-del" onclick="delExBlock(this)" aria-label="ลบท่า">×</button>
+      <button type="button" class="ex-block-del" onclick="delExBlock(this)" aria-label="Remove">×</button>
     </div>
     <div class="ex-sel-wrap"><div class="field" style="margin-bottom:0">
-      <label>ท่าออกกำลังกาย</label>
-      <select class="input ex-sel" onchange="onExSel(this)"><option value="">— เลือกท่า —</option></select>
-      <input type="text" class="input custom-ex" style="display:none;margin-top:8px" placeholder="พิมพ์ชื่อท่า...">
+      <label>Exercises</label>
+      <select class="input ex-sel" onchange="onExSel(this)"><option value="">— Select Exercise —</option></select>
+      <input type="text" class="input custom-ex" style="display:none;margin-top:8px" placeholder="Type exercise name...">
     </div></div>
     <div class="sets-table">
       <div class="sets-header"><div class="sets-col-lbl"></div><div class="sets-col-lbl" id="sh-val">REPS / SEC</div><div class="sets-col-lbl" id="sh-wt">KG</div><div class="sets-col-lbl">MODE</div><div class="sets-col-lbl"></div></div>
@@ -2196,13 +2196,13 @@ function addExBlock(){
     </div>
     <div class="target-hint" style="display:none"></div>
     <div class="set-toolbar" style="display:none">
-      <button type="button" class="mini-chip" onclick="copyLastSet(this)">ใช้ค่าครั้งก่อน</button>
+      <button type="button" class="mini-chip" onclick="copyLastSet(this)">Fill from last session</button>
       <button type="button" class="mini-chip" onclick="addSuggestedWeight(this)">+${S.prefs.defaultIncrement||2.5}${unitLabel()}</button>
     </div>
     <button type="button" class="add-set-btn" onclick="addSetToBlock(this)">
-      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>เพิ่ม Set
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add Set
     </button>
-    <div class="ex-notes-row"><input type="text" class="input" name="notes" placeholder="หมายเหตุ (ไม่บังคับ)" style="font-size:13px;padding:8px 12px"></div>`;
+    <div class="ex-notes-row"><input type="text" class="input" name="notes" placeholder="Notes (optional)" style="font-size:13px;padding:8px 12px"></div>`;
   container.appendChild(div);
   populateSel(div.querySelector('.ex-sel'));
   addSetRow(div.querySelector('.sets-list'),1);
@@ -2219,9 +2219,9 @@ function addSetRow(sl,n,prefill=null){
   const row=document.createElement('div');row.className='set-row';row.dataset.mode=mode;
   const isSec=mode==='sec';
   row.innerHTML=`<span class="set-lbl">S${n}</span>
-    <input class="set-inp" type="number" name="reps" min="0" inputmode="numeric" placeholder="${isSec?'วิ':'Reps'}" value="${pR}">
+    <input class="set-inp" type="number" name="reps" min="0" inputmode="numeric" placeholder="${isSec?'sec':'Reps'}" value="${pR}">
     <input class="set-inp" type="number" name="weight" min="0" step="0.5" inputmode="decimal" placeholder="${unitLabel()}" value="${pW}">
-    <button type="button" class="set-mode-btn${isSec?' sec':''}" onclick="toggleSetMode(this)" title="สลับ Reps/Sec">${isSec?'SEC':'REP'}</button>
+    <button type="button" class="set-mode-btn${isSec?' sec':''}" onclick="toggleSetMode(this)" title="Toggle Reps/Sec">${isSec?'SEC':'REP'}</button>
     <button type="button" class="set-del" onclick="delSetRow(this)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>`;
   sl.appendChild(row);
   row.style.cssText='opacity:0;transform:translateX(-6px)';
@@ -2233,21 +2233,21 @@ function toggleSetMode(btn){
   row.dataset.mode=isSec?'reps':'sec';
   btn.textContent=isSec?'REP':'SEC';
   btn.classList.toggle('sec',!isSec);
-  row.querySelector('[name=reps]').placeholder=isSec?'Reps':'วิ';
+  row.querySelector('[name=reps]').placeholder=isSec?'Reps':'sec';
 }
 function delSetRow(btn){
   const sl=btn.closest('.sets-list');
-  if(sl.children.length<=1)return toast('ต้องมีอย่างน้อย 1 set','err');
+  if(sl.children.length<=1)return toast('Need at least 1 set','err');
   btn.closest('.set-row').remove();
   [...sl.children].forEach((r,i)=>r.querySelector('.set-lbl').textContent='S'+(i+1));
   refreshLogSummary();
 }
 function delExBlock(btn){
   const blocks=[...document.querySelectorAll('#log-exercises .ex-block')];
-  if(blocks.length<=1)return toast('ต้องมีอย่างน้อย 1 ท่า','err');
+  if(blocks.length<=1)return toast('Need at least 1 exercise','err');
   btn.closest('.ex-block').remove();
   refreshLogEditor();
-  toast('ลบท่าออกแล้ว','ok');
+  toast('Exercise removed','ok');
 }
 function refreshLogEditor(){
   refreshExBlockControls();
@@ -2282,7 +2282,7 @@ function onExSel(sel){
   const hint=block.querySelector('.target-hint');
   if(last){
     hint.style.display='block';
-    hint.innerHTML=`ครั้งล่าสุด <strong>${last.reps||0}</strong> ${last.mode==='sec'?'วินาที':'reps'} × <strong>${fmt(toDisplay(last.weight||0))}</strong> ${unitLabel()} · ${esc(relDate(last.date||todayStr()))}`;
+    hint.innerHTML=`Last: <strong>${last.reps||0}</strong> ${last.mode==='sec'?'seconds':'reps'} × <strong>${fmt(toDisplay(last.weight||0))}</strong> ${unitLabel()} · ${esc(relDate(last.date||todayStr()))}`;
   }else{
     hint.style.display='none';
     hint.textContent='';
@@ -2292,7 +2292,7 @@ function copyLastSet(btn){
   const block=btn.closest('.ex-block');
   const exName=block.querySelector('.ex-sel').value;
   const last=S.lastByExercise[exName];
-  if(!last) return toast('ยังไม่มีข้อมูลครั้งก่อนของท่านี้','err');
+  if(!last) return toast('No previous data for this exercise','err');
   [...block.querySelectorAll('.set-row')].forEach(row=>{
     row.dataset.mode=last.mode||'reps';
     row.querySelector('[name=reps]').value=last.reps||0;
@@ -2300,11 +2300,11 @@ function copyLastSet(btn){
     const modeBtn=row.querySelector('.set-mode-btn');
     modeBtn.textContent=(last.mode==='sec'?'SEC':'REP');
     modeBtn.classList.toggle('sec',last.mode==='sec');
-    row.querySelector('[name=reps]').placeholder=last.mode==='sec'?'วิ':'Reps';
+    row.querySelector('[name=reps]').placeholder=last.mode==='sec'?'sec':'Reps';
   });
   const notesInput=block.querySelector('[name=notes]');
   if(!notesInput.value && last.notes) notesInput.value=last.notes;
-  toast('เติมค่าจากครั้งก่อนแล้ว','ok');
+  toast('Filled from last session','ok');
 }
 function addSuggestedWeight(btn){
   const inc=Number(S.prefs.defaultIncrement||2.5);
@@ -2313,17 +2313,17 @@ function addSuggestedWeight(btn){
     inp.value=fmt(cur+inc);
   });
 }
-function populateSel(sel){if(!sel)return;const v=sel.value;sel.innerHTML=`<option value="">— เลือกท่า —</option>${S.exOpts}<option value="__custom">อื่นๆ (พิมพ์เอง)</option>`;if(v)sel.value=v;}
+function populateSel(sel){if(!sel)return;const v=sel.value;sel.innerHTML=`<option value="">— Select Exercise —</option>${S.exOpts}<option value="__custom">Other (type manually)</option>`;if(v)sel.value=v;}
 
 async function saveWorkout(){
   const date=document.getElementById('log-date').value;
-  if(!date)return toast('กรุณาเลือกวันที่','err');
+  if(!date)return toast('Please select a date','err');
   const blocks=[...document.querySelectorAll('.ex-block')];
   const docs=[];
   for(let i=0;i<blocks.length;i++){
     const block=blocks[i],sel=block.querySelector('.ex-sel'),cust=block.querySelector('.custom-ex');
     const exName=sel.value==='__custom'?cust.value.trim():sel.value;
-    if(!exName)return toast(`กรุณาเลือกท่า ${i+1}`,'err');
+    if(!exName)return toast(`Please select exercise ${i+1}`,'err');
     const notes=block.querySelector('[name=notes]').value||'';
     [...block.querySelectorAll('.sets-list .set-row')].forEach((row,j)=>{
       const repsVal=Number(row.querySelector('[name=reps]').value)||0;
@@ -2332,9 +2332,9 @@ async function saveWorkout(){
       docs.push({date,exerciseName:exName,sets:1,reps:repsVal,weight:wVal,duration:mode==='sec'?repsVal:0,notes:j===0?notes:'',mode,unit:S.unit,setOrder:j,createdAt:TS()});
     });
   }
-  if(!docs.length)return toast('ไม่มีข้อมูล','err');
+  if(!docs.length)return toast('No data to save','err');
   const btn=document.getElementById('btn-save');
-  btn.disabled=true;btn.textContent='กำลังบันทึก...';
+  btn.disabled=true;btn.textContent='Saving...';
   try{
     // Batch write — faster than multiple addDoc calls
     const batch=db.batch();
@@ -2342,10 +2342,10 @@ async function saveWorkout(){
     await batch.commit();
     S._pc=null;
     await primeLastExerciseMap();
-    toast('บันทึกสำเร็จ 💪','ok');
+    toast('Saved 💪','ok');
     initLog();
-  }catch(err){toast(err.message||'บันทึกไม่สำเร็จ','err');}
-  finally{btn.disabled=false;btn.textContent='บันทึก Workout 💪';}
+  }catch(err){toast(err.message||'Save failed','err');}
+  finally{btn.disabled=false;btn.textContent='Log Workout 💪';}
 }
 
 // ═══════════════ HISTORY ══════════════════════════
@@ -2357,14 +2357,14 @@ function showMoreHist(){
 }
 function populateHistFilters(){
   const bpSel=document.getElementById('f-bp');
-  bpSel.innerHTML=`<option value="">ทั้งหมด</option>`+getDistinctBPs().map(b=>`<option value="${esc(b)}" ${b===bpSel.value?'selected':''}>${esc(b)}</option>`).join('');
+  bpSel.innerHTML=`<option value="">All</option>`+getDistinctBPs().map(b=>`<option value="${esc(b)}" ${b===bpSel.value?'selected':''}>${esc(b)}</option>`).join('');
   updateHistExSel(bpSel.value);
 }
 function onHistBP(){updateHistExSel(document.getElementById('f-bp').value);resetHistLimit();loadHist();}
 function updateHistExSel(bp){
   const sel=document.getElementById('f-ex'),cur=sel.value;
   const filt=bp?getAllEx().filter(e=>e.cat===bp):getAllEx();
-  sel.innerHTML=`<option value="">ทั้งหมด</option>`+filt.map(e=>`<option value="${esc(e.name)}" ${e.name===cur?'selected':''}>${esc(e.name)}</option>`).join('');
+  sel.innerHTML=`<option value="">All</option>`+filt.map(e=>`<option value="${esc(e.name)}" ${e.name===cur?'selected':''}>${esc(e.name)}</option>`).join('');
 }
 let _hl=false;
 async function loadHist(){
@@ -2387,13 +2387,13 @@ async function loadHist(){
     S._hd=data;renderHist(data);
   }catch(err){
     if(err.code==='failed-precondition'){
-      document.getElementById('hist-list').innerHTML=`<div class="no-data" style="font-size:12px;line-height:2">ต้องสร้าง Index ก่อน<br><a href="${err.message.match(/https[^\s]+/)?.[0]||'https://console.firebase.google.com'}" target="_blank" style="color:var(--a)">คลิกสร้าง Index อัตโนมัติ ↗</a></div>`;
+      document.getElementById('hist-list').innerHTML=`<div class="no-data" style="font-size:12px;line-height:2">Create Index first<br><a href="${err.message.match(/https[^\s]+/)?.[0]||'https://console.firebase.google.com'}" target="_blank" style="color:var(--a)">Create Index automatically ↗</a></div>`;
     }else document.getElementById('hist-list').innerHTML=`<p style="color:var(--ts);text-align:center;padding:32px 0;font-size:14px">${esc(err.message)}</p>`;
   }finally{_hl=false;}
 }
 function renderHist(list){
   const el=document.getElementById('hist-list');
-  if(!list.length){el.innerHTML='<p style="color:var(--ts);text-align:center;padding:40px 0;font-size:14px;line-height:2.4">ไม่มีข้อมูลในช่วงนี้</p>';return;}
+  if(!list.length){el.innerHTML='<p style="color:var(--ts);text-align:center;padding:40px 0;font-size:14px;line-height:2.4">No data in this period</p>';return;}
   const totalVisible=Math.max(HIST_PAGE_SIZE, Number(S.histVisible)||HIST_PAGE_SIZE);
   const visibleList=list.slice(0,totalVisible);
   const hasMore=list.length>visibleList.length;
@@ -2403,44 +2403,44 @@ function renderHist(list){
   Object.values(byDate).forEach(exercises=>{Object.keys(exercises).forEach(exName=>{exercises[exName].sort((a,b)=>{const oa=a.setOrder??999,ob=b.setOrder??999;if(oa!==ob)return oa-ob;return(a.createdAt?.seconds||0)-(b.createdAt?.seconds||0);});});});
   el.innerHTML=Object.entries(byDate).sort(([a],[b])=>b.localeCompare(a)).map(([date,exercises])=>`
     <div class="day-group">
-      <div class="day-lbl"><span>${formatDate(date)}</span><button class="day-del-btn" onclick="confirmDelDay('${esc(date)}')"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><polyline points="3,6 5,6 21,6"/><path d="M19,6l-1,14a2,2,0,0,1-2,2H8a2,2,0,0,1-2-2L5,6"/><path d="M9,6V4a1,1,0,0,1,1-1h4a1,1,0,0,1,1,1v2"/></svg>ลบทั้งวัน</button></div>
+      <div class="day-lbl"><span>${formatDate(date)}</span><button class="day-del-btn" onclick="confirmDelDay('${esc(date)}')"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><polyline points="3,6 5,6 21,6"/><path d="M19,6l-1,14a2,2,0,0,1-2,2H8a2,2,0,0,1-2-2L5,6"/><path d="M9,6V4a1,1,0,0,1,1-1h4a1,1,0,0,1,1,1v2"/></svg>Delete Day</button></div>
       ${Object.entries(exercises).map(([exName,sets])=>`
         <div class="hist-ex-group">
           <div class="hist-ex-head">
             <span style="font-size:14px;font-weight:600;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(exName)}</span>
             <span class="badge bp" style="flex-shrink:0">${esc(getExCat(exName))}</span>
-            <button class="wo-del-btn" onclick="confirmDelWOs(${JSON.stringify(sets.map(s=>s._idx))},'${esc(exName)}')" title="ลบ" style="flex-shrink:0"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><polyline points="3,6 5,6 21,6"/><path d="M19,6l-1,14a2,2,0,0,1-2,2H8a2,2,0,0,1-2-2L5,6"/><path d="M9,6V4a1,1,0,0,1,1-1h4a1,1,0,0,1,1,1v2"/></svg></button>
+            <button class="wo-del-btn" onclick="confirmDelWOs(${JSON.stringify(sets.map(s=>s._idx))},'${esc(exName)}')" title="Delete" style="flex-shrink:0"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><polyline points="3,6 5,6 21,6"/><path d="M19,6l-1,14a2,2,0,0,1-2,2H8a2,2,0,0,1-2-2L5,6"/><path d="M9,6V4a1,1,0,0,1,1-1h4a1,1,0,0,1,1,1v2"/></svg></button>
           </div>
           <div style="padding-left:12px">
-            ${sets.map((s,si)=>{const isSec=s.mode==='sec';const valLbl=isSec?`${s.reps||0} วิ`:`${s.reps||0} reps`;const wDisp=toDisplay(s.weight||0);const wStr=Number(s.weight)?` × ${wDisp} ${unitLabel()}`:'';return`<div class="hist-set-row" style="justify-content:space-between"><span class="hist-set-lbl">S${si+1}</span><span class="hist-set-val">${valLbl}${wStr}</span>${s.notes?`<span style="color:var(--td);font-size:11px">· ${esc(s.notes)}</span>`:''}<button class="icon-btn" style="padding:3px 7px;font-size:10px;margin-left:auto;flex-shrink:0" onclick="openEditHist('${s.workoutId}',${s._idx})">แก้ไข</button></div>`;}).join('')}
+            ${sets.map((s,si)=>{const isSec=s.mode==='sec';const valLbl=isSec?`${s.reps||0} sec`:`${s.reps||0} reps`;const wDisp=toDisplay(s.weight||0);const wStr=Number(s.weight)?` × ${wDisp} ${unitLabel()}`:'';return`<div class="hist-set-row" style="justify-content:space-between"><span class="hist-set-lbl">S${si+1}</span><span class="hist-set-val">${valLbl}${wStr}</span>${s.notes?`<span style="color:var(--td);font-size:11px">· ${esc(s.notes)}</span>`:''}<button class="icon-btn" style="padding:3px 7px;font-size:10px;margin-left:auto;flex-shrink:0" onclick="openEditHist('${s.workoutId}',${s._idx})">Edit</button></div>`;}).join('')}
           </div>
         </div>`).join('')}
     </div>`).join('') + (hasMore ? `
     <div style="padding-top:4px">
-      <button class="btn btn-ghost" onclick="showMoreHist()" style="font-family:'VT323',monospace;font-size:14px;font-weight:600;letter-spacing:0">เพิ่มเติม (${list.length-visibleList.length} รายการ)</button>
+      <button class="btn btn-ghost" onclick="showMoreHist()" style="font-family:'VT323',monospace;font-size:14px;font-weight:600;letter-spacing:0">Show more (${list.length-visibleList.length} items)</button>
     </div>` : '');
 }
-function confirmDelWOs(idxArr,exName){showConfirm(`ลบ ${esc(exName)}?`,`${idxArr.length} set จะถูกลบถาวร`,()=>deleteWOs(idxArr));}
+function confirmDelWOs(idxArr,exName){showConfirm(`Delete ${esc(exName)}?`,`${idxArr.length} set(s) will be permanently deleted`,()=>deleteWOs(idxArr));}
 async function deleteWOs(idxArr){
   const items=idxArr.map(i=>S._hd[i]).filter(Boolean);
-  if(!items.length)return toast('ไม่พบข้อมูล','err');
+  if(!items.length)return toast('No data found','err');
   try{
     const batch=db.batch();
     items.forEach(w=>batch.delete(woCol().doc(w.workoutId)));
     await batch.commit();
     const ds=new Set(idxArr);S._hd=S._hd.filter((_,i)=>!ds.has(i));S._pc=null;
-    toast('ลบเรียบร้อย','ok');renderHist(S._hd);
-  }catch(err){toast(err.message||'ลบไม่สำเร็จ','err');}
+    toast('Deleted','ok');renderHist(S._hd);
+  }catch(err){toast(err.message||'Delete failed','err');}
 }
-function confirmDelDay(date){const cnt=S._hd.filter(w=>w.date===date).length;showConfirm('ลบทั้งวัน?',`ลบ ${cnt} รายการของวันที่ ${formatDate(date)}`,()=>deleteDay(date));}
+function confirmDelDay(date){const cnt=S._hd.filter(w=>w.date===date).length;showConfirm('Delete entire day?',`Delete ${cnt} entries for ${formatDate(date)}`,()=>deleteDay(date));}
 async function deleteDay(date){
   try{
     const snap=await woCol().where('date','==',date).get();
     const batch=db.batch();snap.docs.forEach(d=>batch.delete(d.ref));
     await batch.commit();
     S._hd=S._hd.filter(w=>w.date!==date);S._pc=null;
-    toast(`ลบวัน ${formatDate(date)} แล้ว`,'ok');renderHist(S._hd);
-  }catch(err){toast(err.message||'ลบไม่สำเร็จ','err');}
+    toast(`Day ${formatDate(date)} deleted`,'ok');renderHist(S._hd);
+  }catch(err){toast(err.message||'Delete failed','err');}
 }
 
 // ═══════════════ SETTINGS ════════════════════════
@@ -2458,7 +2458,7 @@ function loadSettings(){
   document.getElementById('default-inc').value=S.prefs.defaultIncrement ?? 2.5;
   document.getElementById('pref-unit-label').textContent=unitLabel();
   renderBPList();
-  document.getElementById('new-ex-bp').innerHTML=`<option value="">— เลือก —</option>`+getBodyParts().map(b=>`<option value="${b}">${b}</option>`).join('');
+  document.getElementById('new-ex-bp').innerHTML=`<option value="">— Select —</option>`+getBodyParts().map(b=>`<option value="${b}">${b}</option>`).join('');
   renderExList('');
 }
 
@@ -2467,18 +2467,18 @@ function savePrefs(){
   S.prefs.defaultRest=Number(document.getElementById('default-rest').value)||90;
   S.prefs.defaultIncrement=Number(document.getElementById('default-inc').value)||2.5;
   savePrefsState();
-  toast('บันทึก preferences แล้ว','ok');
+  toast('Preferences saved','ok');
   if(S.tab==='dash') loadDash();
 }
 function toggleEditProfile(){
   const form=document.getElementById('profile-edit-form'),btn=document.getElementById('btn-edit-profile');
-  form.classList.toggle('hidden');btn.textContent=form.classList.contains('hidden')?'แก้ไข':'ยกเลิก';
+  form.classList.toggle('hidden');btn.textContent=form.classList.contains('hidden')?'Edit':'Cancel';
   if(!form.classList.contains('hidden'))document.getElementById('edit-display-name').focus();
 }
 async function saveProfile(){
   const newName=document.getElementById('edit-display-name').value.trim();
   const newPass=document.getElementById('edit-password').value;
-  if(!newName)return toast('กรุณากรอกชื่อ','err');
+  if(!newName)return toast('Please enter a name','err');
   const updates={displayName:newName};
   await uref().update(updates);
   S.user={...S.user,displayName:newName};
@@ -2486,18 +2486,18 @@ async function saveProfile(){
   document.getElementById('profile-name-display').textContent=newName;
   document.getElementById('profile-avatar').textContent=newName.charAt(0).toUpperCase();
   if(newPass){
-    try{await auth.currentUser.updatePassword(newPass);toast('บันทึกสำเร็จ','ok');}
+    try{await auth.currentUser.updatePassword(newPass);toast('Saved','ok');}
     catch(err){toast(err.message,'err');return;}
-  }else toast('บันทึกสำเร็จ','ok');
+  }else toast('Saved','ok');
   document.getElementById('edit-password').value='';toggleEditProfile();
 }
 
 function toggleAddExForm(){const f=document.getElementById('add-ex-form');f.classList.toggle('hidden');if(!f.classList.contains('hidden'))document.getElementById('new-ex-name').focus();}
 async function addExercise(){
   const name=document.getElementById('new-ex-name').value.trim(),bp=document.getElementById('new-ex-bp').value;
-  if(!name)return toast('กรุณากรอกชื่อท่า','err');
-  if(!bp)return toast('กรุณาเลือก Body Part','err');
-  if(S.exercises.find(e=>e.name.toLowerCase()===name.toLowerCase()))return toast('ท่านี้มีอยู่แล้ว','err');
+  if(!name)return toast('Please enter exercise name','err');
+  if(!bp)return toast('Please select a body part','err');
+  if(S.exercises.find(e=>e.name.toLowerCase()===name.toLowerCase()))return toast('Exercise already exists','err');
   try{
     await exCol().add({name,category:bp,createdAt:TS()});
     await loadExercises();
@@ -2505,8 +2505,8 @@ async function addExercise(){
     toggleAddExForm();
     renderExList(document.getElementById('ex-search').value||'');
     populateProgFilters();populateHistFilters();
-    toast(`เพิ่ม "${name}" สำเร็จ ✓`,'ok');
-  }catch(err){toast(err.message||'เพิ่มไม่สำเร็จ','err');}
+    toast(`Added "${name}" ✓`,'ok');
+  }catch(err){toast(err.message||'Add failed','err');}
 }
 function toggleExEdit(id){
   const row=document.getElementById('ex-edit-'+id);if(!row)return;
@@ -2517,26 +2517,26 @@ function toggleExEdit(id){
 async function saveExEdit(id){
   const row=document.getElementById('ex-edit-'+id);
   const newName=row.querySelector('.ex-edit-inp').value.trim(),newBP=row.querySelector('.bp-sel').value;
-  if(!newName)return toast('กรุณากรอกชื่อ','err');
+  if(!newName)return toast('Please enter a name','err');
   const ex=S.exercises.find(e=>e.id===id);
-  if(ex&&newName.toLowerCase()!==ex.name.toLowerCase()&&S.exercises.find(e=>e.name.toLowerCase()===newName.toLowerCase()))return toast('ชื่อนี้มีอยู่แล้ว','err');
+  if(ex&&newName.toLowerCase()!==ex.name.toLowerCase()&&S.exercises.find(e=>e.name.toLowerCase()===newName.toLowerCase()))return toast('Name already exists','err');
   try{
     await exCol().doc(id).update({name:newName,category:newBP});
     await loadExercises();
     renderExList(document.getElementById('ex-search').value||'');
     populateProgFilters();populateHistFilters();
-    toast('แก้ไขสำเร็จ','ok');
-  }catch(err){toast(err.message||'แก้ไขไม่สำเร็จ','err');}
+    toast('Updated','ok');
+  }catch(err){toast(err.message||'Update failed','err');}
 }
-function confirmDeleteEx(id,name){showConfirm('ลบท่าออกกำลังกาย?',`"${name}" จะถูกลบออกจากรายการ`,()=>deleteEx(id));}
+function confirmDeleteEx(id,name){showConfirm('Delete exercise?',`"${name}" will be removed from the list`,()=>deleteEx(id));}
 async function deleteEx(id){
   try{
     await exCol().doc(id).delete();
     await loadExercises();
     renderExList(document.getElementById('ex-search').value||'');
     populateProgFilters();populateHistFilters();
-    toast('ลบเรียบร้อย','ok');
-  }catch(err){toast(err.message||'ลบไม่สำเร็จ','err');}
+    toast('Deleted','ok');
+  }catch(err){toast(err.message||'Delete failed','err');}
 }
 let _exT;
 function renderExList(q){clearTimeout(_exT);_exT=setTimeout(()=>_renderExList(q),80);}
@@ -2544,8 +2544,8 @@ function _renderExList(query){
   const q=(query||'').toLowerCase();
   const filt=q?S.exercises.filter(e=>e.name.toLowerCase().includes(q)||e.cat.toLowerCase().includes(q)):S.exercises;
   const el=document.getElementById('ex-list');
-  if(!S.exercises.length){el.innerHTML=`<div style="padding:20px;text-align:center;color:var(--ts);font-size:13px;line-height:2">ยังไม่มีท่า<br>กด "+ เพิ่ม" เพื่อเริ่ม</div>`;return;}
-  if(!filt.length){el.innerHTML=`<div style="padding:20px;text-align:center;color:var(--ts);font-size:13px">ไม่พบ "${query}"</div>`;return;}
+  if(!S.exercises.length){el.innerHTML=`<div style="padding:20px;text-align:center;color:var(--ts);font-size:13px;line-height:2">No exercises yet<br>Press "+ Add" to start</div>`;return;}
+  if(!filt.length){el.innerHTML=`<div style="padding:20px;text-align:center;color:var(--ts);font-size:13px">No results for "${query}"</div>`;return;}
   el.innerHTML=filt.map(e=>{
     const sid=String(e.id).replace(/'/g,'&#39;'),sname=esc(e.name).replace(/'/g,'&#39;');
     const opts=getBodyParts().map(b=>`<option value="${b}" ${b===e.cat?'selected':''}>${b}</option>`).join('');
@@ -2553,14 +2553,14 @@ function _renderExList(query){
       <div class="ex-mgmt-item">
         <div class="ex-mgmt-name">${esc(e.name)}<span class="badge bp" style="font-size:9px;margin-left:7px">${esc(e.cat)}</span></div>
         <div style="display:flex;align-items:center;gap:5px;flex-shrink:0">
-          <button class="icon-btn" onclick="toggleExEdit('${sid}')" title="แก้ไข"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
+          <button class="icon-btn" onclick="toggleExEdit('${sid}')" title="Edit"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
           <button class="icon-btn del" onclick="confirmDeleteEx('${sid}','${sname}')">✕</button>
         </div>
       </div>
       <div id="ex-edit-${sid}" class="ex-edit-row hidden">
-        <input class="ex-edit-inp" type="text" value="${esc(e.name)}" placeholder="ชื่อท่า">
+        <input class="ex-edit-inp" type="text" value="${esc(e.name)}" placeholder="Exercise Name">
         <select class="bp-sel">${opts}</select>
-        <button class="btn btn-sm" style="padding:7px 11px;font-size:13px;font-family:'VT323',monospace;font-weight:600;letter-spacing:0;width:auto;flex-shrink:0" onclick="saveExEdit('${sid}')">บันทึก</button>
+        <button class="btn btn-sm" style="padding:7px 11px;font-size:13px;font-family:'VT323',monospace;font-weight:600;letter-spacing:0;width:auto;flex-shrink:0" onclick="saveExEdit('${sid}')">Save</button>
       </div>
     </div>`;
   }).join('');
@@ -2594,8 +2594,8 @@ function renderPlans(){
   if(!S.plans.length){
     el.innerHTML=`<div style="text-align:center;padding:48px 20px;color:var(--ts)">
       <div style="font-size:44px;margin-bottom:12px">📋</div>
-      <div style="font-size:17px;font-weight:600;margin-bottom:8px;color:var(--t)">ยังไม่มีแผน</div>
-      <div style="font-size:14px;line-height:1.8">วางแผนล่วงหน้าว่าจะออกท่าอะไร<br>น้ำหนักเท่าไหร่ เป็น REP หรือ SEC</div>
+      <div style="font-size:17px;font-weight:600;margin-bottom:8px;color:var(--t)">No plans yet</div>
+      <div style="font-size:14px;line-height:1.8">Plan ahead: exercises, weights, reps or time-based sets<br></div>
     </div>`;
     return;
   }
@@ -2613,8 +2613,8 @@ function renderPlans(){
       <div class="plan-card-head" onclick="togglePlanCard('${sid}')">
         <div class="plan-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/></svg></div>
         <div style="flex:1;min-width:0">
-          <div class="plan-card-name">${esc(p.name||'ไม่มีชื่อ')}</div>
-          <div class="plan-card-meta">${exCount} ท่า · ${totalSets} เซต · ~${estimatePlanMinutes(p)} นาที</div>
+          <div class="plan-card-name">${esc(p.name||'Unnamed')}</div>
+          <div class="plan-card-meta">${exCount} Exercise · ${totalSets} sets · ~${estimatePlanMinutes(p)} min</div>
         </div>
         <svg class="plan-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6,9 12,15 18,9"/></svg>
       </div>
@@ -2623,7 +2623,7 @@ function renderPlans(){
         ${exRows}
         <div class="plan-actions">
           <button class="btn" style="font-family:'VT323',monospace;font-size:15px;font-weight:600;letter-spacing:0;padding:12px;flex:2" onclick="startFromPlan('${sid}')">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" style="margin-right:6px"><polygon points="5,3 19,12 5,21 5,3"/></svg>เริ่ม Workout
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" style="margin-right:6px"><polygon points="5,3 19,12 5,21 5,3"/></svg>Start Workout
           </button>
           <button class="btn btn-ghost" style="flex:1;padding:12px" onclick="openEditPlan('${sid}')">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
@@ -2645,7 +2645,7 @@ function togglePlanCard(id){
 // ── Create / Edit plan modal ──────────────────────
 function openNewPlan(){
   S.editingPlanId=null;
-  document.getElementById('plan-modal-title').textContent='สร้างแผนใหม่';
+  document.getElementById('plan-modal-title').textContent='New Plan';
   document.getElementById('plan-name-inp').value='';
   document.getElementById('plan-ex-list').innerHTML='';
   addPlanExBlock();
@@ -2656,7 +2656,7 @@ function openEditPlan(id){
   const plan=S.plans.find(p=>p.id===id);
   if(!plan)return;
   S.editingPlanId=id;
-  document.getElementById('plan-modal-title').textContent='แก้ไขแผน';
+  document.getElementById('plan-modal-title').textContent='Edit Plan';
   document.getElementById('plan-name-inp').value=plan.name||'';
   const list=document.getElementById('plan-ex-list');
   list.innerHTML='';
@@ -2692,8 +2692,8 @@ function addPlanExBlock(prefill=null){
     <div class="plan-ex-num">EXERCISE ${list.children.length+1}</div>
     <button type="button" class="plan-ex-block-del" onclick="delPlanExBlock(this)">×</button>
     <div class="field" style="margin-bottom:0">
-      <label>ท่าออกกำลังกาย</label>
-      <select class="input plan-ex-sel" style="font-size:16px"><option value="">— เลือกท่า —</option></select>
+      <label>Exercises</label>
+      <select class="input plan-ex-sel" style="font-size:16px"><option value="">— Select Exercise —</option></select>
     </div>
     <div class="plan-inp-row">
       <div class="field" style="margin-bottom:0"><label>Sets</label><input class="input plan-sets" type="number" min="1" value="${prefill?.sets||3}" inputmode="numeric" style="text-align:center"></div>
@@ -2703,7 +2703,7 @@ function addPlanExBlock(prefill=null){
     </div>`;
   list.appendChild(div);
   const sel=div.querySelector('.plan-ex-sel');
-  sel.innerHTML=`<option value="">— เลือกท่า —</option>${S.exOpts}`;
+  sel.innerHTML=`<option value="">— Select Exercise —</option>${S.exOpts}`;
   if(prefill?.exerciseName)sel.value=prefill.exerciseName;
   reNumberPlanExBlocks();
 }
@@ -2722,7 +2722,7 @@ function togglePlanMode(btn){
 }
 function delPlanExBlock(btn){
   const list=document.getElementById('plan-ex-list');
-  if(list.children.length<=1)return toast('ต้องมีอย่างน้อย 1 ท่า','err');
+  if(list.children.length<=1)return toast('Need at least 1 exercise','err');
   btn.closest('.plan-ex-block').remove();
   reNumberPlanExBlocks();
 }
@@ -2732,12 +2732,12 @@ function reNumberPlanExBlocks(){
 
 async function savePlan(){
   const name=document.getElementById('plan-name-inp').value.trim();
-  if(!name)return toast('กรุณาใส่ชื่อแผน','err');
+  if(!name)return toast('Please enter a plan name','err');
   const blocks=[...document.querySelectorAll('#plan-ex-list .plan-ex-block')];
   const exercises=[];
   for(let i=0;i<blocks.length;i++){
     const exName=blocks[i].querySelector('.plan-ex-sel').value;
-    if(!exName)return toast(`กรุณาเลือกท่า ${i+1}`,'err');
+    if(!exName)return toast(`Please select exercise ${i+1}`,'err');
     const isSec=blocks[i].dataset.mode==='sec';
     const targetVal=Number(blocks[i].querySelector('.plan-reps').value)||(isSec?30:10);
     const item={
@@ -2754,30 +2754,30 @@ async function savePlan(){
     exercises.push(item);
   }
   const btn=document.getElementById('btn-save-plan');
-  btn.disabled=true;btn.textContent='กำลังบันทึก...';
+  btn.disabled=true;btn.textContent='Saving...';
   try{
     if(S.editingPlanId){
       await planCol().doc(S.editingPlanId).update({name,exercises,updatedAt:TS()});
-      toast('อัปเดตแผนสำเร็จ ✓','ok');
+      toast('Plan updated ✓','ok');
     }else{
       await planCol().add({name,exercises,createdAt:TS()});
-      toast(`สร้าง "${name}" สำเร็จ ✓`,'ok');
+      toast(`Created "${name}" ✓`,'ok');
     }
     await loadPlans();
     closePlanModal();
     renderPlans();
-  }catch(err){toast(err.message||'บันทึกไม่สำเร็จ','err');}
-  finally{btn.disabled=false;btn.textContent='บันทึกแผน';}
+  }catch(err){toast(err.message||'Save failed','err');}
+  finally{btn.disabled=false;btn.textContent='Save Plan';}
 }
 
 function confirmDeletePlan(id,name){
-  showConfirm('ลบแผน?',`"${name}" จะถูกลบถาวร`,async()=>{
+  showConfirm('Delete plan?',`"${name}" will be permanently deleted`,async()=>{
     try{
       await planCol().doc(id).delete();
       await loadPlans();
       renderPlans();
-      toast('ลบแผนแล้ว','ok');
-    }catch(err){toast(err.message||'ลบไม่สำเร็จ','err');}
+      toast('Plan deleted','ok');
+    }catch(err){toast(err.message||'Delete failed','err');}
   });
 }
 
@@ -2787,8 +2787,8 @@ function openPickPlan(){
   if(!S.plans.length){
     list.innerHTML=`<div style="padding:32px 20px;text-align:center;color:var(--ts)">
       <div style="font-size:36px;margin-bottom:10px">📋</div>
-      <div style="font-size:15px;color:var(--t);font-weight:600;margin-bottom:6px">ยังไม่มีแผน</div>
-      <div style="font-size:13px">ไปที่แท็บ "แผน" เพื่อสร้างแผนก่อน</div>
+      <div style="font-size:15px;color:var(--t);font-weight:600;margin-bottom:6px">No plans yet</div>
+      <div style="font-size:13px">Go to the Plans tab to create one first</div>
     </div>`;
   }else{
     list.innerHTML=S.plans.map(p=>{
@@ -2797,8 +2797,8 @@ function openPickPlan(){
       return`<div class="pick-plan-item" onclick="applyPlan('${sid}');closePickPlan()">
         <div class="pick-plan-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg></div>
         <div>
-          <div class="pick-plan-item-name">${esc(p.name||'ไม่มีชื่อ')}</div>
-          <div class="pick-plan-item-meta">${ex.length} ท่า · ${ex.map(e=>`${e.sets||0}×${e.reps||0} ${e.mode==='sec'?'SEC':'REP'}`).slice(0,3).join(', ')}${ex.length>3?'…':''}</div>
+          <div class="pick-plan-item-name">${esc(p.name||'Unnamed')}</div>
+          <div class="pick-plan-item-meta">${ex.length} Exercise · ${ex.map(e=>`${e.sets||0}×${e.reps||0} ${e.mode==='sec'?'SEC':'REP'}`).slice(0,3).join(', ')}${ex.length>3?'…':''}</div>
         </div>
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="color:var(--td);margin-left:auto;flex-shrink:0"><polyline points="9,18 15,12 9,6"/></svg>
       </div>`;
@@ -2827,7 +2827,7 @@ function applyPlan(id){
     const hint=block.querySelector('.target-hint');
     hint.style.display='block';
     const isSec=ex.mode==='sec';
-    hint.innerHTML=`เป้าหมาย <strong>${ex.sets||1}</strong> เซต × <strong>${getPlanTargetValue(ex)||0}</strong> ${isSec?'วิ':'reps'}${Number(ex.weight)?` · <strong>${fmt(toDisplay(ex.weight))}</strong> ${unitLabel()}`:''}`;
+    hint.innerHTML=`Target: <strong>${ex.sets||1}</strong> sets × <strong>${getPlanTargetValue(ex)||0}</strong> ${isSec?'sec':'reps'}${Number(ex.weight)?` · <strong>${fmt(toDisplay(ex.weight))}</strong> ${unitLabel()}`:''}`;
     // Fill set rows with target weight
     const sl=block.querySelector('.sets-list');
     sl.innerHTML='';
@@ -2839,8 +2839,8 @@ function applyPlan(id){
   refreshLogEditor();
   // Update banner
   document.getElementById('use-plan-title').textContent=plan.name;
-  document.getElementById('use-plan-sub').textContent=`${(plan.exercises||[]).length} ท่า · โหลดแล้ว ✓`;
-  toast(`โหลดแผน "${plan.name}" แล้ว 💪`,'ok');
+  document.getElementById('use-plan-sub').textContent=`${(plan.exercises||[]).length} exercises · Loaded ✓`;
+  toast(`Loaded plan "${plan.name}" successfully 💪`,'ok');
 }
 
 function startFromPlan(id){
@@ -2855,14 +2855,14 @@ function openEditHist(workoutId, idx){
   S.editingHistId=workoutId;
   S._editHistIdx=idx;
   const isSec=w.mode==='sec';
-  document.getElementById('edit-hist-title').textContent='แก้ไขเซต';
+  document.getElementById('edit-hist-title').textContent='Edit Set';
   document.getElementById('eh-date').value=w.date||'';
   document.getElementById('eh-ex').value=w.exerciseName||'';
   document.getElementById('eh-reps').value=w.reps||0;
-  document.getElementById('eh-reps').placeholder=isSec?'วินาที':'Reps';
-  document.getElementById('eh-val-lbl').textContent=isSec?'วินาที':'Reps';
+  document.getElementById('eh-reps').placeholder=isSec?'Seconds':'Reps';
+  document.getElementById('eh-val-lbl').textContent=isSec?'Seconds':'Reps';
   document.getElementById('eh-weight').value=toDisplay(w.weight||0);
-  document.getElementById('eh-wt-lbl').textContent=`น้ำหนัก (${unitLabel()})`;
+  document.getElementById('eh-wt-lbl').textContent=`Weight (${unitLabel()})`;
   document.getElementById('eh-notes').value=w.notes||'';
   document.getElementById('edit-hist-modal').classList.add('show');
 }
@@ -2879,15 +2879,15 @@ async function saveEditHist(){
     weight:fromDisplay(document.getElementById('eh-weight').value),
     notes:document.getElementById('eh-notes').value||'',
   };
-  if(!updates.exerciseName||!updates.date)return toast('กรอกข้อมูลให้ครบ','err');
+  if(!updates.exerciseName||!updates.date)return toast('Please fill in all fields','err');
   try{
     await woCol().doc(w.workoutId).update(updates);
     S._hd[S._editHistIdx]={...w,...updates};
     S._pc=null;
     closeEditHist();
     renderHist(S._hd);
-    toast('แก้ไขสำเร็จ','ok');
-  }catch(err){toast(err.message||'แก้ไขไม่สำเร็จ','err');}
+    toast('Updated','ok');
+  }catch(err){toast(err.message||'Update failed','err');}
 }
 
 // ── Helpers ────────────────────────────────────────
@@ -2909,7 +2909,7 @@ function parseDateKeyLocal(value){
 }
 const todayStr  =()=>localDateKey();
 function metaStr(w){const p=[];if(w.reps)p.push(`${w.reps} reps`);if(Number(w.weight))p.push(`${toDisplay(w.weight)} ${unitLabel()}`);return p.join(' × ')||'—';}
-function relDate(d){const dt=parseDateKeyLocal(d);if(!dt)return'';const today=parseDateKeyLocal(todayStr());const diff=Math.floor((today-dt)/864e5);if(diff===0)return'วันนี้';if(diff===1)return'เมื่อวาน';if(diff<7)return`${diff} วันก่อน`;return formatDate(d);}
+function relDate(d){const dt=parseDateKeyLocal(d);if(!dt)return'';const today=parseDateKeyLocal(todayStr());const diff=Math.floor((today-dt)/864e5);if(diff===0)return'Today';if(diff===1)return'Yesterday';if(diff<7)return`${diff} days ago`;return formatDate(d);}
 function formatDate(d){const dt=parseDateKeyLocal(d);if(!dt)return'';return`${DAYS_TH[dt.getDay()]} ${dt.getDate()} ${MONTHS_TH[dt.getMonth()]} ${dt.getFullYear()+543}`;}
 function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 
@@ -2945,7 +2945,7 @@ function setUnit(u){
   if(S.tab==='dash')    loadDash();
   if(S.tab==='prog')    loadProg();
   if(S.tab==='plan' && S.planSubTab==='hist') loadHist();
-  toast(`เปลี่ยนหน่วยเป็น ${u}`,'ok');
+  toast(`Unit changed to ${u}`,'ok');
 }
 
 // ── Body Part management ────────────────────────────
@@ -2956,27 +2956,27 @@ function toggleAddBPForm(){
 }
 function addBodyPart(){
   const name=document.getElementById('new-bp-name').value.trim();
-  if(!name)return toast('กรุณากรอกชื่อ','err');
+  if(!name)return toast('Please enter a name','err');
   const arr=getBodyParts();
-  if(arr.find(b=>b.toLowerCase()===name.toLowerCase()))return toast('มีอยู่แล้ว','err');
-  arr.splice(arr.length-1,0,name); // insert before 'อื่นๆ'
+  if(arr.find(b=>b.toLowerCase()===name.toLowerCase()))return toast('Already exists','err');
+  arr.splice(arr.length-1,0,name); // insert before 'Other'
   saveBodyParts(arr);
   document.getElementById('new-bp-name').value='';
   toggleAddBPForm();
   renderBPList();
-  document.getElementById('new-ex-bp').innerHTML=`<option value="">— เลือก —</option>`+getBodyParts().map(b=>`<option value="${b}">${b}</option>`).join('');
-  toast(`เพิ่ม "${name}" สำเร็จ`,'ok');
+  document.getElementById('new-ex-bp').innerHTML=`<option value="">— Select —</option>`+getBodyParts().map(b=>`<option value="${b}">${b}</option>`).join('');
+  toast(`"${name}" added`,'ok');
 }
 function confirmDeleteBP(name){
-  if(DEFAULT_BODY_PARTS.includes(name))return toast('ลบ Body Part เริ่มต้นไม่ได้','err');
-  showConfirm('ลบ Body Part?',`"${name}" จะถูกลบออก`,()=>deleteBP(name));
+  if(DEFAULT_BODY_PARTS.includes(name))return toast('Cannot delete default body parts','err');
+  showConfirm('Delete Body Part?',`"${name}" will be removed`,()=>deleteBP(name));
 }
 function deleteBP(name){
   const arr=getBodyParts().filter(b=>b!==name);
   saveBodyParts(arr);
   renderBPList();
-  document.getElementById('new-ex-bp').innerHTML=`<option value="">— เลือก —</option>`+getBodyParts().map(b=>`<option value="${b}">${b}</option>`).join('');
-  toast('ลบเรียบร้อย','ok');
+  document.getElementById('new-ex-bp').innerHTML=`<option value="">— Select —</option>`+getBodyParts().map(b=>`<option value="${b}">${b}</option>`).join('');
+  toast('Deleted','ok');
 }
 function renderBPList(){
   const arr=getBodyParts();
@@ -2989,15 +2989,15 @@ function renderBPList(){
       <div class="bp-item">
         <div class="bp-item-name">${esc(b)}</div>
         ${isDefault
-          ?`<span style="font-size:10px;color:var(--td)">เริ่มต้น</span>`
+          ?`<span style="font-size:10px;color:var(--td)">Default</span>`
           :`<div style="display:flex;gap:5px;flex-shrink:0">
-              <button class="icon-btn" onclick="toggleBPEdit('${safe}','${eid}')" title="แก้ไข"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
+              <button class="icon-btn" onclick="toggleBPEdit('${safe}','${eid}')" title="Edit"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
               <button class="icon-btn del" onclick="confirmDeleteBP('${safe}')">✕</button>
             </div>`}
       </div>
       ${!isDefault?`<div id="${eid}" class="ex-edit-row hidden">
-        <input class="ex-edit-inp" type="text" value="${esc(b)}" placeholder="ชื่อ Body Part" onkeydown="if(event.key==='Enter')saveBPEdit('${safe}','${eid}')">
-        <button class="btn btn-sm" style="padding:7px 11px;font-size:13px;font-family:'VT323',monospace;font-weight:600;letter-spacing:0;width:auto;flex-shrink:0" onclick="saveBPEdit('${safe}','${eid}')">บันทึก</button>
+        <input class="ex-edit-inp" type="text" value="${esc(b)}" placeholder="Body Part Name" onkeydown="if(event.key==='Enter')saveBPEdit('${safe}','${eid}')">
+        <button class="btn btn-sm" style="padding:7px 11px;font-size:13px;font-family:'VT323',monospace;font-weight:600;letter-spacing:0;width:auto;flex-shrink:0" onclick="saveBPEdit('${safe}','${eid}')">Save</button>
       </div>`:''}
     </div>`;
   }).join('');
@@ -3011,19 +3011,19 @@ function toggleBPEdit(name,eid){
 function saveBPEdit(oldName,eid){
   const row=document.getElementById(eid);if(!row)return;
   const newName=row.querySelector('.ex-edit-inp').value.trim();
-  if(!newName)return toast('กรุณากรอกชื่อ','err');
+  if(!newName)return toast('Please enter a name','err');
   if(newName.toLowerCase()===oldName.toLowerCase()){row.classList.add('hidden');return;}
   const arr=getBodyParts();
-  if(arr.find(b=>b.toLowerCase()===newName.toLowerCase()))return toast('ชื่อนี้มีอยู่แล้ว','err');
-  const idx=arr.indexOf(oldName);if(idx===-1)return toast('ไม่พบ Body Part','err');
+  if(arr.find(b=>b.toLowerCase()===newName.toLowerCase()))return toast('Name already exists','err');
+  const idx=arr.indexOf(oldName);if(idx===-1)return toast('Body part not found','err');
   arr[idx]=newName;
   saveBodyParts(arr);
   S.exercises.forEach(e=>{if(e.cat===oldName)e.cat=newName;});
   buildExOpts();
   renderBPList();
-  document.getElementById('new-ex-bp').innerHTML=`<option value="">— เลือก —</option>`+getBodyParts().map(b=>`<option value="${b}">${b}</option>`).join('');
+  document.getElementById('new-ex-bp').innerHTML=`<option value="">— Select —</option>`+getBodyParts().map(b=>`<option value="${b}">${b}</option>`).join('');
   populateProgFilters();populateHistFilters();
-  toast(`เปลี่ยนชื่อเป็น "${newName}" สำเร็จ`,'ok');
+  toast(`Renamed to "${newName}"`,'ok');
 }
 
 
@@ -3034,7 +3034,7 @@ init();
 /* === LIFT v6 enhancements === */
 (function(){
   const DAY_KEYS = ['sun','mon','tue','wed','thu','fri','sat'];
-  const DAY_LABELS = ['อา','จ','อ','พ','พฤ','ศ','ส'];
+  const DAY_LABELS = ['Su','Mo','Tu','We','Th','Fr','Sa'];
 
   function ensureStyles(){
     if(document.getElementById('v6-enhance-style')) return;
@@ -3123,11 +3123,11 @@ init();
     const wrap = document.createElement('div');
     wrap.className = 'plan-day-wrap';
     wrap.innerHTML = `
-      <label style="display:block;font-size:12px;color:var(--ts);margin-bottom:8px">วันเล่น</label>
+      <label style="display:block;font-size:12px;color:var(--ts);margin-bottom:8px">Training Days</label>
       <div class="plan-day-grid" id="plan-day-grid">
         ${DAY_LABELS.map((d,i)=>`<button type="button" class="day-pill" data-day="${DAY_KEYS[i]}" onclick="togglePlanDay('${DAY_KEYS[i]}', this)">${d}</button>`).join('')}
       </div>
-      <div class="tiny-muted" style="margin-top:8px">เลือกวันเพื่อให้หน้า Home แนะนำแผนตามตารางได้</div>
+      <div class="tiny-muted" style="margin-top:8px">Select days so Home can suggest plans by schedule</div>
     `;
     planNameField.insertAdjacentElement('afterend', wrap);
   }
@@ -3150,9 +3150,9 @@ init();
           <div class="fr-slot-label">Timer A</div>
           <div class="float-rest-time" id="fr-time-A">00:00</div>
           <div class="fr-slot-btns">
-            <button type="button" class="float-rest-btn start" onclick="frStart('A')">เริ่ม</button>
-            <button type="button" class="float-rest-btn" onclick="frPause('A')">หยุด</button>
-            <button type="button" class="float-rest-btn" onclick="frReset('A')">รีเซ็ต</button>
+            <button type="button" class="float-rest-btn start" onclick="frStart('A')">Start</button>
+            <button type="button" class="float-rest-btn" onclick="frPause('A')">Pause</button>
+            <button type="button" class="float-rest-btn" onclick="frReset('A')">Reset</button>
           </div>
         </div>
         <div class="fr-divider"></div>
@@ -3160,9 +3160,9 @@ init();
           <div class="fr-slot-label">Timer B</div>
           <div class="float-rest-time" id="fr-time-B">00:00</div>
           <div class="fr-slot-btns">
-            <button type="button" class="float-rest-btn start" onclick="frStart('B')">เริ่ม</button>
-            <button type="button" class="float-rest-btn" onclick="frPause('B')">หยุด</button>
-            <button type="button" class="float-rest-btn" onclick="frReset('B')">รีเซ็ต</button>
+            <button type="button" class="float-rest-btn start" onclick="frStart('B')">Start</button>
+            <button type="button" class="float-rest-btn" onclick="frPause('B')">Pause</button>
+            <button type="button" class="float-rest-btn" onclick="frReset('B')">Reset</button>
           </div>
         </div>
       </div>
@@ -3207,7 +3207,7 @@ init();
         clearInterval(t.int); t.running=false; t.remain=0;
         updateDualUI(id);
         if(navigator.vibrate) navigator.vibrate([120,60,120]);
-        toast('Timer '+id+' พักครบแล้ว ✓ ลุย!','ok');
+        toast('Timer '+id+' done ✓ Go!','ok');
       }
     },1000);
   };
@@ -3235,7 +3235,7 @@ init();
         <div style="display:flex;justify-content:space-between;align-items:center;gap:12px">
           <div>
             <div class="coach-title">Workout Complete</div>
-            <div style="font-size:22px;font-weight:700">สรุปการฝึกวันนี้</div>
+            <div style="font-size:22px;font-weight:700">Today's Workout Summary</div>
           </div>
           <button class="plan-modal-close" onclick="closeWorkoutSummary()">×</button>
         </div>
@@ -3247,8 +3247,8 @@ init();
         </div>
         <div id="sum-pr-wrap" class="summary-list"></div>
         <div style="display:flex;gap:10px;margin-top:16px">
-          <button class="btn" onclick="closeWorkoutSummary();setTab('prog')">ดู Progress</button>
-          <button class="btn btn-ghost" onclick="closeWorkoutSummary()">ปิด</button>
+          <button class="btn" onclick="closeWorkoutSummary();setTab('prog')">View Progress</button>
+          <button class="btn btn-ghost" onclick="closeWorkoutSummary()">Close</button>
         </div>
       </div>
     `;
@@ -3264,8 +3264,8 @@ init();
     const prWrap = document.getElementById('sum-pr-wrap');
     const items = (data.prs || []).slice(0, 4);
     prWrap.innerHTML = items.length
-      ? items.map(t => `<div class="summary-pill">🎉 PR ใหม่ — ${esc(t)}</div>`).join('')
-      : `<div class="summary-pill">บันทึกสำเร็จ ✓ ไม่มี PR ใหม่รอบนี้ แต่ข้อมูลถูกเพิ่มเข้า Progress แล้ว</div>`;
+      ? items.map(t => `<div class="summary-pill">🎉 New PR — ${esc(t)}</div>`).join('')
+      : `<div class="summary-pill">Saved ✓ No new PRs this time, but data has been added to Progress</div>`;
     document.getElementById('workout-summary-modal').classList.add('show');
   }
   window.closeWorkoutSummary = function(){
@@ -3370,14 +3370,14 @@ init();
     const empties = streak<8?Array.from({length:8-streak},()=>`<div style="height:5px;flex:1;border-radius:3px;background:var(--s3)"></div>`).join(''):'';
     const diff = d.prevWeekVolume > 0 ? ((d.currentWeekVolume - d.prevWeekVolume)/d.prevWeekVolume)*100 : (d.currentWeekVolume > 0 ? 100 : 0);
     const prog = d.nextProgression;
-    const progressionTitle = prog ? prog.name : 'ยังไม่มีข้อมูล';
+    const progressionTitle = prog ? prog.name : 'No data yet';
     const progressionSub = prog
-      ? `ครบเป้า ${prog.sets}/${prog.sets} เซต · ครั้งหน้าลอง +${S.prefs.defaultIncrement || 2.5}${unitLabel()}`
-      : 'เมื่อครบ reps เป้าทุกเซต ระบบจะแนะนำท่านี้';
+      ? `Hit all ${prog.sets}/${prog.sets} sets · Try +${S.prefs.defaultIncrement || 2.5}${unitLabel()} next time`
+      : 'When you hit target reps on all sets, this exercise will be suggested';
     document.getElementById('stats-wrap').innerHTML = `
       <div class="stats-grid">
-        <div class="stat-card" style="animation:countUp .35s ease"><div class="stat-num accent">${d.weekSessions || 0}</div><div class="stat-lbl">สัปดาห์นี้</div></div>
-        <div class="stat-card" style="animation:countUp .35s .06s ease both"><div class="stat-num">${d.totalSessions || 0}</div><div class="stat-lbl">ทั้งหมด</div></div>
+        <div class="stat-card" style="animation:countUp .35s ease"><div class="stat-num accent">${d.weekSessions || 0}</div><div class="stat-lbl">This Week</div></div>
+        <div class="stat-card" style="animation:countUp .35s .06s ease both"><div class="stat-num">${d.totalSessions || 0}</div><div class="stat-lbl">All</div></div>
       </div>
       <div style="background:var(--s2);border:1px solid var(--bd);border-radius:var(--r2);padding:15px 17px;margin-bottom:10px;display:flex;align-items:center;gap:16px;animation:countUp .35s .09s ease both">
         <div style="text-align:center;flex-shrink:0">
@@ -3386,19 +3386,19 @@ init();
         </div>
         <div style="flex:1">
           <div style="font-size:20px;font-weight:700;margin-bottom:4px">Weekly Streak ${flames}</div>
-          <div style="font-size:11px;color:var(--ts);margin-bottom:8px">${streak?`${streak} สัปดาห์ติดต่อกัน`:'เริ่ม streak สัปดาห์นี้เลย!'}</div>
+          <div style="font-size:11px;color:var(--ts);margin-bottom:8px">${streak?`${streak} weeks in a row`:'Start your streak this week!'}</div>
           <div style="display:flex;gap:3px">${bars}${empties}</div>
         </div>
       </div>
       <div class="stat-wide" style="animation:countUp .35s .13s ease both">
-        <div class="stat-wide-lbl">ควรเพิ่มน้ำหนัก</div>
+        <div class="stat-wide-lbl">Try Adding Weight</div>
         <div class="stat-wide-val" id="home-next-progression">${esc(progressionTitle)}</div>
         <div class="tiny-muted" id="home-next-progression-sub" style="margin-top:6px">${progressionSub}</div>
       </div>
       <div class="stat-wide" style="animation:countUp .35s .17s ease both">
-        <div class="stat-wide-lbl">Volume สัปดาห์นี้</div>
+        <div class="stat-wide-lbl">This Week's Volume</div>
         <div class="stat-big"><span id="home-weekly-volume">${Math.round(toDisplayVolume(d.currentWeekVolume || 0)).toLocaleString()}</span><span class="stat-unit" id="home-weekly-volume-unit">${unitLabel()}</span></div>
-        <div class="tiny-muted" id="home-weekly-volume-sub" style="margin-top:6px">${d.prevWeekVolume ? `${diff>=0?'+':''}${diff.toFixed(0)}% จากสัปดาห์ก่อน` : (d.currentWeekVolume ? 'เริ่มมี volume ในสัปดาห์นี้' : 'ยังไม่มีข้อมูลสัปดาห์นี้')}</div>
+        <div class="tiny-muted" id="home-weekly-volume-sub" style="margin-top:6px">${d.prevWeekVolume ? `${diff>=0?'+':''}${diff.toFixed(0)}% vs last week` : (d.currentWeekVolume ? 'Volume started this week' : 'No data this week')}</div>
       </div>
     `;
   };
@@ -3417,15 +3417,15 @@ init();
       const entries = Object.entries(bpMap).sort((a,b)=>a[1]-b[1]);
       return entries[0]?.[0] || '—';
     })();
-    const recoveryTxt = statsData.daysSince == null ? 'ยังไม่มีประวัติการฝึก' : statsData.daysSince===0 ? 'เล่นแล้ววันนี้' : statsData.daysSince===1 ? 'พักมา 1 วัน' : `พักมา ${statsData.daysSince} วัน`;
+    const recoveryTxt = statsData.daysSince == null ? 'No workout history yet' : statsData.daysSince===0 ? 'Worked out today' : statsData.daysSince===1 ? 'Rested 1 day' : `Rested ${statsData.daysSince} days`;
     wrap.innerHTML = `
       <div class="insight-card">
         <div class="insight-eyebrow">Coach Insights</div>
         <div class="insight-list">
-          <div class="insight-row"><div class="insight-label">เป้าหมายสัปดาห์นี้</div><div class="insight-value">${left===0?'ครบเป้าแล้ว ✓':`อีก ${left} session`}</div></div>
+          <div class="insight-row"><div class="insight-label">Weekly Goal</div><div class="insight-value">${left===0?'Goal reached ✓':`${left} more session(s)`}</div></div>
           <div class="insight-row"><div class="insight-label">Recovery</div><div class="insight-value">${recoveryTxt}</div></div>
-          <div class="insight-row"><div class="insight-label">Body part ที่ฝึกน้อยสุด 14 วันล่าสุด</div><div class="insight-value">${esc(leastBP)}</div></div>
-          <div class="insight-row"><div class="insight-label">ครั้งล่าสุดที่เล่น</div><div class="insight-value">${statsData.lastWorkoutDate ? esc(relDate(statsData.lastWorkoutDate)) : '—'}</div></div>
+          <div class="insight-row"><div class="insight-label">Least trained body part (last 14 days)</div><div class="insight-value">${esc(leastBP)}</div></div>
+          <div class="insight-row"><div class="insight-label">Last workout</div><div class="insight-value">${statsData.lastWorkoutDate ? esc(relDate(statsData.lastWorkoutDate)) : '—'}</div></div>
         </div>
       </div>`;
   };
@@ -3455,12 +3455,12 @@ init();
     })();
     document.getElementById('prog-insight-wrap').innerHTML = `
       <div class="coach-card">
-        <div class="coach-title">สรุปเทียบช่วงก่อนหน้า</div>
-        <div class="coach-row"><span>Sessions</span><span class="${c.sessions>=p.sessions?'delta-up':'delta-down'}">${c.sessions} ${p.sessions?`(${delta(c.sessions,p.sessions)>=0?'+':''}${delta(c.sessions,p.sessions).toFixed(0)}%)`:'(ใหม่)'}</span></div>
-        <div class="coach-row"><span>Volume รวม</span><span class="${c.volume>=p.volume?'delta-up':'delta-down'}">${Math.round(toDisplayVolume(c.volume)).toLocaleString()} ${unitLabel()}</span></div>
-        <div class="coach-row"><span>น้ำหนักสูงสุด</span><span>${fmt(toDisplay(c.maxWeight))} ${unitLabel()}</span></div>
-        <div class="coach-row"><span>ท่าที่เก่าสุดในช่วงนี้</span><span>${esc(stale)}</span></div>
-        <div class="coach-row"><span>Body part ที่ข้อมูลน้อยสุด</span><span>${esc(lowBp)}</span></div>
+        <div class="coach-title">Comparison vs Previous Period</div>
+        <div class="coach-row"><span>Sessions</span><span class="${c.sessions>=p.sessions?'delta-up':'delta-down'}">${c.sessions} ${p.sessions?`(${delta(c.sessions,p.sessions)>=0?'+':''}${delta(c.sessions,p.sessions).toFixed(0)}%)`:'(New)'}</span></div>
+        <div class="coach-row"><span>Total Volume</span><span class="${c.volume>=p.volume?'delta-up':'delta-down'}">${Math.round(toDisplayVolume(c.volume)).toLocaleString()} ${unitLabel()}</span></div>
+        <div class="coach-row"><span>Max Weight</span><span>${fmt(toDisplay(c.maxWeight))} ${unitLabel()}</span></div>
+        <div class="coach-row"><span>Stalest exercise this period</span><span>${esc(stale)}</span></div>
+        <div class="coach-row"><span>Body part with least data</span><span>${esc(lowBp)}</span></div>
       </div>`;
   };
 
@@ -3524,12 +3524,12 @@ init();
     div.innerHTML=`
       <div class="ex-block-head">
         <span class="ex-block-num">EXERCISE ${idx+1}</span>
-        <button type="button" class="ex-block-del" onclick="delExBlock(this)" aria-label="ลบท่า">×</button>
+        <button type="button" class="ex-block-del" onclick="delExBlock(this)" aria-label="Remove">×</button>
       </div>
       <div class="ex-sel-wrap"><div class="field" style="margin-bottom:0">
-        <label>ท่าออกกำลังกาย</label>
-        <select class="input ex-sel" onchange="onExSel(this)"><option value="">— เลือกท่า —</option></select>
-        <input type="text" class="input custom-ex" style="display:none;margin-top:8px" placeholder="พิมพ์ชื่อท่า...">
+        <label>Exercises</label>
+        <select class="input ex-sel" onchange="onExSel(this)"><option value="">— Select Exercise —</option></select>
+        <input type="text" class="input custom-ex" style="display:none;margin-top:8px" placeholder="Type exercise name...">
       </div></div>
       <div class="sets-table">
         <div class="sets-header"><div class="sets-col-lbl"></div><div class="sets-col-lbl">REPS / SEC</div><div class="sets-col-lbl">${unitLabel().toUpperCase()}</div><div style="width:40px"></div></div>
@@ -3537,15 +3537,15 @@ init();
       </div>
       <div class="target-hint" style="display:none"></div>
       <div class="set-toolbar" style="display:none">
-        <button type="button" class="mini-chip" onclick="copyLastSet(this)">ใช้ค่าครั้งก่อน</button>
-        <button type="button" class="mini-chip" onclick="copyPreviousSet(this)">เหมือนเซตก่อน</button>
+        <button type="button" class="mini-chip" onclick="copyLastSet(this)">Fill from last session</button>
+        <button type="button" class="mini-chip" onclick="copyPreviousSet(this)">Copy prev set</button>
         <button type="button" class="mini-chip" onclick="addSuggestedWeight(this)">+${S.prefs.defaultIncrement||2.5}${unitLabel()}</button>
         <button type="button" class="mini-chip" onclick="decRep(this)">-1 rep</button>
       </div>
       <button type="button" class="add-set-btn" onclick="addSetToBlock(this)">
-        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>เพิ่ม Set
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add Set
       </button>
-      <div class="ex-notes-row"><input type="text" class="input" name="notes" placeholder="หมายเหตุ (ไม่บังคับ)" style="font-size:13px;padding:8px 12px"></div>`;
+      <div class="ex-notes-row"><input type="text" class="input" name="notes" placeholder="Notes (optional)" style="font-size:13px;padding:8px 12px"></div>`;
     container.appendChild(div);
     div.addEventListener('click', ()=>setRestTimerFromBlock(div));
     populateSel(div.querySelector('.ex-sel'));
@@ -3578,9 +3578,9 @@ init();
     const row=document.createElement('div');row.className='set-row';row.dataset.mode=mode;
     const isSec=mode==='sec';
     row.innerHTML=`<span class="set-lbl">S${n}</span>
-      <input class="set-inp" type="number" name="reps" min="0" inputmode="numeric" placeholder="${isSec?'วิ':'Reps'}" value="${pR}">
+      <input class="set-inp" type="number" name="reps" min="0" inputmode="numeric" placeholder="${isSec?'sec':'Reps'}" value="${pR}">
       <input class="set-inp" type="number" name="weight" min="0" step="0.5" inputmode="decimal" placeholder="${unitLabel()}" value="${pW}">
-      <button type="button" class="set-mode-btn${isSec?' sec':''}" onclick="toggleSetMode(this)" title="สลับ Reps/Sec">${isSec?'SEC':'REP'}</button>
+      <button type="button" class="set-mode-btn${isSec?' sec':''}" onclick="toggleSetMode(this)" title="Toggle Reps/Sec">${isSec?'SEC':'REP'}</button>
       <button type="button" class="set-del" onclick="delSetRow(this)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>`;
     sl.appendChild(row);
     row.style.cssText='opacity:0;transform:translateX(-6px)';
@@ -3590,7 +3590,7 @@ init();
 
   window.copyPreviousSet = function(btn){
     const rows = [...btn.closest('.ex-block').querySelectorAll('.set-row')];
-    if(rows.length < 2) return toast('ต้องมีอย่างน้อย 2 เซต','err');
+    if(rows.length < 2) return toast('Need at least 2 sets','err');
     const prev = rows[rows.length-2], last = rows[rows.length-1];
     last.querySelector('[name=reps]').value = prev.querySelector('[name=reps]').value;
     last.querySelector('[name=weight]').value = prev.querySelector('[name=weight]').value;
@@ -3648,7 +3648,7 @@ init();
     const plan=S.plans.find(p=>p.id===id);
     if(!plan)return;
     S.editingPlanId=id;
-    document.getElementById('plan-modal-title').textContent='แก้ไขแผน';
+    document.getElementById('plan-modal-title').textContent='Edit Plan';
     document.getElementById('plan-name-inp').value=plan.name||'';
     ensurePlanScheduleUI();
     setPlanDayUI(plan.scheduleDays || []);
@@ -3671,19 +3671,19 @@ init();
       <div class="plan-ex-num">EXERCISE ${list.children.length+1}</div>
       <button type="button" class="plan-ex-block-del" onclick="delPlanExBlock(this)">×</button>
       <div class="field" style="margin-bottom:0">
-        <label>ท่าออกกำลังกาย</label>
-        <select class="input plan-ex-sel" style="font-size:16px"><option value="">— เลือกท่า —</option></select>
+        <label>Exercises</label>
+        <select class="input plan-ex-sel" style="font-size:16px"><option value="">— Select Exercise —</option></select>
       </div>
       <div class="range-row" style="margin-top:10px">
         <div class="field" style="margin-bottom:0"><label>Sets</label><input class="input plan-sets" type="number" min="1" value="${prefill?.sets||3}" inputmode="numeric" style="text-align:center"></div>
         <div class="field" style="margin-bottom:0"><label>Type</label><button type="button" class="input set-mode-btn plan-mode-btn${mode==='sec'?' sec':''}" onclick="togglePlanMode(this)" style="width:100%;height:46px">${mode==='sec'?'SEC':'REP'}</button></div>
         <div class="field plan-target-field" style="margin-bottom:0"><label class="plan-target-lbl">${mode==='sec'?'Sec':'Reps'}</label><input class="input plan-reps" type="number" min="1" value="${targetVal}" inputmode="numeric" style="text-align:center" placeholder="${mode==='sec'?'sec':'reps'}"></div>
         <div class="field" style="margin-bottom:0"><label>${unitLabel()}</label><input class="input plan-weight" type="number" min="0" step="0.5" value="${prefill?.weight?toDisplay(prefill.weight):''}" inputmode="decimal" placeholder="0" style="text-align:center"></div>
-        <div class="field" style="margin-bottom:0"><label>พัก(วิ)</label><input class="input plan-rest" type="number" min="0" value="${restVal}" inputmode="numeric" style="text-align:center"></div>
+        <div class="field" style="margin-bottom:0"><label>Rest(s)</label><input class="input plan-rest" type="number" min="0" value="${restVal}" inputmode="numeric" style="text-align:center"></div>
       </div>`;
     list.appendChild(div);
     const sel=div.querySelector('.plan-ex-sel');
-    sel.innerHTML=`<option value="">— เลือกท่า —</option>${S.exOpts}`;
+    sel.innerHTML=`<option value="">— Select Exercise —</option>${S.exOpts}`;
     if(prefill?.exerciseName)sel.value=prefill.exerciseName;
     refreshPlanExNums();
   };
@@ -3712,19 +3712,19 @@ init();
 
   window.delPlanExBlock = function(btn){
     const blocks = document.querySelectorAll('#plan-ex-list .plan-ex-block');
-    if(blocks.length <= 1) return toast('ต้องมีอย่างน้อย 1 ท่า','err');
+    if(blocks.length <= 1) return toast('Need at least 1 exercise','err');
     btn.closest('.plan-ex-block').remove();
     refreshPlanExNums();
   };
 
   window.savePlan = async function(){
     const name=document.getElementById('plan-name-inp').value.trim();
-    if(!name)return toast('กรุณาใส่ชื่อแผน','err');
+    if(!name)return toast('Please enter a plan name','err');
     const blocks=[...document.querySelectorAll('#plan-ex-list .plan-ex-block')];
     const exercises=[];
     for(let i=0;i<blocks.length;i++){
       const exName=blocks[i].querySelector('.plan-ex-sel').value;
-      if(!exName)return toast(`กรุณาเลือกท่า ${i+1}`,'err');
+      if(!exName)return toast(`Please select exercise ${i+1}`,'err');
       const mode = blocks[i].dataset.mode === 'sec' ? 'sec' : 'reps';
       const targetVal = Number(blocks[i].querySelector('.plan-reps')?.value) || (mode === 'sec' ? 30 : 10);
       const item = {
@@ -3740,23 +3740,23 @@ init();
     }
     const scheduleDays = getSelectedPlanDays();
     const btn=document.getElementById('btn-save-plan');
-    btn.disabled=true;btn.textContent='กำลังบันทึก...';
+    btn.disabled=true;btn.textContent='Saving...';
     try{
       const payload = {name, exercises, scheduleDays, updatedAt:TS()};
       if(S.editingPlanId){
         await planCol().doc(S.editingPlanId).update(payload);
-        toast('อัปเดตแผนสำเร็จ ✓','ok');
+        toast('Plan updated ✓','ok');
       }else{
         await planCol().add({...payload, createdAt:TS()});
-        toast(`สร้าง "${name}" สำเร็จ ✓`,'ok');
+        toast(`Created "${name}" ✓`,'ok');
       }
       await loadPlans();
       closePlanModal();
       renderPlans();
     }catch(err){
-      toast(err.message||'บันทึกไม่สำเร็จ','err');
+      toast(err.message||'Save failed','err');
     }finally{
-      btn.disabled=false;btn.textContent='บันทึกแผน';
+      btn.disabled=false;btn.textContent='Save Plan';
     }
   };
 
@@ -3765,8 +3765,8 @@ init();
     if(!S.plans.length){
       el.innerHTML=`<div style="text-align:center;padding:48px 20px;color:var(--ts)">
         <div style="font-size:44px;margin-bottom:12px">📋</div>
-        <div style="font-size:17px;font-weight:600;margin-bottom:8px;color:var(--t)">ยังไม่มีแผน</div>
-        <div style="font-size:14px;line-height:1.8">วางแผนล่วงหน้าว่าจะออกท่าอะไร<br>น้ำหนักเท่าไหร่ เป็น REP หรือ SEC</div>
+        <div style="font-size:17px;font-weight:600;margin-bottom:8px;color:var(--t)">No plans yet</div>
+        <div style="font-size:14px;line-height:1.8">Plan ahead: exercises, weights, reps or time-based sets<br></div>
       </div>`;
       return;
     }
@@ -3783,20 +3783,20 @@ init();
         <div class="plan-card" id="pc-${esc(p.id)}" style="margin-bottom:12px">
           <div class="plan-head" onclick="togglePlanCard('${esc(p.id)}')">
             <div>
-              <div class="plan-title">${esc(p.name||'ไม่มีชื่อแผน')}</div>
-              <div class="plan-sub">${(p.exercises||[]).length} ท่า · ${totalSets} เซต · ${estimatePlanMinutes(p)} นาที${isToday?' · วันนี้':''}</div>
+              <div class="plan-title">${esc(p.name||'Unnamed')}</div>
+              <div class="plan-sub">${(p.exercises||[]).length} Exercise · ${totalSets} sets · ${estimatePlanMinutes(p)} min${isToday?' · Today':''}</div>
             </div>
-            <div class="plan-meta-right">${schedule.length ? schedule.join(' / ') : 'ไม่กำหนดวัน'}</div>
+            <div class="plan-meta-right">${schedule.length ? schedule.join(' / ') : 'No schedule'}</div>
           </div>
           <div class="plan-body">
-            <div class="tiny-muted" style="line-height:1.7">${esc(preview || 'ยังไม่มีท่าในแผน')}</div>
+            <div class="tiny-muted" style="line-height:1.7">${esc(preview || 'No exercises in plans')}</div>
             <div class="meta-chip-row">
-              ${(p.scheduleDays||[]).length ? (p.scheduleDays||[]).map(d=>`<span class="meta-chip ${d===today?'active':''}">${DAY_LABELS[DAY_KEYS.indexOf(d)]}</span>`).join('') : '<span class="meta-chip">ไม่มี schedule</span>'}
+              ${(p.scheduleDays||[]).length ? (p.scheduleDays||[]).map(d=>`<span class="meta-chip ${d===today?'active':''}">${DAY_LABELS[DAY_KEYS.indexOf(d)]}</span>`).join('') : '<span class="meta-chip">No schedule</span>'}
             </div>
             <div style="display:flex;gap:10px;margin-top:14px">
-              <button class="btn" style="flex:1;padding:12px" onclick="startFromPlan('${esc(p.id)}')">เริ่ม Workout</button>
-              <button class="btn btn-ghost" style="flex:1;padding:12px" onclick="openEditPlan('${esc(p.id)}')">แก้ไข</button>
-              <button class="btn btn-ghost" style="flex:1;padding:12px;color:var(--err);border-color:rgba(255,79,90,.22)" onclick="confirmDeletePlan('${esc(p.id)}','${esc(p.name||'').replace(/'/g,'&#39;')}')">ลบ</button>
+              <button class="btn" style="flex:1;padding:12px" onclick="startFromPlan('${esc(p.id)}')">Start Workout</button>
+              <button class="btn btn-ghost" style="flex:1;padding:12px" onclick="openEditPlan('${esc(p.id)}')">Edit</button>
+              <button class="btn btn-ghost" style="flex:1;padding:12px;color:var(--err);border-color:rgba(255,79,90,.22)" onclick="confirmDeletePlan('${esc(p.id)}','${esc(p.name||'').replace(/'/g,'&#39;')}')">Delete</button>
             </div>
           </div>
         </div>`;
@@ -3822,7 +3822,7 @@ init();
       block.querySelector('.set-toolbar').style.display='flex';
       const hint=block.querySelector('.target-hint');
       hint.style.display='block';
-      hint.innerHTML=`เป้าหมาย <strong>${ex.sets||1}</strong> เซต × <strong>${targetVal}</strong> ${isSec?'วิ':'reps'}${Number(ex.weight)?` · <strong>${fmt(toDisplay(ex.weight))}</strong> ${unitLabel()}`:''}${Number(block.dataset.restSec)?` · พัก <strong>${block.dataset.restSec}</strong> วิ`:''}`;
+      hint.innerHTML=`Target: <strong>${ex.sets||1}</strong> sets × <strong>${targetVal}</strong> ${isSec?'sec':'reps'}${Number(ex.weight)?` · <strong>${fmt(toDisplay(ex.weight))}</strong> ${unitLabel()}`:''}${Number(block.dataset.restSec)?` · rest <strong>${block.dataset.restSec}</strong>s`:''}`;
       const sl=block.querySelector('.sets-list');
       sl.innerHTML='';
       const sets=Number(ex.sets)||1;
@@ -3833,8 +3833,8 @@ init();
     refreshLogEditor();
     setRestTimerFromBlock(document.querySelector('#log-exercises .ex-block'), true);
     document.getElementById('use-plan-title').textContent=plan.name;
-    document.getElementById('use-plan-sub').textContent=`${(plan.exercises||[]).length} ท่า · โหลดแล้ว ✓`;
-    toast(`โหลดแผน "${plan.name}" แล้ว 💪`,'ok');
+    document.getElementById('use-plan-sub').textContent=`${(plan.exercises||[]).length} exercises · Loaded ✓`;
+    toast(`Loaded plan "${plan.name}" successfully 💪`,'ok');
   };
 
   window.startFromPlan = function(id){
@@ -3862,14 +3862,14 @@ init();
     };
 
     const date=document.getElementById('log-date').value;
-    if(!date)return toast('กรุณาเลือกวันที่','err');
+    if(!date)return toast('Please select a date','err');
     const blocks=[...document.querySelectorAll('.ex-block')];
     const docs=[];
     const activePlan = S.plans.find(p=>p.id===S.activePlanId);
     for(let i=0;i<blocks.length;i++){
       const block=blocks[i],sel=block.querySelector('.ex-sel'),cust=block.querySelector('.custom-ex');
       const exName=sel.value==='__custom'?cust.value.trim():sel.value;
-      if(!exName)return toast(`กรุณาเลือกท่า ${i+1}`,'err');
+      if(!exName)return toast(`Please select exercise ${i+1}`,'err');
       const notes=block.querySelector('[name=notes]').value||'';
       const min = Number(block.dataset.targetMin || 0);
       const max = Number(block.dataset.targetMax || 0);
@@ -3886,14 +3886,14 @@ init();
         });
       });
     }
-    if(!docs.length)return toast('ไม่มีข้อมูล','err');
+    if(!docs.length)return toast('No data to save','err');
 
     const prevSnap = await woCol().get();
     const prevRows = prevSnap.docs.map(d=>({...d.data(), workoutId:d.id}));
     const prevMap = workoutSummaryMapSafe(prevRows);
 
     const btn=document.getElementById('btn-save');
-    btn.disabled=true;btn.textContent='กำลังบันทึก...';
+    btn.disabled=true;btn.textContent='Saving...';
     try{
       const batch=db.batch();
       docs.forEach(d=>batch.set(woCol().doc(),d));
@@ -3905,13 +3905,13 @@ init();
       const prs = [];
       Object.entries(currMap).forEach(([name, stats])=>{
         const old = prevMap[name] || {maxWeight:0,maxReps:0,maxVolume:0};
-        if(stats.maxWeight > old.maxWeight) prs.push(`${name} · น้ำหนักสูงสุด ${fmt(toDisplay(stats.maxWeight))} ${unitLabel()}`);
-        else if(stats.maxVolume > old.maxVolume) prs.push(`${name} · volume ดีสุด ${Math.round(toDisplayVolume(stats.maxVolume)).toLocaleString()} ${unitLabel()}`);
+        if(stats.maxWeight > old.maxWeight) prs.push(`${name} · Max Weight ${fmt(toDisplay(stats.maxWeight))} ${unitLabel()}`);
+        else if(stats.maxVolume > old.maxVolume) prs.push(`${name} · best volume ${Math.round(toDisplayVolume(stats.maxVolume)).toLocaleString()} ${unitLabel()}`);
       });
 
       const volume = docs.reduce((s,d)=>s+((Number(d.reps)||0)*(Number(d.weight)||0)),0);
       const minutes = Math.max(1, Math.round(((Date.now() - (S.logStartedAt || Date.now()))/60000)));
-      toast('บันทึกสำเร็จ 💪','ok');
+      toast('Saved 💪','ok');
       openWorkoutSummary({
         exercises: new Set(docs.map(d=>d.exerciseName)).size,
         sets: docs.length,
@@ -3921,9 +3921,9 @@ init();
       });
       initLog();
     }catch(err){
-      toast(err.message||'บันทึกไม่สำเร็จ','err');
+      toast(err.message||'Save failed','err');
     }finally{
-      btn.disabled=false;btn.textContent='บันทึก Workout 💪';
+      btn.disabled=false;btn.textContent='Log Workout 💪';
     }
   };
 
@@ -3986,7 +3986,7 @@ init();
         updateRestUI();
         // Vibrate if supported
         if(navigator.vibrate) navigator.vibrate([120,60,120]);
-        toast('พักครบแล้ว ✓ ลุย!','ok');
+        toast('Rest done ✓ Go!','ok');
       }
     }, 1000);
   };
@@ -4062,7 +4062,7 @@ init();
 
     const goal = Number((window.S && S.prefs && S.prefs.goalSessions) || 4);
     const left = Math.max(goal - sessions, 0);
-    const goalStatus = left === 0 ? 'ครบเป้าแล้ว ✓' : `อีก ${left} session`;
+    const goalStatus = left === 0 ? 'Goal reached ✓' : `${left} more session(s)`;
 
     return { startStr, endStr, sessions, sets, volume, restDays, leastBodyPart, nextFocus, goalStatus };
   }
@@ -4153,7 +4153,7 @@ init();
 
     const goal = Number((window.S && S.prefs && S.prefs.goalSessions) || 4);
     const left = Math.max(goal - sessions, 0);
-    const goalStatus = left === 0 ? 'ครบเป้าแล้ว ✓' : `อีก ${left} session`;
+    const goalStatus = left === 0 ? 'Goal reached ✓' : `${left} more session(s)`;
 
     return { startStr, endStr, sessions, sets, volume, restDays, leastBodyPart, nextFocus, goalStatus };
   }
@@ -4456,7 +4456,7 @@ init();
       if(nextFocus === '—' && leastBodyPart !== '—') nextFocus = leastBodyPart;
       const goal = Number((window.S && S.prefs && S.prefs.goalSessions) || 4);
       const left = Math.max(goal - sessions, 0);
-      const goalStatus = left === 0 ? 'ครบเป้าแล้ว ✓' : `อีก ${left} session`;
+      const goalStatus = left === 0 ? 'Goal reached ✓' : `${left} more session(s)`;
 
       const setText = (id, value) => {
         const el = document.getElementById(id);
@@ -4592,9 +4592,9 @@ init();
     const plan=window.chooseSuggestedPlan ? chooseSuggestedPlan() : null;
     const lastWorkoutDate=[...new Set((allWO||[]).map(w=>w.date))].sort().pop()||'';
     const daysSince=lastWorkoutDate?Math.floor((Date.now()-new Date(lastWorkoutDate+'T00:00:00').getTime())/86400000):null;
-    const recoveryTxt=daysSince==null?'ยังไม่มีประวัติการฝึก':daysSince===0?'เล่นแล้ววันนี้':daysSince===1?'พักมา 1 วัน':`พักมา ${daysSince} วัน`;
+    const recoveryTxt=daysSince==null?'No workout history yet':daysSince===0?'Worked out today':daysSince===1?'Rested 1 day':`Rested ${daysSince} days`;
     if(!plan){
-      wrap.innerHTML=`<div class="action-card"><div class="action-eyebrow">Today’s Action</div><div class="action-title">เริ่มต้นด้วยแผนแรกของคุณ</div><div class="action-sub">สร้างแผนก่อน แล้วหน้า Home จะช่วยดึง workout ที่ควรทำวันนี้ขึ้นมาให้อัตโนมัติ</div><div class="action-btn-row"><button class="btn" onclick="setTab('plan')">ไปที่ Planner</button></div></div>`;
+      wrap.innerHTML=`<div class="action-card"><div class="action-eyebrow">Today’s Action</div><div class="action-title">Start with your first plan</div><div class="action-sub">create a plan first — Home will automatically suggest today's workout</div><div class="action-btn-row"><button class="btn" onclick="setTab('plan')">Go to Planner</button></div></div>`;
       return;
     }
     const totalSets=(plan.exercises||[]).reduce((s,e)=>s+(Number(e.sets)||0),0);
@@ -4605,16 +4605,16 @@ init();
       <div class="action-eyebrow">Today’s Action</div>
       ${doneToday?`<div class="action-done-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Completed today</div>`:''}
       <div class="action-title">${esc(plan.name)}</div>
-      <div class="action-sub">${doneToday?`ทำแผนนี้แล้ววันนี้${doneExercises?` · ${doneExercises} ท่า`:''} กดดู Progress หรือเริ่มซ้ำได้ทันที`:'แนะนำให้เล่นแผนนี้วันนี้เพื่อรักษาความต่อเนื่องและเริ่มบันทึกได้ทันที'}</div>
+      <div class="action-sub">${doneToday?`Plan done today${doneExercises?` · ${doneExercises} Exercise`:''} — view Progress or repeat`:'Recommended plan for today — stay consistent and log right away'}</div>
       <div class="action-meta-row">
-        <div class="action-mini"><div class="action-mini-k">จำนวนท่า</div><div class="action-mini-v">${(plan.exercises||[]).length} ท่า</div></div>
-        <div class="action-mini"><div class="action-mini-k">เวลาประมาณ</div><div class="action-mini-v">${estimatePlanMinutes(plan)} นาที</div></div>
-        <div class="action-mini"><div class="action-mini-k">จำนวนเซต</div><div class="action-mini-v">${totalSets} เซต</div></div>
-        <div class="action-mini"><div class="action-mini-k">Recovery</div><div class="action-mini-v">${doneToday?'สำเร็จแล้ว ✓':recoveryTxt}</div></div>
+        <div class="action-mini"><div class="action-mini-k">Exercises</div><div class="action-mini-v">${(plan.exercises||[]).length} Exercise</div></div>
+        <div class="action-mini"><div class="action-mini-k">Est. Time</div><div class="action-mini-v">${estimatePlanMinutes(plan)} min</div></div>
+        <div class="action-mini"><div class="action-mini-k">Sets</div><div class="action-mini-v">${totalSets} sets</div></div>
+        <div class="action-mini"><div class="action-mini-k">Recovery</div><div class="action-mini-v">${doneToday?'Done ✓':recoveryTxt}</div></div>
       </div>
       <div class="action-btn-row">
-        <button class="btn" onclick="${doneToday?"setTab('prog')":"startFromPlan('"+esc(plan.id)+"')"}">${doneToday?'ดู Progress':'เริ่ม Workout'}</button>
-        <button class="btn btn-ghost" onclick="setTab('plan')">ดูรายละเอียดแผน</button>
+        <button class="btn" onclick="${doneToday?"setTab('prog')":"startFromPlan('"+esc(plan.id)+"')"}">${doneToday?'View Progress':'Start Workout'}</button>
+        <button class="btn btn-ghost" onclick="setTab('plan')">View Plan Details</button>
       </div>
     </div>`;
   };
@@ -4653,11 +4653,11 @@ init();
     const done=!!prefill?.completed;
     const row=document.createElement('div');row.className='set-row'+(done?' done':'');row.dataset.mode=mode;row.dataset.completed=done?'1':'0';
     const isSec=mode==='sec';
-    row.innerHTML=`<button type="button" class="set-complete-btn ${done?'active':''}" onclick="toggleSetComplete(this)" title="ทำ set นี้แล้ว"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></button>
+    row.innerHTML=`<button type="button" class="set-complete-btn ${done?'active':''}" onclick="toggleSetComplete(this)" title="Mark set as done"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></button>
       <span class="set-lbl">S${n}</span>
-      <input class="set-inp" type="number" name="reps" min="0" inputmode="numeric" placeholder="${isSec?'วิ':'Reps'}" value="${pR}">
+      <input class="set-inp" type="number" name="reps" min="0" inputmode="numeric" placeholder="${isSec?'sec':'Reps'}" value="${pR}">
       <input class="set-inp" type="number" name="weight" min="0" step="0.5" inputmode="decimal" placeholder="${unitLabel()}" value="${pW}">
-      <button type="button" class="set-mode-btn${isSec?' sec':''}" onclick="toggleSetMode(this)" title="สลับ Reps/Sec">${isSec?'SEC':'REP'}</button>
+      <button type="button" class="set-mode-btn${isSec?' sec':''}" onclick="toggleSetMode(this)" title="Toggle Reps/Sec">${isSec?'SEC':'REP'}</button>
       <button type="button" class="set-del" onclick="delSetRow(this)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>`;
     sl.appendChild(row);
     row.style.cssText='opacity:0;transform:translateX(-6px)';
@@ -4671,12 +4671,12 @@ init();
     div.innerHTML=`
       <div class="ex-block-head">
         <span class="ex-block-num">EXERCISE ${idx+1}</span>
-        <button type="button" class="ex-block-del" onclick="delExBlock(this)" aria-label="ลบท่า">×</button>
+        <button type="button" class="ex-block-del" onclick="delExBlock(this)" aria-label="Remove">×</button>
       </div>
       <div class="ex-sel-wrap"><div class="field" style="margin-bottom:0">
-        <label>ท่าออกกำลังกาย</label>
-        <select class="input ex-sel" onchange="onExSel(this)"><option value="">— เลือกท่า —</option></select>
-        <input type="text" class="input custom-ex" style="display:none;margin-top:8px" placeholder="พิมพ์ชื่อท่า...">
+        <label>Exercises</label>
+        <select class="input ex-sel" onchange="onExSel(this)"><option value="">— Select Exercise —</option></select>
+        <input type="text" class="input custom-ex" style="display:none;margin-top:8px" placeholder="Type exercise name...">
       </div></div>
       <div class="sets-table">
         <div class="sets-header"><div class="sets-col-lbl"></div><div class="sets-col-lbl"></div><div class="sets-col-lbl">REPS / SEC</div><div class="sets-col-lbl">${unitLabel().toUpperCase()}</div><div class="sets-col-lbl">TYPE</div><div class="sets-col-lbl"></div></div>
@@ -4684,15 +4684,15 @@ init();
       </div>
       <div class="target-hint" style="display:none"></div>
       <div class="set-toolbar" style="display:none">
-        <button type="button" class="mini-chip" onclick="copyLastSet(this)">ใช้ค่าครั้งก่อน</button>
-        <button type="button" class="mini-chip" onclick="copyPreviousSet(this)">เหมือนเซตก่อน</button>
+        <button type="button" class="mini-chip" onclick="copyLastSet(this)">Fill from last session</button>
+        <button type="button" class="mini-chip" onclick="copyPreviousSet(this)">Copy prev set</button>
         <button type="button" class="mini-chip" onclick="addSuggestedWeight(this)">+${S.prefs.defaultIncrement||2.5}${unitLabel()}</button>
         <button type="button" class="mini-chip" onclick="decRep(this)">-1 rep</button>
       </div>
       <button type="button" class="add-set-btn" onclick="addSetToBlock(this)">
-        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>เพิ่ม Set
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add Set
       </button>
-      <div class="ex-notes-row"><input type="text" class="input" name="notes" placeholder="หมายเหตุ (ไม่บังคับ)" style="font-size:13px;padding:8px 12px"></div>`;
+      <div class="ex-notes-row"><input type="text" class="input" name="notes" placeholder="Notes (optional)" style="font-size:13px;padding:8px 12px"></div>`;
     container.appendChild(div);
     div.addEventListener('click', ()=>window.setRestTimerFromBlock?.(div));
     populateSel(div.querySelector('.ex-sel'));
@@ -4734,8 +4734,8 @@ init();
       const grid=modal.querySelector('.summary-grid');
       grid?.insertAdjacentElement('afterend', inline);
     }
-    const deltaTxt = data.deltaPercent==null ? 'ยังไม่มี session ก่อนหน้าให้เทียบ' : `${data.deltaPercent>=0?'มากกว่าครั้งก่อน':'น้อยกว่าครั้งก่อน'} ${data.deltaPercent>=0?'+':''}${data.deltaPercent.toFixed(0)}%`;
-    inline.innerHTML=`<div class="summary-inline-main">วันนี้เล่น ${data.exercises} ท่า / ${data.sets} เซต / volume ${Math.round(toDisplayVolume(data.volume)).toLocaleString()} ${unitLabel()}</div><div class="summary-inline-sub">${deltaTxt}</div>`;
+    const deltaTxt = data.deltaPercent==null ? 'No previous session to compare' : `${data.deltaPercent>=0?'Higher than last':'Lower than last'} ${data.deltaPercent>=0?'+':''}${data.deltaPercent.toFixed(0)}%`;
+    inline.innerHTML=`<div class="summary-inline-main">Today: ${data.exercises} exercises / ${data.sets} sets / volume ${Math.round(toDisplayVolume(data.volume)).toLocaleString()} ${unitLabel()}</div><div class="summary-inline-sub">${deltaTxt}</div>`;
   };
 
   window.saveWorkout = async function(){
@@ -4763,14 +4763,14 @@ init();
     };
 
     const date=document.getElementById('log-date').value;
-    if(!date)return toast('กรุณาเลือกวันที่','err');
+    if(!date)return toast('Please select a date','err');
     const blocks=[...document.querySelectorAll('.ex-block')];
     const docs=[];
     const activePlan = S.plans.find(p=>p.id===S.activePlanId);
     for(let i=0;i<blocks.length;i++){
       const block=blocks[i],sel=block.querySelector('.ex-sel'),cust=block.querySelector('.custom-ex');
       const exName=sel.value==='__custom'?cust.value.trim():sel.value;
-      if(!exName)return toast(`กรุณาเลือกท่า ${i+1}`,'err');
+      if(!exName)return toast(`Please select exercise ${i+1}`,'err');
       const notes=block.querySelector('[name=notes]').value||'';
       const min = Number(block.dataset.targetMin || 0);
       const max = Number(block.dataset.targetMax || 0);
@@ -4788,10 +4788,10 @@ init();
         });
       });
     }
-    if(!docs.length)return toast('ไม่มีข้อมูล','err');
+    if(!docs.length)return toast('No data to save','err');
 
     const btn=document.getElementById('btn-save');
-    btn.disabled=true;btn.textContent='กำลังบันทึก...';
+    btn.disabled=true;btn.textContent='Saving...';
     try{
       const prevSnap = await woCol().get();
       const prevRows = prevSnap.docs.map(d=>({...d.data(), workoutId:d.id}));
@@ -4811,12 +4811,12 @@ init();
       const prs = [];
       Object.entries(currMap).forEach(([name, stats])=>{
         const old = prevMap[name] || {maxWeight:0,maxReps:0,maxVolume:0};
-        if(stats.maxWeight > old.maxWeight) prs.push(`${name} · น้ำหนักสูงสุด ${fmt(toDisplay(stats.maxWeight))} ${unitLabel()}`);
-        else if(stats.maxVolume > old.maxVolume) prs.push(`${name} · volume ดีสุด ${Math.round(toDisplayVolume(stats.maxVolume)).toLocaleString()} ${unitLabel()}`);
+        if(stats.maxWeight > old.maxWeight) prs.push(`${name} · Max Weight ${fmt(toDisplay(stats.maxWeight))} ${unitLabel()}`);
+        else if(stats.maxVolume > old.maxVolume) prs.push(`${name} · best volume ${Math.round(toDisplayVolume(stats.maxVolume)).toLocaleString()} ${unitLabel()}`);
       });
 
       const minutes = Math.max(1, Math.round(((Date.now() - (S.logStartedAt || Date.now()))/60000)));
-      toast(`วันนี้เล่น ${currentSummary.exercises} ท่า / ${currentSummary.sets} เซต`, 'ok');
+      toast(`Today: ${currentSummary.exercises} Exercise / ${currentSummary.sets} sets`, 'ok');
       openWorkoutSummary({
         exercises: currentSummary.exercises,
         sets: currentSummary.sets,
@@ -4828,9 +4828,9 @@ init();
       initLog();
     }catch(err){
       console.error('saveWorkout failed:', err);
-      toast(err.message||'บันทึกไม่สำเร็จ','err');
+      toast(err.message||'Save failed','err');
     }finally{
-      btn.disabled=false;btn.textContent='บันทึก Workout 💪';
+      btn.disabled=false;btn.textContent='Log Workout 💪';
     }
   };
 
@@ -5014,26 +5014,26 @@ init();
   function uniq(arr){ return [...new Set(arr.filter(Boolean))]; }
   function fmtPct(n){ return `${n>=0?'+':''}${Math.round(n)}%`; }
   function titleCaseBodyPart(s){
-    const map={อก:'Chest',หลัง:'Back',ไหล่:'Shoulders',แขน:'Arms',ขา:'Legs',Core:'Core',Cardio:'Cardio','Full Body':'Full Body','อื่นๆ':'Other'};
+    const map={อก:'Chest',หลัง:'Back',ไหล่:'Shoulders',แขน:'Arms',ขา:'Legs',Core:'Core',Cardio:'Cardio','Full Body':'Full Body','Other':'Other'};
     return map[s] || s || '—';
   }
   function bodyPartRestHint(bodyPart){
     const map={
-      'อก':'พัก Chest/Triceps 48 ชม.',
-      'Chest':'พัก Chest/Triceps 48 ชม.',
-      'หลัง':'พัก Back/Biceps 48 ชม.',
-      'Back':'พัก Back/Biceps 48 ชม.',
-      'ไหล่':'พัก Shoulders 48 ชม.',
-      'Shoulders':'พัก Shoulders 48 ชม.',
-      'แขน':'พัก Arms 24–48 ชม.',
-      'Arms':'พัก Arms 24–48 ชม.',
-      'ขา':'พัก Legs 48–72 ชม.',
-      'Legs':'พัก Legs 48–72 ชม.',
-      'Core':'พัก Core 24 ชม.',
-      'Cardio':'สลับ cardio เบา / recovery ได้',
-      'Full Body':'จัด recovery ทั้งตัว 48 ชม.'
+      'Chest':'Rest Chest/Triceps 48h',
+      'Chest':'Rest Chest/Triceps 48h',
+      'Back':'Rest Back/Biceps 48h',
+      'Back':'Rest Back/Biceps 48h',
+      'Shoulders':'Rest Shoulders 48h',
+      'Shoulders':'Rest Shoulders 48h',
+      'Arms':'Rest Arms 24–48h',
+      'Arms':'Rest Arms 24–48h',
+      'Legs':'Rest Legs 48–72h',
+      'Legs':'Rest Legs 48–72h',
+      'Core':'Rest Core 24h',
+      'Cardio':'Light cardio or recovery OK',
+      'Full Body':'Full body recovery 48h'
     };
-    return map[bodyPart] || `พัก ${titleCaseBodyPart(bodyPart)} 48 ชม.`;
+    return map[bodyPart] || `Rest ${titleCaseBodyPart(bodyPart)} 48h`;
   }
   function summarizeExerciseRows(rows){
     const mode = rows.some(r=>getMode(r)==='sec') ? 'sec' : 'reps';
@@ -5084,13 +5084,13 @@ init();
       const prevBestSec = prev.bestSec || 0;
       const prevBestWork = prev.totalWork || 0;
       if(curr.mode==='sec'){
-        if(curr.bestSec > prevBestSec) prs.push(`${name} — hold ${curr.bestSec} sec`);
+        if(curr.bestSec > prevBestSec) prs.push(`${name} — held ${curr.bestSec} sec`);
         else if(curr.bestWeight > prevBestWeight) prs.push(`${name} — ${fmt(toDisplay(curr.bestWeight))} ${unitLabel()} hold`);
-        else if(curr.totalWork > prevBestWork && curr.bestSec>0) prs.push(`${name} — time under tension ดีสุด`);
+        else if(curr.totalWork > prevBestWork && curr.bestSec>0) prs.push(`${name} — best time under tension`);
       }else{
         if(curr.bestWeight > prevBestWeight) prs.push(`${name} — ${fmt(toDisplay(curr.bestWeight))} × ${curr.bestReps||safeNum(rows[0]?.reps)}`);
         else if(curr.bestReps > prevBestReps && curr.bestWeight >= prevBestWeight && curr.bestWeight>0) prs.push(`${name} — ${fmt(toDisplay(curr.bestWeight))} × ${curr.bestReps}`);
-        else if(curr.totalWeightVol > (prev.totalWeightVol||0) && curr.totalWeightVol>0) prs.push(`${name} — volume ดีสุด`);
+        else if(curr.totalWeightVol > (prev.totalWeightVol||0) && curr.totalWeightVol>0) prs.push(`${name} — best volume`);
       }
       if(curr.mode==='sec'){
         highlights.push({score: curr.bestSec + curr.bestWeight, text:`<span class="lift-highlight-name">${esc(name)}</span> — ${curr.bestWeight>0?`${fmt(toDisplay(curr.bestWeight))} ${unitLabel()} × `:''}${curr.bestSec} sec`});
@@ -5098,27 +5098,27 @@ init();
         highlights.push({score: curr.bestWeight*1000 + curr.bestReps, text:`<span class="lift-highlight-name">${esc(name)}</span> — ${fmt(toDisplay(curr.bestWeight))} × ${curr.bestReps}`});
       }
       if(curr.allHit){
-        highlights.push({score: curr.totalWork + 0.1, text:`<span class="lift-highlight-name">${esc(name)}</span> — ครบ target ทุกเซต`});
+        highlights.push({score: curr.totalWork + 0.1, text:`<span class="lift-highlight-name">${esc(name)}</span> — hit all target sets`});
         if(curr.mode==='sec'){
           const secStep = Math.max(5, Math.round((safeNum(rows[0]?.targetMaxReps || rows[0]?.targetMinReps || curr.bestSec) || 0) * 0.1 / 5) * 5 || 5);
-          nextSteps.push({priority:3, text:`ลอง ${name} +${secStep} sec ครั้งหน้า`});
+          nextSteps.push({priority:3, text:`Try ${name} +${secStep} sec next time`});
         }else if(curr.bestWeight>0){
           const inc = Number(S.prefs.defaultIncrement||2.5);
-          nextSteps.push({priority:4, text:`ลอง ${name} ${fmt(toDisplay(curr.bestWeight + inc))} ${unitLabel()} ครั้งหน้า`});
+          nextSteps.push({priority:4, text:`Try ${name} at ${fmt(toDisplay(curr.bestWeight + inc))} ${unitLabel()} next time`});
         }else{
-          nextSteps.push({priority:2, text:`ลอง ${name} เพิ่ม ${Math.max(1, Math.round(curr.bestReps*0.1)||1)} reps ครั้งหน้า`});
+          nextSteps.push({priority:2, text:`Try ${name} with ${Math.max(1, Math.round(curr.bestReps*0.1)||1)} more reps next time`});
         }
       }
     });
 
     const bodyPartCount={};
     todayRows.forEach(r=>{
-      const bp=getExCat(r.exerciseName)||'อื่นๆ';
+      const bp=getExCat(r.exerciseName)||'Other';
       bodyPartCount[bp]=(bodyPartCount[bp]||0)+1;
     });
     const mainBodyPart = Object.entries(bodyPartCount).sort((a,b)=>b[1]-a[1])[0]?.[0] || '';
     if(mainBodyPart){
-      highlights.push({score:1, text:`<span class="lift-highlight-name">${esc(titleCaseBodyPart(mainBodyPart))}</span> — body part หลักของวันนี้`});
+      highlights.push({score:1, text:`<span class="lift-highlight-name">${esc(titleCaseBodyPart(mainBodyPart))}</span> — today's main focus`});
       nextSteps.push({priority:1, text:bodyPartRestHint(mainBodyPart)});
     }
 
@@ -5126,19 +5126,19 @@ init();
     let deltaLabel = '';
     if(currentWeightVol>0 && previousWeightVol>0){
       delta = ((currentWeightVol-previousWeightVol)/previousWeightVol)*100;
-      deltaLabel = `Volume ${fmtPct(delta)} จากครั้งก่อน`;
+      deltaLabel = `Volume ${fmtPct(delta)} vs last session`;
     }else if(currentWork>0 && previousWork>0){
       delta = ((currentWork-previousWork)/previousWork)*100;
-      deltaLabel = `${currentSecs>0 || previousSecs>0 ? 'Workload' : 'Output'} ${fmtPct(delta)} จากครั้งก่อน`;
+      deltaLabel = `${currentSecs>0 || previousSecs>0 ? 'Workload' : 'Output'} ${fmtPct(delta)} vs last session`;
     }else if(currentSecs>0 && previousSecs>0){
       delta = ((currentSecs-previousSecs)/previousSecs)*100;
-      deltaLabel = `Time ${fmtPct(delta)} จากครั้งก่อน`;
+      deltaLabel = `Time ${fmtPct(delta)} vs last session`;
     }
 
     const insights=[];
-    insights.push(prs.length ? `PR ${prs.length} รายการ` : 'ยังไม่มี PR วันนี้ แต่ consistency ยังเดินต่อ');
+    insights.push(prs.length ? `${prs.length} new PR(s) today!` : 'No new PRs today — consistency still counts');
     if(deltaLabel) insights.push(deltaLabel);
-    insights.push(`สัปดาห์นี้ทำแล้ว ${weekDates.size}/${goal} sessions`);
+    insights.push(`This week: ${weekDates.size}/${goal} sessions`);
 
     const sortedHighlights = highlights.sort((a,b)=>b.score-a.score).map(x=>x.text);
     const finalHighlights = uniq(sortedHighlights).slice(0,3);
@@ -5156,7 +5156,7 @@ init();
       prs,
       insights,
       highlights: finalHighlights,
-      nextSteps: finalNext.length ? finalNext : ['เก็บ recovery ให้พอแล้วค่อยไล่ progressive overload รอบหน้า'],
+      nextSteps: finalNext.length ? finalNext : ['Get enough recovery, then chase progressive overload next session'],
       weekDates: weekDates.size,
       goal,
       deltaPercent: delta,
@@ -5186,8 +5186,8 @@ init();
           <div class="lift-postsave-main" id="lift-postsave-main">0 Sets · 0 Exercises · 0 ${unitLabel()}</div>
           <div class="lift-postsave-sub" id="lift-postsave-sub">0 minutes</div>
           <div class="lift-summary-inline">
-            <div class="lift-summary-inline-main" id="lift-summary-inline-main">บันทึกการฝึกสำเร็จ</div>
-            <div class="lift-summary-inline-sub" id="lift-summary-inline-sub">ข้อมูลถูกเพิ่มเข้า Progress แล้ว</div>
+            <div class="lift-summary-inline-main" id="lift-summary-inline-main">Workout logged</div>
+            <div class="lift-summary-inline-sub" id="lift-summary-inline-sub">Data added to Progress</div>
           </div>
         </div>
         <div class="lift-section">
@@ -5219,8 +5219,8 @@ init();
     const durationLine = data.durationLine || `${data.minutes||0} minutes`;
     document.getElementById('lift-postsave-main').textContent = summaryLine;
     document.getElementById('lift-postsave-sub').textContent = durationLine;
-    document.getElementById('lift-summary-inline-main').textContent = data.inlineMain || 'สรุปการฝึกของวันนี้พร้อม insight';
-    document.getElementById('lift-summary-inline-sub').textContent = data.inlineSub || (data.deltaPercent==null ? 'ยังไม่มี session ก่อนหน้าให้เทียบ' : `เทียบ session ก่อนหน้า ${data.deltaPercent>=0?'สูงขึ้น':'ลดลง'} ${Math.abs(Math.round(data.deltaPercent))}%`);
+    document.getElementById('lift-summary-inline-main').textContent = data.inlineMain || 'Today's workout summary with insights';
+    document.getElementById('lift-summary-inline-sub').textContent = data.inlineSub || (data.deltaPercent==null ? 'No previous session to compare' : `vs. last session: ${data.deltaPercent>=0?'+':''}${Math.abs(Math.round(data.deltaPercent))}%`);
     document.getElementById('lift-insight-list').innerHTML = (data.insights||[]).map(t=>`<div class="lift-list-item"><span class="dot"></span><span>${esc(t)}</span></div>`).join('');
     document.getElementById('lift-highlight-list').innerHTML = (data.highlights||[]).map(t=>`<div class="lift-chip">${t}</div>`).join('');
     document.getElementById('lift-next-list').innerHTML = (data.nextSteps||[]).map(t=>`<div class="lift-list-item"><span class="dot"></span><span>${esc(t)}</span></div>`).join('');
@@ -5233,14 +5233,14 @@ init();
 
   window.saveWorkout = async function(){
     const date=document.getElementById('log-date').value;
-    if(!date)return toast('กรุณาเลือกวันที่','err');
+    if(!date)return toast('Please select a date','err');
     const blocks=[...document.querySelectorAll('.ex-block')];
     const docs=[];
     const activePlan = S.plans.find(p=>p.id===S.activePlanId);
     for(let i=0;i<blocks.length;i++){
       const block=blocks[i],sel=block.querySelector('.ex-sel'),cust=block.querySelector('.custom-ex');
       const exName=sel.value==='__custom'?cust.value.trim():sel.value;
-      if(!exName)return toast(`กรุณาเลือกท่า ${i+1}`,'err');
+      if(!exName)return toast(`Please select exercise ${i+1}`,'err');
       const notes=block.querySelector('[name=notes]').value||'';
       const min = Number(block.dataset.targetMin || 0);
       const max = Number(block.dataset.targetMax || 0);
@@ -5258,10 +5258,10 @@ init();
         });
       });
     }
-    if(!docs.length)return toast('ไม่มีข้อมูล','err');
+    if(!docs.length)return toast('No data to save','err');
 
     const btn=document.getElementById('btn-save');
-    btn.disabled=true;btn.textContent='กำลังบันทึก...';
+    btn.disabled=true;btn.textContent='Saving...';
     try{
       const prevSnap = await woCol().get();
       const prevRows = prevSnap.docs.map(d=>({...d.data(), workoutId:d.id}));
@@ -5271,7 +5271,7 @@ init();
       await batch.commit();
       S._pc=null;
       await primeLastExerciseMap();
-      toast('บันทึกสำเร็จ 💪','ok');
+      toast('Saved 💪','ok');
       openWorkoutSummary({
         exercises: new Set(docs.map(d=>d.exerciseName)).size,
         sets: docs.length,
@@ -5284,17 +5284,17 @@ init();
         nextSteps: computed.nextSteps,
         prs: computed.prs,
         deltaPercent: computed.deltaPercent,
-        inlineMain: computed.mainBodyPart ? `วันนี้เน้น ${titleCaseBodyPart(computed.mainBodyPart)} เป็นหลัก` : 'สรุปการฝึกของวันนี้พร้อม insight',
+        inlineMain: computed.mainBodyPart ? `Today focused on ${titleCaseBodyPart(computed.mainBodyPart)} ` : 'Today's workout summary with insights',
         inlineSub: computed.deltaPercent==null
-          ? `สัปดาห์นี้ทำแล้ว ${computed.weekDates}/${computed.goal} sessions`
-          : `เทียบครั้งก่อน ${computed.deltaPercent>=0?'ดีขึ้น':'เบาลง'} ${Math.abs(Math.round(computed.deltaPercent))}% · สัปดาห์นี้ ${computed.weekDates}/${computed.goal} sessions`
+          ? `This week: ${computed.weekDates}/${computed.goal} sessions`
+          : `vs last: ${computed.deltaPercent>=0?'+':''}${Math.abs(Math.round(computed.deltaPercent))}% · This week: ${computed.weekDates}/${computed.goal} sessions`
       });
       initLog();
     }catch(err){
       console.error('saveWorkout failed:', err);
-      toast(err.message||'บันทึกไม่สำเร็จ','err');
+      toast(err.message||'Save failed','err');
     }finally{
-      btn.disabled=false;btn.textContent='บันทึก Workout 💪';
+      btn.disabled=false;btn.textContent='Log Workout 💪';
     }
   };
 
