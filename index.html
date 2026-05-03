@@ -7,145 +7,221 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
 <title>LIFT</title>
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><circle cx='12' cy='12' r='12' fill='%23c8ff3c'/><line x1='12' y1='6' x2='12' y2='18' stroke='black' stroke-width='2.5' stroke-linecap='round'/><line x1='6' y1='12' x2='18' y2='12' stroke='black' stroke-width='2.5' stroke-linecap='round'/></svg>">
-<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><circle cx='12' cy='12' r='12' fill='%23c8ff3c'/><line x1='12' y1='6' x2='12' y2='18' stroke='black' stroke-width='2.5' stroke-linecap='round'/><line x1='6' y1='12' x2='18' y2='12' stroke='black' stroke-width='2.5' stroke-linecap='round'/></svg>">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><circle cx='12' cy='12' r='12' fill='%23f8d030'/><line x1='12' y1='6' x2='12' y2='18' stroke='black' stroke-width='2.5' stroke-linecap='round'/><line x1='6' y1='12' x2='18' y2='12' stroke='black' stroke-width='2.5' stroke-linecap='round'/></svg>">
+<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><circle cx='12' cy='12' r='12' fill='%23f8d030'/><line x1='12' y1='6' x2='12' y2='18' stroke='black' stroke-width='2.5' stroke-linecap='round'/><line x1='6' y1='12' x2='18' y2='12' stroke='black' stroke-width='2.5' stroke-linecap='round'/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
 <!-- Firebase SDK (compat v10) -->
 <script src="https://www.gstatic.com/firebasejs/10.7.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.2/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.2/firebase-firestore-compat.js"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+/* ══════════════════════════════════════════════
+   🎮 8-BIT POKEMON THEME — LIFT APP
+   Inspired by Game Boy Color / Pokemon Red & Blue
+   ══════════════════════════════════════════════ */
+@font-face {
+  /* Fallback pixel feel for Thai text */
+  font-family: 'PixelFallback';
+  src: local('Courier New');
+}
+
 :root{
-  --bg:#09090d;--s1:#0f0f14;--s2:#161620;--s3:#1e1e2a;--s4:#252533;
-  --bd:rgba(255,255,255,.06);--bd2:rgba(255,255,255,.11);
-  --a:#c8ff3c;--a2:#a3d400;--a3:rgba(200,255,60,.1);
-  --t:#eeeef4;--ts:#7a7a96;--td:#3a3a52;
-  --err:#ff4f5a;--err2:rgba(255,79,90,.1);
-  --ok:#3de87a;--ok2:rgba(61,232,122,.1);
-  --r:10px;--r2:14px;--nav:66px;
-  /* safe area vars — fallback 0 for non-PWA */
+  /* 🎮 Pokemon Color Palette */
+  --bg:#0a0a1a;          /* Deep night sky */
+  --s1:#0f0f2a;          /* Dark route */
+  --s2:#1a1a3e;          /* Pokemon box dark */
+  --s3:#252560;          /* Menu background */
+  --s4:#3030a0;          /* Selected highlight */
+
+  /* Borders — crisp pixel borders */
+  --bd:rgba(100,120,255,.25);
+  --bd2:rgba(150,170,255,.40);
+
+  /* 🟡 Accent — Pikachu Yellow */
+  --a:#f8d030;           /* Pikachu yellow */
+  --a2:#e8b820;          /* Darker yellow */
+  --a3:rgba(248,208,48,.12);
+
+  /* Text */
+  --t:#e8e8f8;           /* Crisp white */
+  --ts:#9898c8;          /* Muted blue-gray */
+  --td:#4848a0;          /* Dim text */
+
+  /* Status */
+  --err:#e82020;         /* HP critical red */
+  --err2:rgba(232,32,32,.15);
+  --ok:#38c878;          /* HP full green */
+  --ok2:rgba(56,200,120,.12);
+
+  /* 8-bit: NO border radius — pixel perfect */
+  --r:4px;
+  --r2:4px;
+  --nav:66px;
+
   --sat:env(safe-area-inset-top,0px);
   --sab:env(safe-area-inset-bottom,0px);
-  --ease:cubic-bezier(.4,0,.2,1);--spring:cubic-bezier(.34,1.56,.64,1);
+  --ease:cubic-bezier(.4,0,.2,1);
+  --spring:cubic-bezier(.34,1.56,.64,1);
+
+  /* 8-bit pixel border effect */
+  --pixel-border: 2px solid var(--bd2);
+  --pixel-shadow: 4px 4px 0px rgba(0,0,0,0.8);
+  --pixel-shadow-accent: 4px 4px 0px rgba(248,208,48,0.3);
 }
-html{background:#000} /* พื้นหลังสีดำสำหรับคอมพิวเตอร์ */
+
+/* ── Pokemon-style scanline overlay ── */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 50%; transform: translateX(-50%);
+  width: 100%; max-width: 480px;
+  height: 100%;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0,0,0,0.03) 2px,
+    rgba(0,0,0,0.03) 4px
+  );
+  pointer-events: none;
+  z-index: 9998;
+}
+
+/* ── Pixel grid background ── */
+body::after {
+  content: '';
+  position: fixed;
+  top: 0; left: 50%; transform: translateX(-50%);
+  width: 100%; max-width: 480px;
+  height: 100%;
+  background-image:
+    linear-gradient(rgba(100,120,255,.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(100,120,255,.04) 1px, transparent 1px);
+  background-size: 8px 8px;
+  pointer-events: none;
+  z-index: 9997;
+}
+html{background:#000}
 body{
   background:var(--bg);
   color:var(--t);
-  font-family:'Barlow',-apple-system,sans-serif;
+  font-family:'VT323','Press Start 2P',monospace;
   font-size:16px;
   width:100%;
-  max-width:480px; /* ล็อกความกว้างเป็นขนาดมือถือ */
-  margin:0 auto; /* จัดกึ่งกลางจอ */
+  max-width:480px;
+  margin:0 auto;
   min-height:100svh;
   position:relative;
   overflow-x:hidden;
   -webkit-tap-highlight-color:transparent;
-  -webkit-font-smoothing:antialiased;
-  box-shadow:0 0 50px rgba(0,0,0,0.6); /* เงารอบตัวแอป */
-  border-left:1px solid var(--s3);
-  border-right:1px solid var(--s3);
+  image-rendering: pixelated;
+  /* Pokemon-style outer border */
+  box-shadow: 0 0 0 3px #f8d030, 0 0 0 6px #0a0a1a, 0 0 40px rgba(248,208,48,0.15);
+  border-left:3px solid #f8d030;
+  border-right:3px solid #f8d030;
 }
-input,select,button,textarea{font-family:inherit}
+input,select,button,textarea{font-family:'VT323',monospace}
 ::-webkit-scrollbar{width:0;height:0}
 .hidden{display:none!important}
 #app{max-width:480px;margin:0 auto;min-height:100svh}
 #v-auth{display:flex;align-items:center;justify-content:center;min-height:100svh;padding:28px 22px}
 .auth-inner{width:100%;max-width:360px;animation:slideUp .4s var(--ease)}
-.auth-logo{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:82px;line-height:.88;color:var(--a);letter-spacing:3px;display:block;filter:drop-shadow(0 0 24px rgba(200,255,60,.3))}
-.auth-tagline{font-size:10px;font-weight:600;letter-spacing:.25em;text-transform:uppercase;color:var(--ts);margin-top:8px}
+.auth-logo{font-family:'Press Start 2P',monospace;font-weight:400;font-size:42px;line-height:1.1;color:var(--a);letter-spacing:4px;display:block;text-shadow: 3px 3px 0px #e8b820, 6px 6px 0px rgba(0,0,0,0.8);image-rendering:pixelated}
+.auth-tagline{font-family:'Press Start 2P',monospace;font-size:7px;font-weight:400;letter-spacing:.2em;text-transform:uppercase;color:var(--ts);margin-top:10px}
 .auth-brand{margin-bottom:40px}
-.auth-tabs{display:flex;background:var(--s2);border-radius:var(--r);padding:4px;margin-bottom:24px;border:1px solid var(--bd);gap:4px}
-.auth-tab{flex:1;padding:10px;text-align:center;background:none;border:none;color:var(--ts);font-size:14px;font-weight:600;border-radius:8px;cursor:pointer;transition:all .2s var(--ease)}
-.auth-tab.active{background:var(--s3);color:var(--t);box-shadow:0 2px 8px rgba(0,0,0,.3)}
+.auth-tabs{display:flex;background:var(--s2);border-radius:var(--r);padding:4px;margin-bottom:24px;border:2px solid var(--bd2);gap:4px;box-shadow:var(--pixel-shadow)}
+.auth-tab{flex:1;padding:10px;text-align:center;background:none;border:none;color:var(--ts);font-size:11px;font-weight:400;font-family:'VT323',monospace;border-radius:2px;cursor:pointer;transition:all .1s;letter-spacing:.05em}
+.auth-tab.active{background:var(--a);color:#000;box-shadow:inset 2px 2px 0px rgba(255,255,255,.3), inset -2px -2px 0px rgba(0,0,0,.3)}
 .field{margin-bottom:14px}
-.field label{display:block;margin-bottom:5px;font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ts)}
-.input{width:100%;background:var(--s2);border:1px solid var(--bd2);border-radius:var(--r);color:var(--t);font-size:16px;padding:12px 14px;transition:border-color .15s,box-shadow .15s;-webkit-appearance:none;appearance:none;outline:none}
-.input:focus{border-color:var(--a);box-shadow:0 0 0 3px rgba(200,255,60,.09)}
+.field label{display:block;margin-bottom:5px;font-size:10px;font-weight:400;font-family:'Press Start 2P',monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--a)}
+.input{width:100%;background:var(--s1);border:2px solid var(--bd2);border-radius:0;color:var(--t);font-size:16px;font-family:'VT323',monospace;padding:10px 12px;transition:border-color .1s;-webkit-appearance:none;appearance:none;outline:none;box-shadow:inset 2px 2px 0px rgba(0,0,0,.5)}
+.input:focus{border-color:var(--a);box-shadow:inset 2px 2px 0px rgba(0,0,0,.5), 0 0 0 1px var(--a)}
 .input::placeholder{color:var(--td)}
 select.input{cursor:pointer}
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.btn{display:flex;align-items:center;justify-content:center;width:100%;padding:14px;background:var(--a);color:#000;border:none;border-radius:var(--r);font-family:'Barlow Condensed',sans-serif;font-size:19px;font-weight:700;letter-spacing:.5px;cursor:pointer;transition:transform .15s,opacity .15s}
-.btn:active{transform:scale(.97);opacity:.88}
+.btn{display:flex;align-items:center;justify-content:center;width:100%;padding:13px;background:var(--a);color:#000;border:none;border-radius:0;font-family:'Press Start 2P',monospace;font-size:11px;font-weight:400;letter-spacing:.05em;cursor:pointer;transition:transform .08s;box-shadow:4px 4px 0px #e8b820, 8px 8px 0px rgba(0,0,0,0.6);position:relative;text-transform:uppercase}
+.btn:active{transform:translate(4px,4px);box-shadow:none}
 .btn:disabled{opacity:.35;cursor:not-allowed;transform:none}
-.btn-ghost{background:transparent;color:var(--ts);border:1px solid var(--bd2);font-size:14px;font-family:'Barlow',sans-serif;font-weight:600;letter-spacing:0}
-.btn-ghost:active{background:var(--s2)}
-.btn-sm{display:inline-flex;align-items:center;justify-content:center;width:auto;padding:7px 14px;font-size:13px;border-radius:8px;white-space:nowrap;font-family:'Barlow',sans-serif;font-weight:600;letter-spacing:0}
-.btn-danger{background:var(--err)!important;color:#fff!important}
-.icon-btn{background:none;border:1px solid var(--bd);border-radius:7px;padding:5px 9px;color:var(--ts);cursor:pointer;font-size:12px;font-weight:600;transition:all .12s;white-space:nowrap;flex-shrink:0;display:inline-flex;align-items:center;gap:4px}
-.icon-btn:active{background:var(--s3)}
-.icon-btn.del{border-color:rgba(255,79,90,.22);color:var(--err)}
+.btn-ghost{background:transparent;color:var(--ts);border:2px solid var(--bd2);font-size:11px;font-family:'VT323',monospace;font-weight:400;letter-spacing:.05em;box-shadow:3px 3px 0px rgba(0,0,0,0.6)}
+.btn-ghost:active{background:var(--s2);transform:translate(3px,3px);box-shadow:none}
+.btn-sm{display:inline-flex;align-items:center;justify-content:center;width:auto;padding:6px 12px;font-size:10px;border-radius:0;white-space:nowrap;font-family:'VT323',monospace;font-weight:400;letter-spacing:.05em}
+.btn-danger{background:var(--err)!important;color:#fff!important;box-shadow:4px 4px 0px #a01010, 8px 8px 0px rgba(0,0,0,0.6)!important}
+.icon-btn{background:none;border:2px solid var(--bd);border-radius:0;padding:4px 8px;color:var(--ts);cursor:pointer;font-size:12px;font-family:'VT323',monospace;font-weight:400;transition:all .08s;white-space:nowrap;flex-shrink:0;display:inline-flex;align-items:center;gap:4px;box-shadow:2px 2px 0px rgba(0,0,0,0.6)}
+.icon-btn:active{background:var(--s3);transform:translate(2px,2px);box-shadow:none}
+.icon-btn.del{border-color:rgba(232,32,32,.5);color:var(--err)}
 .icon-btn.del:active{background:var(--err2)}
-/* ── Header: pad top for status bar in standalone PWA ── */
-.header{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;padding-top:calc(14px + var(--sat));border-bottom:1px solid var(--bd);position:sticky;top:0;z-index:50;background:rgba(9,9,13,.9);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
-.header-logo{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:27px;color:var(--a);letter-spacing:3px}
+/* ── Header: Pokemon menu bar style ── */
+.header{display:flex;align-items:center;justify-content:space-between;padding:12px 18px;padding-top:calc(12px + var(--sat));border-bottom:3px solid var(--a);position:sticky;top:0;z-index:50;background:var(--s1);box-shadow:0 4px 0px rgba(0,0,0,0.8)}
+.header-logo{font-family:'Press Start 2P',monospace;font-weight:400;font-size:18px;color:var(--a);letter-spacing:4px;text-shadow:2px 2px 0px #e8b820}
 .header-right{display:flex;align-items:center;gap:10px}
-.header-user{font-size:13px;color:var(--ts);font-weight:500;max-width:120px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.header-out{background:none;border:1px solid var(--bd2);color:var(--ts);border-radius:7px;padding:6px 11px;font-size:12px;font-weight:600;cursor:pointer;transition:all .12s}
-.header-out:active{background:var(--s2)}
+.header-user{font-size:13px;font-family:'VT323',monospace;color:var(--ts);font-weight:400;max-width:120px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.header-out{background:var(--s3);border:2px solid var(--bd2);color:var(--ts);border-radius:0;padding:5px 10px;font-size:12px;font-family:'VT323',monospace;font-weight:400;cursor:pointer;transition:all .08s;box-shadow:2px 2px 0px rgba(0,0,0,0.6)}
+.header-out:active{background:var(--s2);transform:translate(2px,2px);box-shadow:none}
 /* ── Tab pane: reserve space for nav + safe area ── */
 .tab-pane{overflow-y:auto;padding:18px 18px calc(var(--nav) + var(--sab) + 28px)}
 .tab-pane.entering{animation:tabIn .22s var(--ease) both}
-/* ── Bottom nav: height includes safe area zone ── */
+/* ── Bottom nav: Pokemon menu style ── */
 .bottom-nav{
   position:fixed;bottom:0;left:50%;transform:translateX(-50%);
   width:100%;max-width:480px;
-  /* Total height = icon area + home indicator */
   height:calc(var(--nav) + var(--sab));
-  display:flex;align-items:flex-start; /* buttons sit at top, safe zone is blank below */
-  background:rgba(15,15,20,.95);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
-  border-top:1px solid var(--bd);z-index:100;
+  display:flex;align-items:flex-start;
+  background:var(--s1);
+  border-top:3px solid var(--a);
+  box-shadow:0 -4px 0px rgba(0,0,0,0.8);
+  z-index:100;
 }
 .nav-btn{
-  flex:1;height:var(--nav); /* only fills the icon area, not the safe zone */
+  flex:1;height:var(--nav);
   display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:3px;background:none;border:none;color:var(--td);
-  font-size:9px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
-  cursor:pointer;transition:color .18s;position:relative
+  gap:4px;background:none;border:none;color:var(--td);
+  font-size:7px;font-family:'Press Start 2P',monospace;font-weight:400;letter-spacing:.02em;text-transform:uppercase;
+  cursor:pointer;transition:color .1s;position:relative
 }
 .nav-btn.active{color:var(--a)}
-.nav-btn.active::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:26px;height:2px;background:var(--a);border-radius:0 0 2px 2px}
-.nav-btn svg{width:20px;height:20px;flex-shrink:0;transition:transform .18s var(--spring)}
-.nav-btn.active svg{transform:scale(1.1)}
+.nav-btn.active::before{content:'▶';position:absolute;top:6px;left:50%;transform:translateX(-50%);font-size:8px;color:var(--a)}
+.nav-btn svg{width:20px;height:20px;flex-shrink:0;transition:transform .1s;image-rendering:pixelated}
+.nav-btn.active svg{transform:scale(1.15)}
 .nav-center{flex:1;height:var(--nav);display:flex;align-items:center;justify-content:center;background:none;border:none;cursor:pointer;padding:0}
-.nav-circle{width:50px;height:50px;border-radius:50%;background:var(--a);display:flex;align-items:center;justify-content:center;box-shadow:0 0 18px rgba(200,255,60,.3);transition:transform .18s var(--spring)}
-.nav-circle:active{transform:scale(.9)}
+.nav-circle{width:50px;height:50px;border-radius:0;background:var(--a);display:flex;align-items:center;justify-content:center;box-shadow:4px 4px 0px #e8b820, 6px 6px 0px rgba(0,0,0,0.6);transition:transform .1s}
+.nav-circle:active{transform:translate(4px,4px);box-shadow:none}
 .nav-circle svg{width:24px;height:24px;color:#000}
 .stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
-.stat-card{background:var(--s2);border:1px solid var(--bd);border-radius:var(--r2);padding:16px 14px}
-.stat-num{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:48px;line-height:1;color:var(--t);font-variant-numeric:tabular-nums}
-.stat-num.accent{color:var(--a)}
-.stat-lbl{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--ts);margin-top:5px}
-.stat-wide{background:var(--s2);border:1px solid var(--bd);border-radius:var(--r2);padding:16px;margin-bottom:10px}
-.stat-wide-lbl{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--ts);margin-bottom:6px}
-.stat-wide-val{font-size:17px;font-weight:500}
-.stat-big{display:flex;align-items:baseline;gap:5px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:38px;line-height:1}
-.stat-unit{font-size:13px;color:var(--ts);font-family:'Barlow',sans-serif;font-weight:400}
+.stat-card{background:var(--s2);border:2px solid var(--bd2);border-radius:0;padding:14px 12px;box-shadow:var(--pixel-shadow)}
+.stat-num{font-family:'Press Start 2P',monospace;font-weight:400;font-size:32px;line-height:1.1;color:var(--t);font-variant-numeric:tabular-nums}
+.stat-num.accent{color:var(--a);text-shadow:2px 2px 0px #e8b820}
+.stat-lbl{font-family:'VT323',monospace;font-size:12px;font-weight:400;text-transform:uppercase;letter-spacing:.1em;color:var(--ts);margin-top:6px}
+.stat-wide{background:var(--s2);border:2px solid var(--bd2);border-radius:0;padding:14px;margin-bottom:10px;box-shadow:var(--pixel-shadow)}
+.stat-wide-lbl{font-family:'Press Start 2P',monospace;font-size:8px;font-weight:400;text-transform:uppercase;letter-spacing:.1em;color:var(--a);margin-bottom:8px}
+.stat-wide-val{font-family:'VT323',monospace;font-size:18px;font-weight:400}
+.stat-big{display:flex;align-items:baseline;gap:5px;font-family:'Press Start 2P',monospace;font-weight:400;font-size:28px;line-height:1.1}
+.stat-unit{font-size:11px;color:var(--ts);font-family:'VT323',monospace;font-weight:400}
 .sec-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;margin-top:18px}
-.sec-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:var(--ts)}
-.wo-item{display:flex;align-items:center;gap:10px;padding:11px 4px;border-bottom:1px solid var(--bd)}
+.sec-title{font-family:'Press Start 2P',monospace;font-size:8px;font-weight:400;text-transform:uppercase;letter-spacing:.1em;color:var(--a)}
+.wo-item{display:flex;align-items:center;gap:10px;padding:10px 4px;border-bottom:2px solid var(--bd)}
 .wo-item:last-child{border-bottom:none}
-.wo-dot{width:7px;height:7px;border-radius:50%;background:var(--a);flex-shrink:0}
-.wo-name{font-weight:500;font-size:15px;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.wo-meta{font-size:12px;color:var(--ts)}
-.wo-date{font-size:11px;color:var(--td);white-space:nowrap;flex-shrink:0}
-.wo-del-btn{flex-shrink:0;width:32px;height:32px;border-radius:8px;background:none;border:1px solid transparent;color:var(--td);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .12s}
-.wo-del-btn:active{background:var(--err2);color:var(--err);border-color:rgba(255,79,90,.2)}
-.ex-block{background:var(--s2);border:1px solid var(--bd);border-radius:var(--r2);margin-bottom:12px;overflow:hidden;animation:slideUp .18s var(--ease)}
-.ex-block:focus-within{border-color:rgba(200,255,60,.15)}
-.ex-block-head{display:flex;align-items:center;justify-content:space-between;padding:12px 14px 0}
-.ex-block-num{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:var(--a)}
-.ex-block-del{background:none;border:none;color:var(--td);font-size:22px;line-height:1;cursor:pointer;padding:2px 6px;transition:color .12s}
+.wo-dot{width:8px;height:8px;border-radius:0;background:var(--a);flex-shrink:0;image-rendering:pixelated}
+.wo-name{font-family:'VT323',monospace;font-weight:400;font-size:16px;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wo-meta{font-family:'VT323',monospace;font-size:13px;color:var(--ts)}
+.wo-date{font-family:'VT323',monospace;font-size:12px;color:var(--td);white-space:nowrap;flex-shrink:0}
+.wo-del-btn{flex-shrink:0;width:32px;height:32px;border-radius:0;background:none;border:2px solid transparent;color:var(--td);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .08s}
+.wo-del-btn:active{background:var(--err2);color:var(--err);border-color:rgba(232,32,32,.4)}
+.ex-block{background:var(--s2);border:2px solid var(--bd2);border-radius:0;margin-bottom:12px;overflow:hidden;animation:slideUp .18s var(--ease);box-shadow:var(--pixel-shadow)}
+.ex-block:focus-within{border-color:var(--a)}
+.ex-block-head{display:flex;align-items:center;justify-content:space-between;padding:10px 12px 0}
+.ex-block-num{font-family:'Press Start 2P',monospace;font-size:8px;font-weight:400;text-transform:uppercase;letter-spacing:.1em;color:var(--a)}
+.ex-block-del{background:none;border:none;color:var(--td);font-size:22px;line-height:1;cursor:pointer;padding:2px 6px;transition:color .08s}
 .ex-block-del:active{color:var(--err)}
 .ex-sel-wrap{padding:10px 14px 0}
 .sets-table{padding:2px 14px 0;max-width:392px;margin:0 auto}
 .sets-header{display:grid;grid-template-columns:24px 42px minmax(86px,1fr) 34px 26px;gap:6px;justify-content:center;margin-bottom:4px}
 .sets-col-lbl{font-size:9px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--td);text-align:center}
 .set-row{display:grid;grid-template-columns:24px 42px minmax(86px,1fr) 34px 26px;align-items:center;gap:6px;justify-content:center;margin-bottom:6px}
-.set-lbl{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:11px;color:var(--ts);text-align:center}
-.set-inp{background:var(--s3);border:1px solid var(--bd2);border-radius:8px;color:var(--t);font-size:14px;font-weight:600;padding:8px 6px;text-align:center;outline:none;transition:border-color .12s;-webkit-appearance:none;width:100%;min-width:0}
+.set-lbl{font-family:'Press Start 2P',monospace;font-weight:700;font-size:11px;color:var(--ts);text-align:center}
+.set-inp{background:var(--s3);border:2px solid var(--bd2);border-radius:0;color:var(--t);font-family:'VT323',monospace;font-size:16px;font-weight:400;padding:7px 6px;text-align:center;outline:none;transition:border-color .1s;-webkit-appearance:none;width:100%;min-width:0}
 .set-inp:focus{border-color:var(--a)}
 .set-del{width:26px;height:26px;border-radius:7px;background:none;border:none;color:var(--td);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .12s;flex-shrink:0}
 .set-del:active{background:var(--err2);color:var(--err)}
@@ -160,24 +236,24 @@ select.input{cursor:pointer}
 .hist-ex-group:last-child{border-bottom:none}
 .hist-ex-head{display:flex;align-items:center;gap:8px;margin-bottom:6px}
 .hist-set-row{display:flex;align-items:center;gap:10px;padding:3px 0 3px 16px;font-size:12px}
-.hist-set-lbl{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:11px;color:var(--td);width:26px;flex-shrink:0}
+.hist-set-lbl{font-family:'Press Start 2P',monospace;font-weight:700;font-size:11px;color:var(--td);width:26px;flex-shrink:0}
 .hist-set-val{color:var(--t);font-weight:500}
 .filter-card{background:var(--s2);border:1px solid var(--bd);border-radius:var(--r2);padding:14px;margin-bottom:14px}
 .chip-row{display:flex;gap:7px;overflow-x:auto;padding-bottom:2px}
 .chip-row::-webkit-scrollbar{display:none}
-.chip{flex-shrink:0;padding:7px 14px;border-radius:100px;background:var(--s2);border:1px solid var(--bd);color:var(--ts);font-size:12px;font-weight:600;cursor:pointer;transition:all .18s;white-space:nowrap}
-.chip:active{transform:scale(.95)}
-.chip.active{background:var(--a);border-color:var(--a);color:#000;box-shadow:0 2px 10px rgba(200,255,60,.2)}
-.chart-card{background:var(--s2);border:1px solid var(--bd);border-radius:var(--r2);padding:16px;margin-bottom:12px;overflow:hidden}
-.chart-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--ts);margin-bottom:12px;display:flex;align-items:center;justify-content:space-between}
-.chart-label-r{font-size:10px;color:var(--a);font-weight:600;letter-spacing:0;text-transform:none}
-.metric-tabs{display:flex;background:var(--s3);border-radius:9px;padding:3px;margin-bottom:12px}
-.metric-tab{flex:1;text-align:center;padding:8px 4px;border-radius:7px;font-size:12px;font-weight:600;color:var(--ts);cursor:pointer;background:none;border:none;transition:all .18s}
-.metric-tab.active{background:var(--s2);color:var(--t);box-shadow:0 2px 6px rgba(0,0,0,.3)}
+.chip{flex-shrink:0;padding:6px 12px;border-radius:0;background:var(--s2);border:2px solid var(--bd);color:var(--ts);font-family:'VT323',monospace;font-size:14px;font-weight:400;cursor:pointer;transition:all .1s;white-space:nowrap;box-shadow:2px 2px 0px rgba(0,0,0,0.6)}
+.chip:active{transform:translate(2px,2px);box-shadow:none}
+.chip.active{background:var(--a);border-color:var(--a);color:#000;box-shadow:3px 3px 0px #e8b820}
+.chart-card{background:var(--s2);border:2px solid var(--bd2);border-radius:0;padding:14px;margin-bottom:12px;overflow:hidden;box-shadow:var(--pixel-shadow)}
+.chart-label{font-family:'Press Start 2P',monospace;font-size:8px;font-weight:400;text-transform:uppercase;letter-spacing:.1em;color:var(--a);margin-bottom:12px;display:flex;align-items:center;justify-content:space-between}
+.chart-label-r{font-family:'VT323',monospace;font-size:13px;color:var(--a);font-weight:400;letter-spacing:0;text-transform:none}
+.metric-tabs{display:flex;background:var(--s3);border-radius:0;padding:3px;margin-bottom:12px;border:2px solid var(--bd)}
+.metric-tab{flex:1;text-align:center;padding:7px 4px;border-radius:0;font-family:'VT323',monospace;font-size:14px;font-weight:400;color:var(--ts);cursor:pointer;background:none;border:none;transition:all .1s}
+.metric-tab.active{background:var(--a);color:#000;box-shadow:inset 2px 2px 0px rgba(255,255,255,.2)}
 .prog-kpi-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px}
-.prog-kpi{background:var(--s2);border:1px solid var(--bd);border-radius:var(--r);padding:12px 8px;text-align:center}
-.prog-kpi-val{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:26px;color:var(--a);display:block;margin-bottom:3px;line-height:1}
-.prog-kpi-lbl{font-size:9px;color:var(--ts);font-weight:600;text-transform:uppercase;letter-spacing:.07em}
+.prog-kpi{background:var(--s2);border:2px solid var(--bd2);border-radius:0;padding:10px 6px;text-align:center;box-shadow:3px 3px 0px rgba(0,0,0,.6)}
+.prog-kpi-val{font-family:'Press Start 2P',monospace;font-weight:400;font-size:18px;color:var(--a);display:block;margin-bottom:4px;line-height:1;text-shadow:2px 2px 0px #e8b820}
+.prog-kpi-lbl{font-family:'VT323',monospace;font-size:11px;color:var(--ts);font-weight:400;text-transform:uppercase;letter-spacing:.05em}
 .no-data{text-align:center;padding:36px 0;font-size:13px;color:var(--ts);line-height:2.2}
 .skel{background:linear-gradient(90deg,var(--s2) 0%,var(--s3) 50%,var(--s2) 100%);background-size:200% 100%;border-radius:6px;animation:shimmer 1.5s ease-in-out infinite}
 @keyframes shimmer{to{background-position:-200% 0}}
@@ -186,25 +262,26 @@ select.input{cursor:pointer}
   bottom:calc(var(--nav) + 14px);
   left:50%;
   transform:translateX(-50%) translateY(14px);
-  background:var(--s3);
-  border:1px solid var(--bd2);
+  background:var(--s1);
+  border:3px solid var(--a);
   color:var(--t);
-  padding:10px 18px;
-  border-radius:100px;
-  font-size:13px;
-  font-weight:600;
+  padding:8px 16px;
+  border-radius:0;
+  font-family:'VT323',monospace;
+  font-size:16px;
+  font-weight:400;
   opacity:0;
   pointer-events:none;
-  transition:opacity .2s,transform .22s var(--spring);
+  transition:opacity .15s,transform .2s var(--spring);
   max-width:min(100vw - 40px, 440px);
   text-align:center;
   z-index:999;
   white-space:nowrap;
-  box-shadow:0 4px 16px rgba(0,0,0,.4)
+  box-shadow:4px 4px 0px rgba(0,0,0,.8), 0 0 0 4px var(--s1), 0 0 0 6px var(--bd2);
 }
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-#toast.err{border-color:var(--err);color:var(--err);background:rgba(255,79,90,.08)}
-#toast.ok{border-color:var(--ok);color:var(--ok);background:rgba(61,232,122,.08)}
+#toast.err{border-color:var(--err);color:var(--err);background:rgba(232,32,32,.08)}
+#toast.ok{border-color:var(--ok);color:var(--ok);background:rgba(56,200,120,.08)}
 #loader{
   position:fixed;
   top:0;
@@ -221,17 +298,17 @@ select.input{cursor:pointer}
   transition:opacity .35s
 }
 #loader.fade{opacity:0;pointer-events:none}
-.loader-logo{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:72px;color:var(--a);letter-spacing:3px;animation:logoPulse 1.2s ease-in-out infinite;display:block;filter:drop-shadow(0 0 24px rgba(200,255,60,.4))}
-.loader-bar{width:72px;height:2px;background:var(--s3);border-radius:1px;margin:14px auto 0;overflow:hidden}
-.loader-fill{height:100%;background:var(--a);border-radius:1px;animation:barFill 1.2s ease-in-out infinite}
+.loader-logo{font-family:'Press Start 2P',monospace;font-weight:400;font-size:42px;color:var(--a);letter-spacing:4px;animation:logoPulse 1.2s steps(2) infinite;display:block;text-shadow:3px 3px 0px #e8b820, 6px 6px 0px rgba(0,0,0,0.8)}
+.loader-bar{width:180px;height:16px;background:var(--s3);border:2px solid var(--bd2);border-radius:0;margin:16px auto 0;overflow:hidden;box-shadow:inset 2px 2px 0px rgba(0,0,0,.5)}
+.loader-fill{height:100%;background:var(--a);border-radius:0;animation:barFill 1.2s steps(8) infinite}
 @keyframes logoPulse{0%,100%{opacity:1}50%{opacity:.35}}
 @keyframes barFill{0%{width:0%;margin-left:0}60%{width:80%;margin-left:0}100%{width:0%;margin-left:100%}}
-.settings-card{background:var(--s2);border:1px solid var(--bd);border-radius:var(--r2);margin-bottom:14px;overflow:hidden}
-.settings-hd{padding:13px 15px;border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between}
-.settings-hd-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:var(--ts)}
-.avatar{width:52px;height:52px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,var(--a),var(--a2));display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:22px;color:#000;box-shadow:0 0 14px rgba(200,255,60,.2)}
-.badge{display:inline-block;padding:2px 7px;border-radius:100px;font-size:10px;font-weight:600}
-.badge.bp{background:var(--s3);color:var(--ts);border:1px solid var(--bd)}
+.settings-card{background:var(--s2);border:2px solid var(--bd2);border-radius:0;margin-bottom:14px;overflow:hidden;box-shadow:var(--pixel-shadow)}
+.settings-hd{padding:11px 13px;border-bottom:2px solid var(--bd);display:flex;align-items:center;justify-content:space-between}
+.settings-hd-title{font-family:'Press Start 2P',monospace;font-size:8px;font-weight:400;text-transform:uppercase;letter-spacing:.1em;color:var(--a)}
+.avatar{width:52px;height:52px;border-radius:0;flex-shrink:0;background:var(--a);display:flex;align-items:center;justify-content:center;font-family:'Press Start 2P',monospace;font-weight:400;font-size:16px;color:#000;box-shadow:4px 4px 0px #e8b820;image-rendering:pixelated}
+.badge{display:inline-block;padding:2px 6px;border-radius:0;font-family:'VT323',monospace;font-size:12px;font-weight:400}
+.badge.bp{background:var(--s3);color:var(--ts);border:2px solid var(--bd)}
 .ex-mgmt-item{display:flex;align-items:center;gap:8px;padding:10px 14px;border-bottom:1px solid var(--bd)}
 .ex-mgmt-item:last-child{border-bottom:none}
 .ex-mgmt-name{flex:1;font-size:14px;font-weight:500;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -243,7 +320,6 @@ select.input{cursor:pointer}
 .search-wrap{position:relative}
 .search-icon{position:absolute;left:11px;top:50%;transform:translateY(-50%);width:14px;height:14px;color:var(--ts);pointer-events:none}
 
-/* จัดการ Modal Overlay ทั้งหมดให้มีขนาดกว้างเท่าแอปและจัดกึ่งกลาง */
 .modal-overlay{
   position:fixed;
   top:0;
@@ -252,23 +328,42 @@ select.input{cursor:pointer}
   transform:translateX(-50%);
   width:100%;
   max-width:480px;
-  background:rgba(0,0,0,.7);
+  background:rgba(0,0,0,.75);
   z-index:500;
   display:flex;
   align-items:flex-end;
   justify-content:center;
   opacity:0;
   pointer-events:none;
-  transition:opacity .2s;
-  padding:0 12px 12px
+  transition:opacity .15s;
+  padding:0 12px 16px
 }
 .modal-overlay.show{opacity:1;pointer-events:auto}
-.modal-sheet{background:var(--s2);border:1px solid var(--bd2);border-radius:20px;padding:20px 18px;width:100%;max-width:440px;transform:translateY(18px);transition:transform .25s var(--spring)}
+/* Pokemon dialog box style — thick border + inner border */
+.modal-sheet{
+  background:var(--s1);
+  border:4px solid var(--a);
+  border-radius:0;
+  padding:20px 18px;
+  width:100%;
+  max-width:440px;
+  transform:translateY(20px);
+  transition:transform .2s var(--spring);
+  box-shadow: 0 0 0 6px var(--s1), 0 0 0 8px var(--bd2), 8px 8px 0px rgba(0,0,0,0.8);
+  position:relative;
+}
+.modal-sheet::before{
+  content:'';
+  position:absolute;
+  top:4px;left:4px;right:4px;bottom:4px;
+  border:2px solid var(--bd2);
+  pointer-events:none;
+}
 .modal-overlay.show .modal-sheet{transform:translateY(0)}
-.modal-title{font-size:16px;font-weight:600;margin-bottom:8px}
-.modal-body{font-size:13px;color:var(--ts);margin-bottom:20px;line-height:1.6}
+.modal-title{font-family:'Press Start 2P',monospace;font-size:11px;font-weight:400;margin-bottom:12px;color:var(--a)}
+.modal-body{font-family:'VT323',monospace;font-size:16px;color:var(--ts);margin-bottom:20px;line-height:1.6}
 .modal-actions{display:flex;gap:10px}
-.modal-actions .btn{font-family:'Barlow',sans-serif;font-size:15px;font-weight:600;letter-spacing:0;padding:12px}
+.modal-actions .btn{font-family:'VT323',monospace;font-size:15px;font-weight:400;letter-spacing:0;padding:10px}
 
 /* unit toggle */
 .unit-toggle{display:flex;background:var(--s3);border-radius:8px;padding:3px;gap:2px}
@@ -323,8 +418,8 @@ select.input{cursor:pointer}
 
 /* ── Enhanced dashboard / insights ── */
 .action-card,.insight-card,.prefs-card{
-  background:linear-gradient(180deg,rgba(200,255,60,.08),rgba(200,255,60,.03));
-  border:1px solid rgba(200,255,60,.16);
+  background:linear-gradient(180deg,rgba(248,208,48,.08),rgba(248,208,48,.03));
+  border:1px solid rgba(248,208,48,.16);
   border-radius:var(--r2);
   padding:16px;
   margin-bottom:12px;
@@ -361,9 +456,9 @@ select.input{cursor:pointer}
 .subtab{flex:1;padding:11px;text-align:center;background:none;border:none;color:var(--ts);font-size:15px;font-weight:600;border-radius:8px;cursor:pointer;transition:all .18s var(--ease)}
 .subtab.active{background:var(--s3);color:var(--t);box-shadow:0 2px 8px rgba(0,0,0,.3)}
 .plan-card{background:var(--s2);border:1px solid var(--bd);border-radius:var(--r2);margin-bottom:12px;overflow:hidden;transition:border-color .18s}
-.plan-card.open{border-color:rgba(200,255,60,.22)}
+.plan-card.open{border-color:rgba(248,208,48,.22)}
 .plan-card-head{display:flex;align-items:center;gap:12px;padding:16px;cursor:pointer;-webkit-tap-highlight-color:transparent}
-.plan-card-icon{width:44px;height:44px;border-radius:12px;background:var(--a3);border:1px solid rgba(200,255,60,.2);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.plan-card-icon{width:44px;height:44px;border-radius:12px;background:var(--a3);border:1px solid rgba(248,208,48,.2);display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .plan-card-icon svg{width:22px;height:22px;color:var(--a)}
 .plan-card-name{font-size:17px;font-weight:600;margin-bottom:3px}
 .plan-card-meta{font-size:13px;color:var(--ts)}
@@ -377,7 +472,7 @@ select.input{cursor:pointer}
 .plan-ex-name{flex:1;font-size:15px;font-weight:500}
 .plan-ex-detail{font-size:13px;color:var(--ts);text-align:right;white-space:nowrap}
 .plan-actions{display:flex;gap:10px;padding:14px 16px;background:var(--s3);border-top:1px solid var(--bd)}
-.plan-actions .btn{font-family:'Barlow',sans-serif;font-size:15px;font-weight:600;letter-spacing:0;padding:12px}
+.plan-actions .btn{font-family:'VT323',monospace;font-size:15px;font-weight:600;letter-spacing:0;padding:12px}
 
 /* Plan editor modal */
 .plan-modal{
@@ -406,10 +501,10 @@ select.input{cursor:pointer}
 .plan-ex-block{background:var(--s2);border:1px solid var(--bd);border-radius:var(--r2);margin-bottom:12px;padding:14px;position:relative}
 .plan-ex-block-del{position:absolute;top:10px;right:10px;background:none;border:none;color:var(--td);font-size:24px;cursor:pointer;line-height:1;padding:2px 6px}
 .plan-ex-block-del:active{color:var(--err)}
-.plan-ex-num{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--a);margin-bottom:10px}
+.plan-ex-num{font-family:'Press Start 2P',monospace;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--a);margin-bottom:10px}
 .plan-inp-row{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;margin-top:10px}
 /* Use plan banner */
-.use-plan-btn{width:100%;display:flex;align-items:center;gap:12px;background:var(--s2);border:1px solid rgba(200,255,60,.2);border-radius:var(--r2);padding:14px 16px;cursor:pointer;margin-bottom:16px;transition:border-color .15s,background .15s}
+.use-plan-btn{width:100%;display:flex;align-items:center;gap:12px;background:var(--s2);border:1px solid rgba(248,208,48,.2);border-radius:var(--r2);padding:14px 16px;cursor:pointer;margin-bottom:16px;transition:border-color .15s,background .15s}
 .use-plan-btn:active{background:var(--s3);border-color:var(--a)}
 .use-plan-btn-icon{width:40px;height:40px;border-radius:10px;background:var(--a3);display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .use-plan-btn-icon svg{width:20px;height:20px;color:var(--a)}
@@ -420,7 +515,7 @@ select.input{cursor:pointer}
 .log-summary{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:-2px 0 16px}
 .log-summary-card{background:var(--s2);border:1px solid var(--bd);border-radius:12px;padding:12px 14px}
 .log-summary-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--ts);margin-bottom:4px}
-.log-summary-val{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:28px;line-height:1;color:var(--a)}
+.log-summary-val{font-family:'Press Start 2P',monospace;font-weight:700;font-size:28px;line-height:1;color:var(--a)}
 .log-summary-sub{font-size:12px;color:var(--ts);margin-top:4px}
 
 
@@ -530,7 +625,7 @@ select.input{cursor:pointer}
   margin-bottom:6px;
 }
 .recent-summary-v{
-  font-family:'Barlow Condensed',sans-serif;
+  font-family:'Press Start 2P',monospace;
   font-size:34px;
   line-height:1;
   color:var(--a);
@@ -613,9 +708,9 @@ select.input{cursor:pointer}
   border:1px solid var(--bd);
   background:var(--s2);
 }
-.heatmap-legend-box.level-1{ background:rgba(200,255,60,.18); border-color:rgba(200,255,60,.10); }
-.heatmap-legend-box.level-2{ background:rgba(200,255,60,.42); border-color:rgba(200,255,60,.18); }
-.heatmap-legend-box.level-3{ background:rgba(200,255,60,.78); border-color:rgba(200,255,60,.26); }
+.heatmap-legend-box.level-1{ background:rgba(248,208,48,.18); border-color:rgba(248,208,48,.10); }
+.heatmap-legend-box.level-2{ background:rgba(248,208,48,.42); border-color:rgba(248,208,48,.18); }
+.heatmap-legend-box.level-3{ background:rgba(248,208,48,.78); border-color:rgba(248,208,48,.26); }
 .heatmap-grid{
   display:grid;
   grid-template-columns:repeat(10, 1fr);
@@ -629,9 +724,9 @@ select.input{cursor:pointer}
   border:1px solid var(--bd);
   position:relative;
 }
-.heatmap-cell.level-1{ background:rgba(200,255,60,.18); border-color:rgba(200,255,60,.10); }
-.heatmap-cell.level-2{ background:rgba(200,255,60,.42); border-color:rgba(200,255,60,.18); }
-.heatmap-cell.level-3{ background:rgba(200,255,60,.78); border-color:rgba(200,255,60,.26); }
+.heatmap-cell.level-1{ background:rgba(248,208,48,.18); border-color:rgba(248,208,48,.10); }
+.heatmap-cell.level-2{ background:rgba(248,208,48,.42); border-color:rgba(248,208,48,.18); }
+.heatmap-cell.level-3{ background:rgba(248,208,48,.78); border-color:rgba(248,208,48,.26); }
 .heatmap-cell.today{
   box-shadow:0 0 0 1px rgba(255,255,255,.55) inset;
 }
@@ -656,11 +751,224 @@ select.input{cursor:pointer}
 
 /* progress chart v2 */
 .progress-chart-shell{
-  background:linear-gradient(180deg,#0d1020 0%, #0b0d18 100%);
-  border:1px solid rgba(255,255,255,.06);
-  border-radius:18px;
+  background:var(--s1);
+  border:2px solid var(--bd2);
+  border-radius:0;
   padding:14px 12px 12px;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.02);
+  box-shadow:var(--pixel-shadow);
+}
+
+/* ══════════════════════════════════════════════
+   🎮 POKEMON 8-BIT EXTRA STYLES
+   ══════════════════════════════════════════════ */
+
+/* Pokemon-style blinking cursor for active elements */
+@keyframes blink {
+  0%,49%{opacity:1}50%,100%{opacity:0}
+}
+
+/* Add-set button pixel style */
+.add-set-btn{
+  border:2px dashed var(--bd2)!important;
+  border-radius:0!important;
+  font-family:'VT323',monospace!important;
+  font-size:14px!important;
+  color:var(--a)!important;
+  background:var(--s1)!important;
+  transition:all .08s!important;
+  box-shadow:2px 2px 0px rgba(0,0,0,.5)!important;
+}
+.add-set-btn:active{
+  transform:translate(2px,2px)!important;
+  box-shadow:none!important;
+}
+
+/* Pokemon HP bar style for set-complete */
+.set-complete-btn{
+  border-radius:0!important;
+  border:2px solid var(--bd2)!important;
+}
+.set-complete-btn.done{
+  background:var(--ok)!important;
+  border-color:var(--ok)!important;
+  box-shadow:2px 2px 0px rgba(0,100,0,.5)!important;
+}
+
+/* Day label Pokemon route style */
+.day-lbl{
+  font-family:'Press Start 2P',monospace!important;
+  font-size:7px!important;
+  color:var(--a)!important;
+  letter-spacing:.1em!important;
+  border-bottom:2px solid var(--bd)!important;
+}
+
+/* Filter card pixel style */
+.filter-card{
+  background:var(--s2)!important;
+  border:2px solid var(--bd2)!important;
+  border-radius:0!important;
+  box-shadow:var(--pixel-shadow)!important;
+}
+
+/* Section titles Pokemon style */
+.lift-section-title, .plan-section-title {
+  font-family:'Press Start 2P',monospace!important;
+  font-size:8px!important;
+  color:var(--a)!important;
+  letter-spacing:.1em!important;
+}
+
+/* Heatmap pixel cells */
+.heatmap-cell{
+  border-radius:0!important;
+  image-rendering:pixelated!important;
+}
+.heatmap-cell.level-1{ background:rgba(248,208,48,.2)!important; border-color:rgba(248,208,48,.15)!important; }
+.heatmap-cell.level-2{ background:rgba(248,208,48,.5)!important; border-color:rgba(248,208,48,.3)!important; }
+.heatmap-cell.level-3{ background:rgba(248,208,48,.9)!important; border-color:rgba(248,208,48,.5)!important; }
+.heatmap-legend-box.level-1{ background:rgba(248,208,48,.2)!important; }
+.heatmap-legend-box.level-2{ background:rgba(248,208,48,.5)!important; }
+.heatmap-legend-box.level-3{ background:rgba(248,208,48,.9)!important; }
+
+/* Plan cards pixel style */
+.plan-card{
+  border:2px solid var(--bd2)!important;
+  border-radius:0!important;
+  box-shadow:var(--pixel-shadow)!important;
+}
+
+/* Meta chips pixel style */
+.meta-chip{
+  border-radius:0!important;
+  font-family:'VT323',monospace!important;
+  border:2px solid var(--bd)!important;
+}
+
+/* No-data message Pokemon style */
+.no-data{
+  font-family:'Press Start 2P',monospace!important;
+  font-size:8px!important;
+  line-height:2.5!important;
+  color:var(--ts)!important;
+}
+.no-data::before{
+  content:'';
+  display:block;
+  font-size:32px;
+  margin-bottom:8px;
+}
+
+/* Pokemon-style shimmer for skeletons */
+.skel{
+  background:linear-gradient(90deg,var(--s2) 0%,var(--s3) 50%,var(--s2) 100%)!important;
+  background-size:200% 100%!important;
+  border-radius:0!important;
+}
+
+/* Workout history items */
+.hist-ex-head{
+  gap:6px!important;
+}
+.hist-set-lbl{
+  font-family:'Press Start 2P',monospace!important;
+  font-size:8px!important;
+  color:var(--a)!important;
+}
+.hist-set-val{
+  font-family:'VT323',monospace!important;
+  font-size:15px!important;
+}
+
+/* Recent summary card Pokemon style */
+.recent-summary-card{
+  border:2px solid var(--bd2)!important;
+  border-radius:0!important;
+  box-shadow:var(--pixel-shadow)!important;
+  background:var(--s1)!important;
+}
+.recent-summary-box{
+  border-radius:0!important;
+  border:2px solid var(--bd)!important;
+}
+.recent-summary-k{
+  font-family:'Press Start 2P',monospace!important;
+  font-size:7px!important;
+  color:var(--a)!important;
+}
+.recent-summary-v{
+  font-family:'Press Start 2P',monospace!important;
+  font-size:20px!important;
+  text-shadow:2px 2px 0px #e8b820!important;
+}
+
+/* Pick plan sheet Pokemon style */
+.pick-plan-inner{
+  border-radius:0!important;
+  border:3px solid var(--a)!important;
+  box-shadow:6px 6px 0px rgba(0,0,0,.8)!important;
+}
+.pick-plan-title{
+  font-family:'Press Start 2P',monospace!important;
+  font-size:11px!important;
+  color:var(--a)!important;
+}
+.pick-plan-item-icon{
+  border-radius:0!important;
+  background:var(--s3)!important;
+  border:2px solid var(--bd)!important;
+}
+.pick-plan-item-name{
+  font-family:'VT323',monospace!important;
+  font-size:18px!important;
+}
+.pick-plan-item-meta{
+  font-family:'VT323',monospace!important;
+  font-size:14px!important;
+}
+
+/* Plan modal Pokemon dialog box */
+.plan-modal-inner{
+  border-radius:0!important;
+  border:3px solid var(--a)!important;
+  box-shadow:6px 6px 0px rgba(0,0,0,.8)!important;
+}
+.plan-modal-title{
+  font-family:'Press Start 2P',monospace!important;
+  font-size:11px!important;
+  color:var(--a)!important;
+}
+.plan-modal-close{
+  border-radius:0!important;
+  font-family:'Press Start 2P',monospace!important;
+}
+
+/* Input Pokemon style global override */
+select.input{
+  cursor:pointer;
+  border-radius:0!important;
+}
+
+/* Workout summary modal Pokemon style */
+.lift-summary-sheet, .lift-postsave-sheet{
+  border-radius:0!important;
+  border:3px solid var(--a)!important;
+  box-shadow:6px 6px 0px rgba(0,0,0,.8)!important;
+}
+
+/* Toggle Pokemon style */
+.unit-toggle{
+  border-radius:0!important;
+  border:2px solid var(--bd)!important;
+}
+.unit-btn{
+  border-radius:0!important;
+  font-family:'VT323',monospace!important;
+}
+.unit-btn.active{
+  background:var(--a)!important;
+  color:#000!important;
+  border-radius:0!important;
 }
 .progress-chart-svg{
   display:block;
@@ -737,7 +1045,7 @@ select.input{cursor:pointer}
   background:rgba(255,255,255,.025);
   border:1px solid var(--bd);
   color:#9b9bb7;
-  font-family:'Barlow Condensed',sans-serif;
+  font-family:'Press Start 2P',monospace;
   font-size:13px !important;
   line-height:1;
 }
@@ -1031,8 +1339,8 @@ select.input{cursor:pointer}
   <div id="tab-plan" class="tab-pane hidden">
     <!-- Sub-tabs -->
     <div class="subtab-row">
-      <button class="subtab active" id="subtab-plan" onclick="setPlanSubTab('plan')">แผนของฉัน</button>
-      <button class="subtab"        id="subtab-hist" onclick="setPlanSubTab('hist')">ประวัติ</button>
+      <button class="subtab active" id="subtab-plan" onclick="setPlanSubTab('plan')">📋 แผนของฉัน</button>
+      <button class="subtab"        id="subtab-hist" onclick="setPlanSubTab('hist')">🕐 ประวัติ</button>
     </div>
     <!-- Plan sub-view -->
     <div id="plan-subview">
@@ -1068,7 +1376,7 @@ select.input{cursor:pointer}
       <div id="profile-edit-form" class="hidden" style="padding:0 16px 16px">
         <div class="field" style="margin-bottom:10px"><label>ชื่อที่แสดง</label><input id="edit-display-name" class="input" type="text" autocapitalize="words"></div>
         <div class="field" style="margin-bottom:12px"><label>รหัสผ่านใหม่ (เว้นว่างถ้าไม่เปลี่ยน)</label><input id="edit-password" class="input" type="password" autocomplete="new-password" placeholder="••••••"></div>
-        <div class="row2"><button class="btn btn-ghost" onclick="toggleEditProfile()">ยกเลิก</button><button class="btn" style="font-size:16px;font-family:'Barlow',sans-serif;font-weight:600;letter-spacing:0" onclick="saveProfile()">บันทึก</button></div>
+        <div class="row2"><button class="btn btn-ghost" onclick="toggleEditProfile()">ยกเลิก</button><button class="btn" style="font-size:16px;font-family:'VT323',monospace;font-weight:600;letter-spacing:0" onclick="saveProfile()">บันทึก</button></div>
       </div>
     </div>
     <div class="settings-card">
@@ -1081,7 +1389,7 @@ select.input{cursor:pointer}
           <div class="field" style="margin-bottom:0"><label>ชื่อท่า</label><input id="new-ex-name" class="input" type="text" placeholder="เช่น Push Up"></div>
           <div class="field" style="margin-bottom:0"><label>Body Part</label><select id="new-ex-bp" class="input"><option value="">— เลือก —</option></select></div>
         </div>
-        <button class="btn" style="height:42px;padding:0;font-size:16px;font-family:'Barlow',sans-serif;font-weight:600;letter-spacing:0" onclick="addExercise()">เพิ่มท่า</button>
+        <button class="btn" style="height:42px;padding:0;font-size:16px;font-family:'VT323',monospace;font-weight:600;letter-spacing:0" onclick="addExercise()">เพิ่มท่า</button>
       </div>
       <div style="padding:10px 14px 6px">
         <div class="search-wrap">
@@ -1099,7 +1407,7 @@ select.input{cursor:pointer}
       </div>
       <div id="add-bp-form" class="hidden add-ex-form-wrap">
         <div class="field" style="margin-bottom:10px"><label>ชื่อ Body Part</label><input id="new-bp-name" class="input" type="text" placeholder="เช่น Glutes"></div>
-        <button class="btn" style="height:42px;padding:0;font-size:16px;font-family:'Barlow',sans-serif;font-weight:600;letter-spacing:0" onclick="addBodyPart()">เพิ่ม</button>
+        <button class="btn" style="height:42px;padding:0;font-size:16px;font-family:'VT323',monospace;font-weight:600;letter-spacing:0" onclick="addBodyPart()">เพิ่ม</button>
       </div>
       <div id="bp-list"></div>
     </div>
@@ -1123,12 +1431,12 @@ select.input{cursor:pointer}
           <div class="pref-item"><div class="pref-item-k">เพิ่มน้ำหนักครั้งละ</div><input id="default-inc" class="input" type="number" min="0.5" step="0.5" value="2.5" style="padding:10px 12px;font-size:15px"></div>
           <div class="pref-item"><div class="pref-item-k">หน่วยปัจจุบัน</div><div id="pref-unit-label" style="font-size:15px;font-weight:600">kg</div></div>
         </div>
-        <button class="btn" style="margin-top:12px;font-size:16px;font-family:'Barlow',sans-serif;font-weight:600;letter-spacing:0" onclick="savePrefs()">บันทึก Preferences</button>
+        <button class="btn" style="margin-top:12px;font-size:16px;font-family:'VT323',monospace;font-weight:600;letter-spacing:0" onclick="savePrefs()">บันทึก Preferences</button>
       </div>
     </div>
     <!-- Version -->
     <div style="text-align:center;padding:16px 0 4px">
-      <div style="font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:700;color:var(--a);letter-spacing:2px">LIFT</div>
+      <div style="font-family:'Press Start 2P',monospace;font-size:22px;font-weight:700;color:var(--a);letter-spacing:2px">LIFT</div>
       <div style="font-size:12px;color:var(--td);margin-top:4px">v7.0 · Firebase · © 2025</div>
     </div>
   </div>
@@ -1167,7 +1475,7 @@ select.input{cursor:pointer}
     <div class="field" style="margin-bottom:18px"><label>หมายเหตุ</label><input id="eh-notes" class="input" type="text" placeholder="(ไม่บังคับ)"></div>
     <div class="row2">
       <button class="btn btn-ghost" onclick="closeEditHist()">ยกเลิก</button>
-      <button class="btn" style="font-family:'Barlow',sans-serif;font-size:16px;font-weight:600;letter-spacing:0" onclick="saveEditHist()">บันทึก</button>
+      <button class="btn" style="font-family:'VT323',monospace;font-size:16px;font-weight:600;letter-spacing:0" onclick="saveEditHist()">บันทึก</button>
     </div>
   </div>
 </div>
@@ -1466,7 +1774,7 @@ function skelRecent(n){return Array(n).fill(0).map(()=>`<div class="wo-item"><di
 
 function renderStats(d){
   const streak=d.weeklyStreak||0;
-  const sc=streak>=4?'#c8ff3c':streak>=2?'#38bdf8':'#7a7a96';
+  const sc=streak>=4?'#f8d030':streak>=2?'#38bdf8':'#7a7a96';
   const flames=streak>=8?'🔥🔥🔥':streak>=4?'🔥🔥':streak>=1?'🔥':'';
   const bars=Array.from({length:Math.min(streak,8)},(_,i)=>`<div style="height:5px;flex:1;border-radius:3px;background:${sc};opacity:${0.4+0.075*i}"></div>`).join('');
   const empties=streak<8?Array.from({length:8-streak},()=>`<div style="height:5px;flex:1;border-radius:3px;background:var(--s3)"></div>`).join(''):'';
@@ -1477,7 +1785,7 @@ function renderStats(d){
     </div>
     <div style="background:var(--s2);border:1px solid var(--bd);border-radius:var(--r2);padding:15px 17px;margin-bottom:10px;display:flex;align-items:center;gap:16px;animation:countUp .35s .09s ease both">
       <div style="text-align:center;flex-shrink:0">
-        <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:52px;line-height:1;color:${sc}">${streak}</div>
+        <div style="font-family:'Press Start 2P',monospace;font-weight:700;font-size:52px;line-height:1;color:var(--a)">${streak}</div>
         <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--ts);margin-top:2px">WEEKS</div>
       </div>
       <div style="flex:1;min-width:0">
@@ -1505,17 +1813,17 @@ function renderDashChart(workouts){
   const xLabels=days.map((d,i)=>{
     if(i!==0&&i!==14&&i!==n-1)return'';
     const isT=d.date===todayStr,lbl=isT?'วันนี้':`${d.d.getDate()}/${d.d.getMonth()+1}`;
-    return`<text x="${xs(i).toFixed(1)}" y="${H-5}" text-anchor="${i===0?'start':i===n-1?'end':'middle'}" fill="${isT?'#c8ff3c':'#7a7a96'}" font-size="10" font-weight="${isT?'700':'400'}" font-family="Barlow,sans-serif">${lbl}</text>`;
+    return`<text x="${xs(i).toFixed(1)}" y="${H-5}" text-anchor="${i===0?'start':i===n-1?'end':'middle'}" fill="${isT?'#f8d030':'#7a7a96'}" font-size="10" font-weight="${isT?'700':'400'}" font-family="monospace">${lbl}</text>`;
   }).join('');
   const dots=days.map((d,i)=>{
     if(!d.count)return'';
     const isT=d.date===todayStr,cx=xs(i).toFixed(1),cy=ys(d.count).toFixed(1);
-    return`<circle cx="${cx}" cy="${cy}" r="${isT?5.5:3.5}" fill="${isT?'#c8ff3c':'rgba(200,255,60,.8)'}" stroke="#09090d" stroke-width="2"/>${isT?`<circle cx="${cx}" cy="${cy}" r="9" fill="none" stroke="rgba(200,255,60,.18)" stroke-width="1.5"/>`:''}`;
+    return`<circle cx="${cx}" cy="${cy}" r="${isT?5.5:3.5}" fill="${isT?'#f8d030':'rgba(248,208,48,.8)'}" stroke="#09090d" stroke-width="2"/>${isT?`<circle cx="${cx}" cy="${cy}" r="9" fill="none" stroke="rgba(248,208,48,.18)" stroke-width="1.5"/>`:''}`;
   }).join('');
   document.getElementById('dash-chart').innerHTML=`<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
-    <defs><linearGradient id="dg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#c8ff3c" stop-opacity="0.14"/><stop offset="100%" stop-color="#c8ff3c" stop-opacity="0"/></linearGradient></defs>
+    <defs><linearGradient id="dg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#f8d030" stop-opacity="0.14"/><stop offset="100%" stop-color="#f8d030" stop-opacity="0"/></linearGradient></defs>
     ${yLines}<polygon points="${areaPts}" fill="url(#dg)"/>
-    <polyline points="${pts}" fill="none" stroke="#c8ff3c" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+    <polyline points="${pts}" fill="none" stroke="#f8d030" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
     ${dots}${xLabels}</svg>`;
 }
 
@@ -1732,10 +2040,10 @@ function renderTopEx(ws){
   card.style.display='block';const mx=top[0][1];
   document.getElementById('top-ex-list').innerHTML=top.map(([name,count],i)=>`
     <div style="display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:${i<top.length-1?'1px solid var(--bd)':'none'}">
-      <span style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;color:var(--td);width:16px;flex-shrink:0">${i+1}</span>
+      <span style="font-family:'Press Start 2P',monospace;font-weight:700;font-size:13px;color:var(--td);width:16px;flex-shrink:0">${i+1}</span>
       <span style="flex:1;font-size:13px;font-weight:500;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(name)}</span>
       <div style="width:70px;height:4px;background:var(--s3);border-radius:2px;overflow:hidden;flex-shrink:0"><div style="height:100%;width:${(count/mx*100).toFixed(0)}%;background:var(--a);border-radius:2px"></div></div>
-      <span style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:14px;color:var(--a);width:24px;text-align:right;flex-shrink:0">${count}</span>
+      <span style="font-family:'Press Start 2P',monospace;font-weight:700;font-size:14px;color:var(--a);width:24px;text-align:right;flex-shrink:0">${count}</span>
     </div>`).join('');
 }
 const fmt=n=>Number.isFinite(n)?Math.round(n*10)/10:0;
@@ -1772,33 +2080,33 @@ function svgProgressChart(data,metric,title){
   });
   const yLines=ticks.map(({v,y})=>
     `<line x1="${PL}" y1="${y.toFixed(1)}" x2="${W-PR}" y2="${y.toFixed(1)}" stroke="rgba(255,255,255,.08)" stroke-width="1"/>`+
-    `<text x="${PL-8}" y="${(y+4).toFixed(1)}" text-anchor="end" fill="#8d95bc" font-size="10" font-family="Barlow,sans-serif">${fmtAxis(v)}</text>`
+    `<text x="${PL-8}" y="${(y+4).toFixed(1)}" text-anchor="end" fill="#8d95bc" font-size="10" font-family="monospace">${fmtAxis(v)}</text>`
   ).join('');
   const idxs=[...new Set([0, Math.floor((data.length-1)/3), Math.floor((data.length-1)*2/3), data.length-1])].filter(i=>i>=0);
   const xLabels=idxs.map(i=>{
     const dt=new Date(data[i].date+'T00:00:00');
-    return `<text x="${xs(i).toFixed(1)}" y="${H-10}" text-anchor="middle" fill="#8d95bc" font-size="10" font-family="Barlow,sans-serif">${dt.getDate()} ${MONTHS_TH[dt.getMonth()]}</text>`;
+    return `<text x="${xs(i).toFixed(1)}" y="${H-10}" text-anchor="middle" fill="#8d95bc" font-size="10" font-family="monospace">${dt.getDate()} ${MONTHS_TH[dt.getMonth()]}</text>`;
   }).join('');
   const pts=data.map((d,i)=>`${xs(i).toFixed(1)},${ys(d.v).toFixed(1)}`).join(' ');
   const areaPts=`${PL},${(PT+cH).toFixed(1)} ${pts} ${(W-PR).toFixed(1)},${(PT+cH).toFixed(1)}`;
   const dots=data.map((d,i)=>`
-    <circle cx="${xs(i).toFixed(1)}" cy="${ys(d.v).toFixed(1)}" r="8.5" fill="#c8ff3c" stroke="#06070c" stroke-width="4"/>
+    <circle cx="${xs(i).toFixed(1)}" cy="${ys(d.v).toFixed(1)}" r="8.5" fill="#f8d030" stroke="#06070c" stroke-width="4"/>
   `).join('');
   const rangeText = `${new Date(data[0].date+'T00:00:00').toLocaleDateString('en-GB',{month:'2-digit',day:'2-digit'})} - ${new Date(data[data.length-1].date+'T00:00:00').toLocaleDateString('en-GB',{month:'2-digit',day:'2-digit'})}`;
   return `<div class="progress-chart-shell">
     <svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" class="progress-chart-svg" aria-label="${esc(title||'Progress chart')}">
       <defs>
         <linearGradient id="progArea" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stop-color="#c8ff3c" stop-opacity="0.26"/>
-          <stop offset="100%" stop-color="#c8ff3c" stop-opacity="0.03"/>
+          <stop offset="0%" stop-color="#f8d030" stop-opacity="0.26"/>
+          <stop offset="100%" stop-color="#f8d030" stop-opacity="0.03"/>
         </linearGradient>
         <linearGradient id="progStroke" x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0%" stop-color="#c8ff3c"/>
+          <stop offset="0%" stop-color="#f8d030"/>
           <stop offset="100%" stop-color="#d7ff66"/>
         </linearGradient>
       </defs>
-      <text x="${PL}" y="14" fill="#98a1cf" font-size="11" font-family="Barlow,sans-serif">${esc(title||'Progress')}</text>
-      <text x="${W-PR}" y="14" text-anchor="end" fill="#c8ff3c" font-size="11" font-weight="700" font-family="Barlow,sans-serif">${rangeText}</text>
+      <text x="${PL}" y="14" fill="#98a1cf" font-size="11" font-family="monospace">${esc(title||'Progress')}</text>
+      <text x="${W-PR}" y="14" text-anchor="end" fill="#f8d030" font-size="11" font-weight="700" font-family="monospace">${rangeText}</text>
       ${yLines}
       <polygon points="${areaPts}" fill="url(#progArea)"/>
       <polyline points="${pts}" fill="none" stroke="url(#progStroke)" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>
@@ -1812,51 +2120,51 @@ function svgLine(data,metric,showTrend=false){
   const W=360,H=190,PL=46,PR=14,PT=12,PB=36,cW=W-PL-PR,cH=H-PT-PB;
   const vals=data.map(d=>d.v),minV=Math.min(...vals),maxV=Math.max(...vals),vR=maxV-minV||1;
   const xs=i=>PL+(i/Math.max(data.length-1,1))*cW,ys=v=>PT+cH-((v-minV)/vR)*cH;
-  const yLines=[0,.33,.67,1].map(t=>{const v=minV+vR*t,y=ys(v).toFixed(1);const lbl=metric==='volume'&&v>=1000?(v/1000).toFixed(1)+'k':Math.round(v);return`<line x1="${PL}" y1="${y}" x2="${W-PR}" y2="${y}" stroke="rgba(255,255,255,.05)" stroke-width="1"/><text x="${PL-4}" y="${(parseFloat(y)+4).toFixed(1)}" text-anchor="end" fill="#7a7a96" font-size="10" font-family="Barlow,sans-serif">${lbl}</text>`;}).join('');
+  const yLines=[0,.33,.67,1].map(t=>{const v=minV+vR*t,y=ys(v).toFixed(1);const lbl=metric==='volume'&&v>=1000?(v/1000).toFixed(1)+'k':Math.round(v);return`<line x1="${PL}" y1="${y}" x2="${W-PR}" y2="${y}" stroke="rgba(255,255,255,.05)" stroke-width="1"/><text x="${PL-4}" y="${(parseFloat(y)+4).toFixed(1)}" text-anchor="end" fill="#7a7a96" font-size="10" font-family="monospace">${lbl}</text>`;}).join('');
   const step=Math.max(1,Math.ceil(data.length/5));
   const idxs=[...new Set([0,...data.map((_,i)=>i).filter(i=>i%step===0),data.length-1])];
-  const xLabels=idxs.map(i=>{const dt=new Date(data[i].date+'T00:00:00');return`<text x="${xs(i).toFixed(1)}" y="${H-5}" text-anchor="middle" fill="#7a7a96" font-size="10" font-family="Barlow,sans-serif">${dt.getDate()} ${MONTHS_TH[dt.getMonth()]}</text>`;}).join('');
+  const xLabels=idxs.map(i=>{const dt=new Date(data[i].date+'T00:00:00');return`<text x="${xs(i).toFixed(1)}" y="${H-5}" text-anchor="middle" fill="#7a7a96" font-size="10" font-family="monospace">${dt.getDate()} ${MONTHS_TH[dt.getMonth()]}</text>`;}).join('');
   const pts=data.map((d,i)=>`${xs(i).toFixed(1)},${ys(d.v).toFixed(1)}`).join(' ');
   const areaPts=`${PL},${(PT+cH).toFixed(1)} ${pts} ${(W-PR).toFixed(1)},${(PT+cH).toFixed(1)}`;
   const dotR=data.length<=14?4.5:data.length<=30?3.5:2.5;
-  const dots=data.map((d,i)=>`<circle cx="${xs(i).toFixed(1)}" cy="${ys(d.v).toFixed(1)}" r="${dotR}" fill="#c8ff3c" stroke="#09090d" stroke-width="2"/>`).join('');
+  const dots=data.map((d,i)=>`<circle cx="${xs(i).toFixed(1)}" cy="${ys(d.v).toFixed(1)}" r="${dotR}" fill="#f8d030" stroke="#09090d" stroke-width="2"/>`).join('');
   let trendSvg='';
   if(showTrend&&data.length>=3){
     const n=data.length,sumX=n*(n-1)/2,sumX2=n*(n-1)*(2*n-1)/6,sumY=data.reduce((s,d)=>s+d.v,0),sumXY=data.reduce((s,d,i)=>s+i*d.v,0);
     const slope=(n*sumXY-sumX*sumY)/(n*sumX2-sumX*sumX),intercept=(sumY-slope*sumX)/n;
     const ty0=intercept,ty1=slope*(n-1)+intercept;
     const ty0c=Math.max(minV,Math.min(maxV,ty0)),ty1c=Math.max(minV,Math.min(maxV,ty1));
-    trendSvg=`<line x1="${xs(0).toFixed(1)}" y1="${ys(ty0c).toFixed(1)}" x2="${xs(n-1).toFixed(1)}" y2="${ys(ty1c).toFixed(1)}" stroke="rgba(200,255,60,.35)" stroke-width="1.5" stroke-dasharray="5,4"/>`;
+    trendSvg=`<line x1="${xs(0).toFixed(1)}" y1="${ys(ty0c).toFixed(1)}" x2="${xs(n-1).toFixed(1)}" y2="${ys(ty1c).toFixed(1)}" stroke="rgba(248,208,48,.35)" stroke-width="1.5" stroke-dasharray="5,4"/>`;
     const pct=ty0>0?((ty1-ty0)/ty0*100):0;
-    if(Math.abs(pct)>0.5){const up=pct>0;trendSvg+=`<text x="${W-PR-2}" y="${PT-2}" text-anchor="end" fill="${up?'#c8ff3c':'#ff4f5a'}" font-size="10" font-weight="700" font-family="Barlow,sans-serif">${up?'▲':'▼'} ${Math.abs(pct).toFixed(1)}%</text>`;}
+    if(Math.abs(pct)>0.5){const up=pct>0;trendSvg+=`<text x="${W-PR-2}" y="${PT-2}" text-anchor="end" fill="${up?'#f8d030':'#ff4f5a'}" font-size="10" font-weight="700" font-family="monospace">${up?'▲':'▼'} ${Math.abs(pct).toFixed(1)}%</text>`;}
   }
   return`<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
-    <defs><linearGradient id="ag" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#c8ff3c" stop-opacity="0.15"/><stop offset="100%" stop-color="#c8ff3c" stop-opacity="0"/></linearGradient></defs>
+    <defs><linearGradient id="ag" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#f8d030" stop-opacity="0.15"/><stop offset="100%" stop-color="#f8d030" stop-opacity="0"/></linearGradient></defs>
     ${yLines}<polygon points="${areaPts}" fill="url(#ag)"/>
-    <polyline points="${pts}" fill="none" stroke="#c8ff3c" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+    <polyline points="${pts}" fill="none" stroke="#f8d030" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
     ${trendSvg}${dots}${xLabels}</svg>`;
 }
-const MULTI_COLORS=['#c8ff3c','#38bdf8','#fb923c','#a78bfa','#f472b6'];
+const MULTI_COLORS=['#f8d030','#38bdf8','#fb923c','#a78bfa','#f472b6'];
 function svgMultiLine(series,metric){
   if(!series.length)return'<div class="no-data">ไม่มีข้อมูล</div>';
   const allDates=[...new Set(series.flatMap(s=>s.data.map(d=>d.date)))].sort();
-  if(allDates.length<2)return`<svg viewBox="0 0 360 40" style="width:100%"><text x="180" y="24" text-anchor="middle" fill="#7a7a96" font-size="12" font-family="Barlow,sans-serif">ต้องมีอย่างน้อย 2 วัน</text></svg>`;
+  if(allDates.length<2)return`<svg viewBox="0 0 360 40" style="width:100%"><text x="180" y="24" text-anchor="middle" fill="#7a7a96" font-size="12" font-family="monospace">ต้องมีอย่างน้อย 2 วัน</text></svg>`;
   const allVals=series.flatMap(s=>s.data.map(d=>d.v)),minV=Math.min(...allVals),maxV=Math.max(...allVals),vR=maxV-minV||1;
   const n=allDates.length,W=360,H=200,PL=46,PR=14,PT=12,PB=44,cW=W-PL-PR,cH=H-PT-PB;
   const xs=i=>PL+(i/(n-1))*cW,ys=v=>PT+cH-((v-minV)/vR)*cH;
-  const yLines=[0,.5,1].map(t=>{const v=minV+vR*t,y=ys(v).toFixed(1);const lbl=metric==='volume'&&v>=1000?(v/1000).toFixed(1)+'k':Math.round(v);return`<line x1="${PL}" y1="${y}" x2="${W-PR}" y2="${y}" stroke="rgba(255,255,255,.05)" stroke-width="1"/><text x="${PL-4}" y="${(parseFloat(y)+4).toFixed(1)}" text-anchor="end" fill="#7a7a96" font-size="10" font-family="Barlow,sans-serif">${lbl}</text>`;}).join('');
+  const yLines=[0,.5,1].map(t=>{const v=minV+vR*t,y=ys(v).toFixed(1);const lbl=metric==='volume'&&v>=1000?(v/1000).toFixed(1)+'k':Math.round(v);return`<line x1="${PL}" y1="${y}" x2="${W-PR}" y2="${y}" stroke="rgba(255,255,255,.05)" stroke-width="1"/><text x="${PL-4}" y="${(parseFloat(y)+4).toFixed(1)}" text-anchor="end" fill="#7a7a96" font-size="10" font-family="monospace">${lbl}</text>`;}).join('');
   const step=Math.max(1,Math.ceil(n/4));
   const idxs=[...new Set([0,...allDates.map((_,i)=>i).filter(i=>i%step===0),n-1])];
-  const xLabels=idxs.map(i=>{const dt=new Date(allDates[i]+'T00:00:00');return`<text x="${xs(i).toFixed(1)}" y="${H-PB+14}" text-anchor="middle" fill="#7a7a96" font-size="10" font-family="Barlow,sans-serif">${dt.getDate()} ${MONTHS_TH[dt.getMonth()]}</text>`;}).join('');
+  const xLabels=idxs.map(i=>{const dt=new Date(allDates[i]+'T00:00:00');return`<text x="${xs(i).toFixed(1)}" y="${H-PB+14}" text-anchor="middle" fill="#7a7a96" font-size="10" font-family="monospace">${dt.getDate()} ${MONTHS_TH[dt.getMonth()]}</text>`;}).join('');
   const lines=series.map((s,si)=>{const color=MULTI_COLORS[si%MULTI_COLORS.length];const dateMap=Object.fromEntries(s.data.map(d=>[d.date,d.v]));const validPts=allDates.map((dt,i)=>dateMap[dt]!=null?{i,v:dateMap[dt]}:null).filter(Boolean);if(!validPts.length)return'';const pts=validPts.map(p=>`${xs(p.i).toFixed(1)},${ys(p.v).toFixed(1)}`).join(' ');const dots=validPts.map(p=>`<circle cx="${xs(p.i).toFixed(1)}" cy="${ys(p.v).toFixed(1)}" r="3" fill="${color}" stroke="#09090d" stroke-width="1.5"/>`).join('');return`<polyline points="${pts}" fill="none" stroke="${color}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" opacity="0.9"/>${dots}`;}).join('');
-  const legend=series.map((s,si)=>{const color=MULTI_COLORS[si%MULTI_COLORS.length];const lbl=s.name.length>12?s.name.slice(0,12)+'…':s.name;const lx=PL+(si%3)*(cW/3),ly=H-PB+26+(Math.floor(si/3)*14);return`<circle cx="${lx+5}" cy="${ly-4}" r="4" fill="${color}"/><text x="${lx+13}" y="${ly}" fill="#eeeef4" font-size="10" font-family="Barlow,sans-serif">${esc(lbl)}</text>`;}).join('');
+  const legend=series.map((s,si)=>{const color=MULTI_COLORS[si%MULTI_COLORS.length];const lbl=s.name.length>12?s.name.slice(0,12)+'…':s.name;const lx=PL+(si%3)*(cW/3),ly=H-PB+26+(Math.floor(si/3)*14);return`<circle cx="${lx+5}" cy="${ly-4}" r="4" fill="${color}"/><text x="${lx+13}" y="${ly}" fill="#eeeef4" font-size="10" font-family="monospace">${esc(lbl)}</text>`;}).join('');
   return`<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">${yLines}${lines}${xLabels}${legend}</svg>`;
 }
 function svgBar(data){
   if(!data.length)return'<div class="no-data">ไม่มีข้อมูล</div>';
   const maxV=Math.max(...data.map(d=>d.v));
   const rowH=32,gap=7,W=360,PL=74,PR=44,bW=W-PL-PR,H=data.length*(rowH+gap)+gap;
-  const bars=data.map((d,i)=>{const y=gap+i*(rowH+gap),bw=Math.max((d.v/maxV)*bW,4);const lbl=d.l.length>9?d.l.slice(0,9)+'…':d.l;return`<text x="${PL-8}" y="${(y+rowH*.66).toFixed(1)}" text-anchor="end" fill="#eeeef4" font-size="12" font-weight="500" font-family="Barlow,sans-serif">${esc(lbl)}</text><rect x="${PL}" y="${y+7}" width="${bw.toFixed(1)}" height="${rowH-14}" rx="5" fill="rgba(200,255,60,.75)"/><text x="${(PL+bw+7).toFixed(1)}" y="${(y+rowH*.66).toFixed(1)}" fill="#7a7a96" font-size="12" font-weight="600" font-family="Barlow Condensed,sans-serif">${d.v}</text>`;}).join('');
+  const bars=data.map((d,i)=>{const y=gap+i*(rowH+gap),bw=Math.max((d.v/maxV)*bW,4);const lbl=d.l.length>9?d.l.slice(0,9)+'…':d.l;return`<text x="${PL-8}" y="${(y+rowH*.66).toFixed(1)}" text-anchor="end" fill="#eeeef4" font-size="12" font-weight="500" font-family="monospace">${esc(lbl)}</text><rect x="${PL}" y="${y+7}" width="${bw.toFixed(1)}" height="${rowH-14}" rx="5" fill="rgba(248,208,48,.75)"/><text x="${(PL+bw+7).toFixed(1)}" y="${(y+rowH*.66).toFixed(1)}" fill="#7a7a96" font-size="12" font-weight="600" font-family="monospace">${d.v}</text>`;}).join('');
   return`<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">${bars}</svg>`;
 }
 
@@ -2109,7 +2417,7 @@ function renderHist(list){
         </div>`).join('')}
     </div>`).join('') + (hasMore ? `
     <div style="padding-top:4px">
-      <button class="btn btn-ghost" onclick="showMoreHist()" style="font-family:'Barlow',sans-serif;font-size:14px;font-weight:600;letter-spacing:0">เพิ่มเติม (${list.length-visibleList.length} รายการ)</button>
+      <button class="btn btn-ghost" onclick="showMoreHist()" style="font-family:'VT323',monospace;font-size:14px;font-weight:600;letter-spacing:0">เพิ่มเติม (${list.length-visibleList.length} รายการ)</button>
     </div>` : '');
 }
 function confirmDelWOs(idxArr,exName){showConfirm(`ลบ ${esc(exName)}?`,`${idxArr.length} set จะถูกลบถาวร`,()=>deleteWOs(idxArr));}
@@ -2252,7 +2560,7 @@ function _renderExList(query){
       <div id="ex-edit-${sid}" class="ex-edit-row hidden">
         <input class="ex-edit-inp" type="text" value="${esc(e.name)}" placeholder="ชื่อท่า">
         <select class="bp-sel">${opts}</select>
-        <button class="btn btn-sm" style="padding:7px 11px;font-size:13px;font-family:'Barlow',sans-serif;font-weight:600;letter-spacing:0;width:auto;flex-shrink:0" onclick="saveExEdit('${sid}')">บันทึก</button>
+        <button class="btn btn-sm" style="padding:7px 11px;font-size:13px;font-family:'VT323',monospace;font-weight:600;letter-spacing:0;width:auto;flex-shrink:0" onclick="saveExEdit('${sid}')">บันทึก</button>
       </div>
     </div>`;
   }).join('');
@@ -2314,7 +2622,7 @@ function renderPlans(){
         <div class="plan-preview">${(p.exercises||[]).slice(0,4).map(e=>`<span class="plan-pill">${esc(e.exerciseName)}</span>`).join('')}</div>
         ${exRows}
         <div class="plan-actions">
-          <button class="btn" style="font-family:'Barlow',sans-serif;font-size:15px;font-weight:600;letter-spacing:0;padding:12px;flex:2" onclick="startFromPlan('${sid}')">
+          <button class="btn" style="font-family:'VT323',monospace;font-size:15px;font-weight:600;letter-spacing:0;padding:12px;flex:2" onclick="startFromPlan('${sid}')">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" style="margin-right:6px"><polygon points="5,3 19,12 5,21 5,3"/></svg>เริ่ม Workout
           </button>
           <button class="btn btn-ghost" style="flex:1;padding:12px" onclick="openEditPlan('${sid}')">
@@ -2689,7 +2997,7 @@ function renderBPList(){
       </div>
       ${!isDefault?`<div id="${eid}" class="ex-edit-row hidden">
         <input class="ex-edit-inp" type="text" value="${esc(b)}" placeholder="ชื่อ Body Part" onkeydown="if(event.key==='Enter')saveBPEdit('${safe}','${eid}')">
-        <button class="btn btn-sm" style="padding:7px 11px;font-size:13px;font-family:'Barlow',sans-serif;font-weight:600;letter-spacing:0;width:auto;flex-shrink:0" onclick="saveBPEdit('${safe}','${eid}')">บันทึก</button>
+        <button class="btn btn-sm" style="padding:7px 11px;font-size:13px;font-family:'VT323',monospace;font-weight:600;letter-spacing:0;width:auto;flex-shrink:0" onclick="saveBPEdit('${safe}','${eid}')">บันทึก</button>
       </div>`:''}
     </div>`;
   }).join('');
@@ -2736,11 +3044,11 @@ init();
       .tiny-muted{font-size:12px;color:var(--ts)}
       .meta-chip-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
       .meta-chip{padding:5px 9px;border-radius:999px;border:1px solid var(--bd);font-size:11px;color:var(--ts);background:var(--s2)}
-      .meta-chip.active{border-color:rgba(200,255,60,.3);background:rgba(200,255,60,.08);color:var(--a)}
+      .meta-chip.active{border-color:rgba(248,208,48,.3);background:rgba(248,208,48,.08);color:var(--a)}
       .plan-day-wrap{margin-bottom:12px}
       .plan-day-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
       .day-pill{height:38px;border-radius:12px;border:1px solid var(--bd);background:var(--s2);color:var(--ts);font-size:13px;font-weight:600;cursor:pointer}
-      .day-pill.active{background:rgba(200,255,60,.12);color:var(--a);border-color:rgba(200,255,60,.3)}
+      .day-pill.active{background:rgba(248,208,48,.12);color:var(--a);border-color:rgba(248,208,48,.3)}
       .range-row{display:grid;grid-template-columns:1fr 1fr 1fr 1fr 1fr;gap:8px}
       .summary-modal{position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:800;display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .18s}
       .summary-modal.show{opacity:1;pointer-events:auto}
@@ -2749,22 +3057,22 @@ init();
       .summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0}
       .summary-box{background:var(--s2);border:1px solid var(--bd);border-radius:14px;padding:12px}
       .summary-k{font-size:10px;font-weight:700;color:var(--ts);text-transform:uppercase;letter-spacing:.11em;margin-bottom:4px}
-      .summary-v{font-family:'Barlow Condensed',sans-serif;font-size:28px;line-height:1;color:var(--a);font-weight:700}
+      .summary-v{font-family:'Press Start 2P',monospace;font-size:28px;line-height:1;color:var(--a);font-weight:700}
       .summary-list{display:flex;flex-direction:column;gap:8px;margin-top:12px}
-      .summary-pill{background:rgba(200,255,60,.08);border:1px solid rgba(200,255,60,.16);padding:10px 12px;border-radius:12px;font-size:13px}
+      .summary-pill{background:rgba(248,208,48,.08);border:1px solid rgba(248,208,48,.16);padding:10px 12px;border-radius:12px;font-size:13px}
       .rest-card{background:var(--s2);border:1px solid var(--bd);border-radius:14px;padding:12px 14px;margin:0 0 16px}
       .rest-row{display:flex;align-items:center;justify-content:space-between;gap:12px}
-      .rest-time{font-family:'Barlow Condensed',sans-serif;font-size:34px;line-height:1;color:var(--a);font-weight:700}
+      .rest-time{font-family:'Press Start 2P',monospace;font-size:34px;line-height:1;color:var(--a);font-weight:700}
       .rest-controls{display:flex;gap:8px;margin-top:10px}
       .rest-btn{flex:1;background:var(--s3);border:1px solid var(--bd);color:var(--t);border-radius:12px;padding:10px 12px;font-size:13px;font-weight:600}
-      .rest-btn.primary{border-color:rgba(200,255,60,.3);background:rgba(200,255,60,.08);color:var(--a)}
+      .rest-btn.primary{border-color:rgba(248,208,48,.3);background:rgba(248,208,48,.08);color:var(--a)}
       .rest-progress{height:6px;border-radius:999px;background:var(--s3);overflow:hidden;margin-top:10px}
       .rest-progress > span{display:block;height:100%;width:0%;background:var(--a);transition:width .4s linear}
       /* ── Floating rest timer bar ── */
       #float-rest{
         position:fixed;bottom:calc(var(--nav) + var(--sab));left:50%;transform:translateX(-50%) translateY(100%);
         width:100%;max-width:480px;
-        background:rgba(15,15,20,.97);border-top:1px solid rgba(200,255,60,.18);
+        background:rgba(15,15,20,.97);border-top:1px solid rgba(248,208,48,.18);
         z-index:200;transition:transform .28s var(--spring);
         display:none;
       }
@@ -2772,25 +3080,25 @@ init();
       .float-rest-bar-wrap{height:3px;background:var(--s3);overflow:hidden}
       .float-rest-bar-fill{height:100%;width:0%;background:var(--a);transition:width .4s linear}
       .float-rest-collapsed{display:flex;align-items:center;gap:10px;padding:9px 16px;cursor:pointer}
-      .float-rest-time{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:700;color:var(--a);min-width:52px;line-height:1}
+      .float-rest-time{font-family:'Press Start 2P',monospace;font-size:22px;font-weight:700;color:var(--a);min-width:52px;line-height:1}
       .float-rest-time.done{color:var(--ok)}
       .float-rest-label{font-size:12px;color:var(--ts);flex:1}
       .float-rest-actions{display:flex;gap:6px;margin-left:auto}
       .float-rest-btn{background:var(--s3);border:1px solid var(--bd2);color:var(--t);border-radius:8px;padding:5px 12px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap}
-      .float-rest-btn.start{background:rgba(200,255,60,.1);border-color:rgba(200,255,60,.28);color:var(--a)}
+      .float-rest-btn.start{background:rgba(248,208,48,.1);border-color:rgba(248,208,48,.28);color:var(--a)}
       .float-rest-expand{background:var(--s2);border-top:1px solid var(--bd);padding:12px 16px;display:none}
       .float-rest-expand.open{display:block}
-      .float-rest-full-time{font-family:'Barlow Condensed',sans-serif;font-size:52px;font-weight:700;color:var(--a);text-align:center;line-height:1;margin-bottom:8px}
+      .float-rest-full-time{font-family:'Press Start 2P',monospace;font-size:52px;font-weight:700;color:var(--a);text-align:center;line-height:1;margin-bottom:8px}
       .float-rest-full-time.done{color:var(--ok)}
       .float-rest-full-progress{height:6px;border-radius:999px;background:var(--s3);overflow:hidden;margin-bottom:12px}
       .float-rest-full-progress > span{display:block;height:100%;width:0%;background:var(--a);transition:width .4s linear}
       .float-rest-full-controls{display:flex;gap:8px}
       .float-rest-full-btn{flex:1;background:var(--s3);border:1px solid var(--bd);color:var(--t);border-radius:12px;padding:10px;font-size:13px;font-weight:600;cursor:pointer}
-      .float-rest-full-btn.primary{border-color:rgba(200,255,60,.3);background:rgba(200,255,60,.08);color:var(--a)}
+      .float-rest-full-btn.primary{border-color:rgba(248,208,48,.3);background:rgba(248,208,48,.08);color:var(--a)}
       /* ── Dual timer slots ── */
       .float-rest-collapsed{display:flex;align-items:stretch;gap:0;padding:0}
       .fr-slot{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 10px 11px;position:relative}
-      .fr-slot.running{background:rgba(200,255,60,.04)}
+      .fr-slot.running{background:rgba(248,208,48,.04)}
       .fr-slot.done-state .float-rest-time{color:var(--ok)}
       .fr-slot-label{font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ts)}
       .fr-slot .float-rest-time{font-size:28px;line-height:1}
@@ -3056,7 +3364,7 @@ init();
 
   window.renderStats = function(d){
     const streak = d.weeklyStreak || 0;
-    const sc = streak>=4?'#c8ff3c':streak>=2?'#38bdf8':'#7a7a96';
+    const sc = streak>=4?'#f8d030':streak>=2?'#38bdf8':'#7a7a96';
     const flames = streak>=8?'🔥🔥🔥':streak>=4?'🔥🔥':streak>=1?'🔥':'';
     const bars = Array.from({length:Math.min(streak,8)},(_,i)=>`<div style="height:5px;flex:1;border-radius:3px;background:${sc};opacity:${0.4+0.075*i}"></div>`).join('');
     const empties = streak<8?Array.from({length:8-streak},()=>`<div style="height:5px;flex:1;border-radius:3px;background:var(--s3)"></div>`).join(''):'';
@@ -3073,7 +3381,7 @@ init();
       </div>
       <div style="background:var(--s2);border:1px solid var(--bd);border-radius:var(--r2);padding:15px 17px;margin-bottom:10px;display:flex;align-items:center;gap:16px;animation:countUp .35s .09s ease both">
         <div style="text-align:center;flex-shrink:0">
-          <div style="font-family:'Barlow Condensed',sans-serif;font-size:44px;font-weight:700;line-height:1;color:var(--a)">${streak || 0}</div>
+          <div style="font-family:'Press Start 2P',monospace;font-size:44px;font-weight:700;line-height:1;color:var(--a)">${streak || 0}</div>
           <div style="font-size:10px;letter-spacing:.14em;color:var(--ts)">WEEKS</div>
         </div>
         <div style="flex:1">
@@ -3182,7 +3490,7 @@ init();
       return;
     }
     if(reps >= min && reps <= max) repsInput.style.borderColor = 'rgba(61,232,122,.35)';
-    else if(reps > max) repsInput.style.borderColor = 'rgba(200,255,60,.35)';
+    else if(reps > max) repsInput.style.borderColor = 'rgba(248,208,48,.35)';
     else repsInput.style.borderColor = 'rgba(255,79,90,.28)';
   }
 
@@ -4683,7 +4991,7 @@ init();
       .lift-summary-inline-sub{font-size:12px;color:var(--ts);margin-top:4px;line-height:1.4}
       .lift-actions{display:flex;flex-direction:column;gap:10px;margin-top:18px}
       .lift-actions-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-      .btn.btn-soft{background:var(--s2);border:1px solid var(--bd2);color:var(--t);font-family:'Barlow',sans-serif;font-size:15px;font-weight:600;letter-spacing:0}
+      .btn.btn-soft{background:var(--s2);border:1px solid var(--bd2);color:var(--t);font-family:'VT323',monospace;font-size:15px;font-weight:600;letter-spacing:0}
     `;
     document.head.appendChild(style);
   }
