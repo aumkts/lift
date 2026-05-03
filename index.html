@@ -1031,8 +1031,8 @@ select.input{cursor:pointer}
   <div id="tab-plan" class="tab-pane hidden">
     <!-- Sub-tabs -->
     <div class="subtab-row">
-      <button class="subtab active" id="subtab-plan" onclick="setPlanSubTab('plan')">📋 แผนของฉัน</button>
-      <button class="subtab"        id="subtab-hist" onclick="setPlanSubTab('hist')">🕐 ประวัติ</button>
+      <button class="subtab active" id="subtab-plan" onclick="setPlanSubTab('plan')">แผนของฉัน</button>
+      <button class="subtab"        id="subtab-hist" onclick="setPlanSubTab('hist')">ประวัติ</button>
     </div>
     <!-- Plan sub-view -->
     <div id="plan-subview">
@@ -2021,7 +2021,7 @@ async function saveWorkout(){
       const repsVal=Number(row.querySelector('[name=reps]').value)||0;
       const wVal=fromDisplay(row.querySelector('[name=weight]').value);
       const mode=row.dataset.mode||'reps';
-      docs.push({date,exerciseName:exName,sets:1,reps:repsVal,weight:wVal,duration:mode==='sec'?repsVal:0,notes:j===0?notes:'',mode,unit:S.unit,createdAt:TS()});
+      docs.push({date,exerciseName:exName,sets:1,reps:repsVal,weight:wVal,duration:mode==='sec'?repsVal:0,notes:j===0?notes:'',mode,unit:S.unit,setOrder:j,createdAt:TS()});
     });
   }
   if(!docs.length)return toast('ไม่มีข้อมูล','err');
@@ -2091,6 +2091,8 @@ function renderHist(list){
   const hasMore=list.length>visibleList.length;
   const byDate={};
   visibleList.forEach((w,idx)=>{if(!byDate[w.date])byDate[w.date]={};if(!byDate[w.date][w.exerciseName])byDate[w.date][w.exerciseName]=[];byDate[w.date][w.exerciseName].push({...w,_idx:idx});});
+  // Sort each exercise's sets by setOrder (then createdAt as fallback) so S1 = first set logged
+  Object.values(byDate).forEach(exercises=>{Object.keys(exercises).forEach(exName=>{exercises[exName].sort((a,b)=>{const oa=a.setOrder??999,ob=b.setOrder??999;if(oa!==ob)return oa-ob;return(a.createdAt?.seconds||0)-(b.createdAt?.seconds||0);});});});
   el.innerHTML=Object.entries(byDate).sort(([a],[b])=>b.localeCompare(a)).map(([date,exercises])=>`
     <div class="day-group">
       <div class="day-lbl"><span>${formatDate(date)}</span><button class="day-del-btn" onclick="confirmDelDay('${esc(date)}')"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><polyline points="3,6 5,6 21,6"/><path d="M19,6l-1,14a2,2,0,0,1-2,2H8a2,2,0,0,1-2-2L5,6"/><path d="M9,6V4a1,1,0,0,1,1-1h4a1,1,0,0,1,1,1v2"/></svg>ลบทั้งวัน</button></div>
@@ -2758,6 +2760,46 @@ init();
       .rest-btn.primary{border-color:rgba(200,255,60,.3);background:rgba(200,255,60,.08);color:var(--a)}
       .rest-progress{height:6px;border-radius:999px;background:var(--s3);overflow:hidden;margin-top:10px}
       .rest-progress > span{display:block;height:100%;width:0%;background:var(--a);transition:width .4s linear}
+      /* ── Floating rest timer bar ── */
+      #float-rest{
+        position:fixed;bottom:calc(var(--nav) + var(--sab));left:50%;transform:translateX(-50%) translateY(100%);
+        width:100%;max-width:480px;
+        background:rgba(15,15,20,.97);border-top:1px solid rgba(200,255,60,.18);
+        z-index:200;transition:transform .28s var(--spring);
+        display:none;
+      }
+      #float-rest.visible{display:block;transform:translateX(-50%) translateY(0)}
+      .float-rest-bar-wrap{height:3px;background:var(--s3);overflow:hidden}
+      .float-rest-bar-fill{height:100%;width:0%;background:var(--a);transition:width .4s linear}
+      .float-rest-collapsed{display:flex;align-items:center;gap:10px;padding:9px 16px;cursor:pointer}
+      .float-rest-time{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:700;color:var(--a);min-width:52px;line-height:1}
+      .float-rest-time.done{color:var(--ok)}
+      .float-rest-label{font-size:12px;color:var(--ts);flex:1}
+      .float-rest-actions{display:flex;gap:6px;margin-left:auto}
+      .float-rest-btn{background:var(--s3);border:1px solid var(--bd2);color:var(--t);border-radius:8px;padding:5px 12px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap}
+      .float-rest-btn.start{background:rgba(200,255,60,.1);border-color:rgba(200,255,60,.28);color:var(--a)}
+      .float-rest-expand{background:var(--s2);border-top:1px solid var(--bd);padding:12px 16px;display:none}
+      .float-rest-expand.open{display:block}
+      .float-rest-full-time{font-family:'Barlow Condensed',sans-serif;font-size:52px;font-weight:700;color:var(--a);text-align:center;line-height:1;margin-bottom:8px}
+      .float-rest-full-time.done{color:var(--ok)}
+      .float-rest-full-progress{height:6px;border-radius:999px;background:var(--s3);overflow:hidden;margin-bottom:12px}
+      .float-rest-full-progress > span{display:block;height:100%;width:0%;background:var(--a);transition:width .4s linear}
+      .float-rest-full-controls{display:flex;gap:8px}
+      .float-rest-full-btn{flex:1;background:var(--s3);border:1px solid var(--bd);color:var(--t);border-radius:12px;padding:10px;font-size:13px;font-weight:600;cursor:pointer}
+      .float-rest-full-btn.primary{border-color:rgba(200,255,60,.3);background:rgba(200,255,60,.08);color:var(--a)}
+      /* ── Dual timer slots ── */
+      .float-rest-collapsed{display:flex;align-items:stretch;gap:0;padding:0}
+      .fr-slot{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 10px 11px;position:relative}
+      .fr-slot.running{background:rgba(200,255,60,.04)}
+      .fr-slot.done-state .float-rest-time{color:var(--ok)}
+      .fr-slot-label{font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ts)}
+      .fr-slot .float-rest-time{font-size:28px;line-height:1}
+      .fr-slot-btns{display:flex;gap:5px;margin-top:2px}
+      .fr-slot-btns .float-rest-btn{padding:4px 9px;font-size:11px}
+      .fr-divider{width:1px;background:var(--bd);align-self:stretch;margin:8px 0}
+      .float-rest-bar-wrap{height:3px;background:var(--s3);overflow:hidden;display:flex}
+      #fr-bar-A{height:100%;width:0%;background:var(--a);transition:width .4s linear;flex-shrink:0}
+      #fr-bar-B{height:100%;width:0%;background:#38bdf8;transition:width .4s linear;flex-shrink:0}
       .coach-card{background:var(--s2);border:1px solid var(--bd);border-radius:14px;padding:14px 16px;margin-bottom:10px}
       .coach-title{font-size:10px;color:var(--a);text-transform:uppercase;letter-spacing:.12em;font-weight:700;margin-bottom:8px}
       .coach-row{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid var(--bd)}
@@ -2783,29 +2825,96 @@ init();
   }
 
   function ensureRestTimerUI(){
-    const logTab = document.getElementById('tab-log');
-    const summary = logTab?.querySelector('.log-summary');
-    if(!summary || document.getElementById('rest-timer-card')) return;
-    const card = document.createElement('div');
-    card.id = 'rest-timer-card';
-    card.className = 'rest-card';
-    card.innerHTML = `
-      <div class="rest-row">
-        <div>
-          <div class="summary-k">Rest Timer</div>
-          <div class="tiny-muted" id="rest-timer-note">ใช้ค่าเริ่มต้นจาก Preferences</div>
-        </div>
-        <div class="rest-time" id="rest-timer-time">01:30</div>
+    ensureFloatTimer();
+  }
+
+  function ensureFloatTimer(){
+    if(document.getElementById('float-rest')) return;
+    const el = document.createElement('div');
+    el.id = 'float-rest';
+    el.innerHTML = `
+      <div class="float-rest-bar-wrap">
+        <div id="fr-bar-A"></div>
+        <div id="fr-bar-B"></div>
       </div>
-      <div class="rest-progress"><span id="rest-timer-bar"></span></div>
-      <div class="rest-controls">
-        <button type="button" class="rest-btn primary" onclick="startRestTimer()">เริ่มพัก</button>
-        <button type="button" class="rest-btn" onclick="pauseRestTimer()">พักไว้</button>
-        <button type="button" class="rest-btn" onclick="resetRestTimer()">รีเซ็ต</button>
+      <div class="float-rest-collapsed">
+        <div class="fr-slot" id="fr-slot-A">
+          <div class="fr-slot-label">Timer A</div>
+          <div class="float-rest-time" id="fr-time-A">00:00</div>
+          <div class="fr-slot-btns">
+            <button type="button" class="float-rest-btn start" onclick="frStart('A')">เริ่ม</button>
+            <button type="button" class="float-rest-btn" onclick="frPause('A')">หยุด</button>
+            <button type="button" class="float-rest-btn" onclick="frReset('A')">รีเซ็ต</button>
+          </div>
+        </div>
+        <div class="fr-divider"></div>
+        <div class="fr-slot" id="fr-slot-B">
+          <div class="fr-slot-label">Timer B</div>
+          <div class="float-rest-time" id="fr-time-B">00:00</div>
+          <div class="fr-slot-btns">
+            <button type="button" class="float-rest-btn start" onclick="frStart('B')">เริ่ม</button>
+            <button type="button" class="float-rest-btn" onclick="frPause('B')">หยุด</button>
+            <button type="button" class="float-rest-btn" onclick="frReset('B')">รีเซ็ต</button>
+          </div>
+        </div>
       </div>
     `;
-    summary.insertAdjacentElement('afterend', card);
+    document.body.appendChild(el);
+    // Init dual timer state
+    S.dualTimer = {
+      A:{ total:Number(S.prefs.defaultRest||90), remain:Number(S.prefs.defaultRest||90), running:false, int:null },
+      B:{ total:Number(S.prefs.defaultRest||90), remain:Number(S.prefs.defaultRest||90), running:false, int:null }
+    };
   }
+
+  window.toggleFloatExpand = function(){};  // no-op, kept for compat
+
+  function updateDualUI(id){
+    const t = S.dualTimer?.[id];
+    if(!t) return;
+    const timeEl = document.getElementById('fr-time-'+id);
+    const barEl  = document.getElementById('fr-bar-'+id);
+    const slot   = document.getElementById('fr-slot-'+id);
+    const pct = t.total ? Math.min(100,((t.total-t.remain)/t.total)*100) : 0;
+    const isDone = !t.running && t.remain<=0 && t.total>0;
+    if(timeEl){ timeEl.textContent=formatMMSS(Math.max(t.remain,0)); timeEl.classList.toggle('done',isDone); }
+    if(barEl) barEl.style.width = pct+'%';
+    if(slot) slot.classList.toggle('running', t.running);
+    if(slot) slot.classList.toggle('done-state', isDone);
+  }
+
+  window.frStart = function(id){
+    const t = S.dualTimer?.[id]; if(!t) return;
+    const sec = getRestSecFromBlock(S.restTimer?.activeBlock) || Number(S.prefs.defaultRest||90);
+    clearInterval(t.int);
+    t.total = sec; t.remain = sec; t.running = true;
+    S.restTimer._everStarted = true;
+    updateDualUI(id);
+    const fr = document.getElementById('float-rest');
+    if(fr) fr.classList.add('visible');
+    t.int = setInterval(()=>{
+      t.remain -= 1;
+      updateDualUI(id);
+      if(t.remain <= 0){
+        clearInterval(t.int); t.running=false; t.remain=0;
+        updateDualUI(id);
+        if(navigator.vibrate) navigator.vibrate([120,60,120]);
+        toast('Timer '+id+' พักครบแล้ว ✓ ลุย!','ok');
+      }
+    },1000);
+  };
+  window.frPause = function(id){
+    const t = S.dualTimer?.[id]; if(!t) return;
+    clearInterval(t.int); t.running=false; updateDualUI(id);
+  };
+  window.frReset = function(id){
+    const t = S.dualTimer?.[id]; if(!t) return;
+    clearInterval(t.int);
+    t.total=Number(S.prefs.defaultRest||90); t.remain=t.total; t.running=false;
+    updateDualUI(id);
+  };
+
+  window.floatMainAction = function(){};  // no-op, kept for compat
 
   function ensureSummaryModal(){
     if(document.getElementById('workout-summary-modal')) return;
@@ -3058,7 +3167,7 @@ init();
     if(exEl)exEl.textContent=String(blocks.length||0);
     if(setEl)setEl.textContent=String(totalSets||0);
     const note=document.getElementById('rest-timer-note');
-    if(note) note.textContent = `Volume ตอนนี้ ${Math.round(toDisplayVolume(volume)).toLocaleString()} ${unitLabel()} · พัก ${S.prefs.defaultRest || 90} วิ`;
+    // note element removed (old rest card gone)
   };
 
   function applyRepRangeState(row){
@@ -3087,7 +3196,6 @@ init();
       inp?.addEventListener('change', ()=>{
         applyRepRangeState(row);
         setRestTimerFromBlock(row.closest('.ex-block'));
-        if((Number(reps.value)||0) > 0) autoStartRestTimer(row);
         refreshLogSummary();
       });
       inp?.addEventListener('keydown', (e)=>{
@@ -3149,6 +3257,8 @@ init();
     } : null;
     addSetRow(sl, sl.children.length+1, prefill);
     refreshLogSummary();
+    // Auto-start rest timer when adding a new set (= just finished previous set)
+    if(sl.children.length > 1) window.autoStartRestTimer?.(btn.closest('.ex-block'));
   };
 
   window.addSetRow = function(sl, n, prefill=null){
@@ -3464,7 +3574,7 @@ init();
           date, exerciseName:exName, sets:1, reps:repsVal, weight:wVal,
           duration:mode==='sec'?repsVal:0, notes:j===0?notes:'', mode, unit:S.unit,
           targetMinReps:min || null, targetMaxReps:max || null, restSec,
-          planId: activePlan?.id || null, createdAt:TS()
+          setOrder:j, planId: activePlan?.id || null, createdAt:TS()
         });
       });
     }
@@ -3534,14 +3644,17 @@ init();
 
   function updateRestUI(){
     ensureRestTimerUI();
-    const t = document.getElementById('rest-timer-time');
-    const b = document.getElementById('rest-timer-bar');
-    const note = document.getElementById('rest-timer-note');
-    if(t) t.textContent = formatMMSS(S.restTimer.remain);
-    if(b) b.style.width = `${S.restTimer.total ? ((S.restTimer.total - S.restTimer.remain)/S.restTimer.total)*100 : 0}%`;
-    if(note) {
-      const currentSec = getRestSecFromBlock(S.restTimer.activeBlock);
-      note.textContent = S.restTimer.running ? `กำลังพัก... (${S.restTimer.total} วิ)` : `เวลาพักท่าปัจจุบัน ${currentSec} วิ`;
+    // Show float timer whenever on log tab
+    const fr = document.getElementById('float-rest');
+    if(fr){
+      const onLog = !document.getElementById('tab-log')?.classList.contains('hidden');
+      if(onLog){
+        fr.classList.add('visible');
+        const logPane = document.getElementById('tab-log');
+        if(logPane) logPane.style.paddingBottom = 'calc(var(--nav) + var(--sab) + 90px)';
+      } else {
+        fr.classList.remove('visible');
+      }
     }
   }
   window.startRestTimer = function(sec){
@@ -3551,6 +3664,9 @@ init();
     S.restTimer.total = target;
     S.restTimer.remain = target;
     S.restTimer.running = true;
+    S.restTimer._everStarted = true;
+    // Collapse expanded panel when restarting
+    document.getElementById('fr-expand')?.classList.remove('open');
     updateRestUI();
     S.restTimer.int = setInterval(()=>{
       S.restTimer.remain -= 1;
@@ -3560,7 +3676,9 @@ init();
         S.restTimer.running = false;
         S.restTimer.remain = 0;
         updateRestUI();
-        toast('พักครบแล้ว ✓','ok');
+        // Vibrate if supported
+        if(navigator.vibrate) navigator.vibrate([120,60,120]);
+        toast('พักครบแล้ว ✓ ลุย!','ok');
       }
     }, 1000);
   };
@@ -3579,8 +3697,10 @@ init();
   window.autoStartRestTimer = function(source){
     const activeBlock = source?.closest?.('.ex-block') || source || S.restTimer.activeBlock || document.activeElement?.closest?.('.ex-block');
     setRestTimerFromBlock(activeBlock);
-    const sec = getRestSecFromBlock(activeBlock);
-    startRestTimer(sec);
+    S.restTimer._everStarted = true;
+    updateRestUI();
+    // Auto-start Timer A when ticking set done or adding set
+    window.frStart?.('A');
   };
 
   function initEnhancements(){
@@ -4197,6 +4317,8 @@ init();
     btn.classList.toggle('active', active);
     row.classList.toggle('done', active);
     row.dataset.completed = active ? '1' : '0';
+    // Auto-start rest timer when marking a set as done
+    if(active) window.autoStartRestTimer?.(row);
   };
 
   function attachV71RowEvents(row){
@@ -4208,7 +4330,6 @@ init();
       inp.addEventListener('change', ()=>{
         if(typeof applyRepRangeState==='function') applyRepRangeState(row);
         window.setRestTimerFromBlock?.(row.closest('.ex-block'));
-        if((Number(reps?.value)||0) > 0) window.autoStartRestTimer?.(row);
         refreshLogSummary();
       });
       inp.addEventListener('input', ()=>refreshLogSummary());
@@ -4355,7 +4476,7 @@ init();
           duration:mode==='sec'?repsVal:0, notes:j===0?notes:'', mode, unit:S.unit,
           targetMinReps:min || null, targetMaxReps:max || null, restSec,
           completed: row.dataset.completed==='1',
-          planId: activePlan?.id || null, createdAt:TS()
+          setOrder:j, planId: activePlan?.id || null, createdAt:TS()
         });
       });
     }
@@ -4510,7 +4631,19 @@ init();
   const _origSetTab = window.setTab;
   window.setTab = function(tab, ...rest){
     if(tab==='log') ensureV72Styles();
-    return _origSetTab ? _origSetTab.call(this, tab, ...rest) : undefined;
+    const result = _origSetTab ? _origSetTab.call(this, tab, ...rest) : undefined;
+    // Show float timer on log tab always
+    const fr = document.getElementById('float-rest');
+    if(fr){
+      if(tab==='log'){
+        fr.classList.add('visible');
+        const logPane = document.getElementById('tab-log');
+        if(logPane) logPane.style.paddingBottom = 'calc(var(--nav) + var(--sab) + 90px)';
+      } else {
+        fr.classList.remove('visible');
+      }
+    }
+    return result;
   };
 
   if(document.readyState !== 'loading') ensureV72Styles();
@@ -4813,7 +4946,7 @@ init();
           duration:mode==='sec'?repsVal:0, notes:j===0?notes:'', mode, unit:S.unit,
           targetMinReps:min || null, targetMaxReps:max || null, restSec,
           completed: row.dataset.completed==='1',
-          planId: activePlan?.id || null, createdAt:TS()
+          setOrder:j, planId: activePlan?.id || null, createdAt:TS()
         });
       });
     }
