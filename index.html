@@ -2226,12 +2226,15 @@ function setTheme(themeName) {
   if (themeName && themeName !== 'default') {
     document.body.classList.add('theme-' + themeName);
   }
-  // Persist selection
+  // Persist locally (fast, works offline)
   localStorage.setItem('lift_theme', themeName || 'default');
   // Sync the dropdown if visible
   const sel = document.getElementById('theme-select');
   if (sel) sel.value = themeName || 'default';
-
+  // Persist to Firestore (ถ้า login อยู่) — sync ข้ามอุปกรณ์
+  if (S.user?.uid) {
+    uref().update({ theme: themeName || 'default' }).catch(() => {});
+  }
 }
 
 function loadSavedTheme() {
@@ -2253,6 +2256,12 @@ function init(){
         displayName: doc.data()?.displayName || firebaseUser.email.split('@')[0],
         username:    doc.data()?.username    || firebaseUser.email.split('@')[0],
       };
+      // โหลด theme จาก Firestore → override localStorage
+      const savedTheme = doc.data()?.theme;
+      if (savedTheme) {
+        localStorage.setItem('lift_theme', savedTheme);
+        setTheme(savedTheme);
+      }
       await loadExercises();
       await loadPlans();
       await primeLastExerciseMap();
