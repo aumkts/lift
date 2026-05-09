@@ -21,7 +21,7 @@
   document.addEventListener('DOMContentLoaded', function(){
     const t2 = localStorage.getItem('lift_theme');
     if(t2 && t2 !== 'default'){
-      ['pikachu','lugia','trainer','cyber-neon','gameboy','matrix','crimson','snorlax','charizard','blastoise','bulbasaur','gengar','pokeball'].forEach(n => document.body.classList.remove('theme-'+n));
+      ['pikachu','lugia','trainer','switch','cyber-neon','gameboy','matrix','crimson','snorlax','charizard','blastoise','bulbasaur','gengar','pokeball'].forEach(n => document.body.classList.remove('theme-'+n));
       document.body.classList.add('theme-' + t2);
     }
   });
@@ -282,6 +282,82 @@ body.theme-trainer .heatmap-cell::after { color: rgba(255,245,245,.55); }
 body.theme-trainer .heatmap-legend { color: #ffaaaa; }
 body.theme-trainer .heatmap-legend-box { background: rgba(43,59,197,0.30); border-color: rgba(255,230,0,0.15); }
 body.theme-trainer .progress-chart-shell { background: #2b3bc5; border-color: rgba(255,230,0,.25); }
+
+/* Theme: Nintendo Switch — Red + Cyan + Dark */
+body.theme-switch {
+  --bg:#1a1a1a;
+  --s1:#242424;
+  --s2:#2e2e2e;
+  --s3:#383838;
+  --s4:#424242;
+  --bd:rgba(0,220,220,.18);
+  --bd2:rgba(0,220,220,.40);
+  --bd-card:rgba(0,220,220,.16);
+  --a:#00dcdc;
+  --a2:#00aaaa;
+  --a3:rgba(0,220,220,.12);
+  --t:#f5eeee;
+  --ts:#b0d8d8;
+  --td:#607878;
+  --err:#ff0000;
+  --err2:rgba(255,0,0,.15);
+  --ok:#50d080;
+  --ok2:rgba(80,208,128,.12);
+  --a2:#00aaaa;
+  --abg:#1a1a1a;
+  --pixel-shadow: 4px 4px 0px rgba(0,0,0,0.9);
+  --pixel-shadow-accent: 4px 4px 0px rgba(0,220,220,0.40);
+  --hm1: rgba(0,220,220,0.20);
+  --hm1b: rgba(0,220,220,0.14);
+  --hm2: rgba(255,0,0,0.50);
+  --hm2b: rgba(255,0,0,0.35);
+  --hm3: rgba(0,220,220,0.90);
+  --hm3b: rgba(0,220,220,0.65);
+  box-shadow: 0 0 0 3px #ff0000, 0 0 0 6px #00dcdc, 0 0 40px rgba(0,220,220,0.25) !important;
+  border-left: 3px solid #ff0000 !important;
+  border-right: 3px solid #ff0000 !important;
+}
+body.theme-switch .header { border-bottom-color: #ff0000; background: #000000; }
+body.theme-switch .bottom-nav { border-top-color: #ff0000; background: #000000; }
+body.theme-switch .btn { color: #000000; background: var(--a); box-shadow: 4px 4px 0px #00aaaa, 8px 8px 0px rgba(0,0,0,0.9); }
+body.theme-switch .btn-ghost { color: #00dcdc !important; border-color: rgba(0,220,220,.55) !important; background: transparent !important; }
+body.theme-switch .header-out { background: #2e2e2e; border-color: rgba(0,220,220,.50); color: #00dcdc; }
+body.theme-switch .icon-btn { color: #00dcdc; border-color: rgba(0,220,220,.40); }
+body.theme-switch .icon-btn.del { color: #ff4444; border-color: rgba(255,68,68,.50); }
+body.theme-switch .badge.bp { background: #2e2e2e; color: #b0d8d8; border-color: rgba(0,220,220,.28); }
+body.theme-switch .set-inp { background: #1a1a1a; color: #f5eeee; border-color: rgba(0,220,220,.35); }
+body.theme-switch .toggle-track { background: #2e2e2e; }
+body.theme-switch .sec-title { color: #00dcdc; }
+body.theme-switch .auth-logo { color: #ff0000; text-shadow: 3px 3px 0px #00dcdc, 6px 6px 0px rgba(0,0,0,0.9); }
+body.theme-switch .header-logo { color: #ff0000; text-shadow: 2px 2px 0px #00aaaa; }
+body.theme-switch .stat-num.accent { color: #00dcdc; text-shadow: 2px 2px 0px #00aaaa; }
+body.theme-switch .prog-kpi-val { color: #00dcdc; text-shadow: 2px 2px 0px #00aaaa; }
+body.theme-switch .nav-circle { background: #ff0000; box-shadow: 4px 4px 0px #aa0000, 6px 6px 0px rgba(0,0,0,0.9); }
+body.theme-switch .nav-circle svg { color: #ffffff; }
+body.theme-switch .nav-btn { color: #607878; }
+body.theme-switch .nav-btn.active { color: #00dcdc; }
+body.theme-switch .nav-btn.active::before { color: #ff0000; }
+body.theme-switch .chip.active { background: #00dcdc; border-color: #00dcdc; color: #000000; box-shadow: 3px 3px 0px #00aaaa; }
+body.theme-switch .loader-logo { color: #ff0000; text-shadow: 3px 3px 0px #00dcdc, 6px 6px 0px rgba(0,0,0,0.9); }
+body.theme-switch .loader-fill { background: #ff0000; }
+body.theme-switch .auth-tab.active { background: #ff0000; color: #ffffff; }
+body.theme-switch .metric-tab.active { background: #00dcdc; color: #000000; }
+body.theme-switch .avatar { background: #ff0000; color: #ffffff; box-shadow: 4px 4px 0px #aa0000; }
+body.theme-switch .sec-title { color: #00dcdc; }
+body.theme-switch .settings-hd-title { color: #00dcdc; }
+/* btn-ghost handled above */
+body.theme-switch .settings-card { background: #242424; border-color: rgba(0,220,220,.22); }
+body.theme-switch .settings-hd { border-bottom-color: rgba(0,220,220,.18); background: #1a1a1a; }
+body.theme-switch .input { background: #000000; color: #f5eeee; border-color: rgba(0,220,220,.45); }
+body.theme-switch .field label { color: #00dcdc; }
+body.theme-switch .sec-card { background: #242424; }
+body.theme-switch .card { background: #242424; }
+body.theme-switch .heatmap-card { background: #1a1a1a; border-color: rgba(0,220,220,.20); }
+body.theme-switch .heatmap-cell { background: rgba(0,220,220,0.07); border-color: rgba(0,220,220,0.15); }
+body.theme-switch .heatmap-cell::after { color: rgba(245,238,238,.55); }
+body.theme-switch .heatmap-legend { color: var(--ts); }
+body.theme-switch .heatmap-legend-box { background: rgba(0,220,220,0.07); border-color: rgba(0,220,220,0.15); }
+body.theme-switch .progress-chart-shell { background: #1a1a1a; border-color: rgba(0,220,220,.20); }
 
 /* Theme: Cyber Neon — High energy Arcade feel */
 body.theme-cyber-neon {
@@ -916,6 +992,8 @@ body.theme-cyber-neon .heatmap-legend-box { background: rgba(0,255,204,0.07); bo
 body.theme-cyber-neon .heatmap-week-labels { color: var(--ts); }
 body.theme-cyber-neon .progress-chart-shell { background: #110330; border-color: rgba(0,255,204,.25); }
 body.theme-cyber-neon .nav-btn { color: #3a9980; }
+body.theme-cyber-neon .nav-btn.active { color: #00ffcc; }
+body.theme-cyber-neon .nav-btn.active::before { color: #00ffcc; }
 
 /* ── gameboy heatmap + nav ── */
 body.theme-gameboy {
@@ -952,6 +1030,8 @@ body.theme-matrix .heatmap-legend-box { background: rgba(0,255,65,0.07); border-
 body.theme-matrix .heatmap-week-labels { color: var(--ts); }
 body.theme-matrix .progress-chart-shell { background: #000000; border-color: rgba(0,255,65,.25); }
 body.theme-matrix .nav-btn { color: #006618; }
+body.theme-matrix .nav-btn.active { color: #00ff41; }
+body.theme-matrix .nav-btn.active::before { color: #00ff41; }
 
 /* ── crimson heatmap + nav ── */
 body.theme-crimson {
@@ -969,7 +1049,9 @@ body.theme-crimson .heatmap-legend { color: var(--ts); }
 body.theme-crimson .heatmap-legend-box { background: rgba(230,57,70,0.07); border-color: rgba(230,57,70,0.15); }
 body.theme-crimson .heatmap-week-labels { color: var(--ts); }
 body.theme-crimson .progress-chart-shell { background: #252525; border-color: rgba(230,57,70,.28); }
-body.theme-crimson .nav-btn { color: #5a6a55; }
+body.theme-crimson .nav-btn { color: #8a9a85; }
+body.theme-crimson .nav-btn.active { color: #e63946; }
+body.theme-crimson .nav-btn.active::before { color: #e63946; }
 
 /* ── snorlax heatmap + nav ── */
 body.theme-snorlax {
@@ -2436,14 +2518,15 @@ select.input{
             <optgroup label="── Classic ──">
               <option value="default">Default</option>
               <option value="cyber-neon">🌈 Cyber Neon</option>
-              <option value="gameboy">🕹 Game Boy Classic</option>
+              <option value="gameboy">🎮 Game Boy Classic</option>
               <option value="matrix">💻 Matrix Terminal</option>
               <option value="crimson">🔴 Crimson Stealth</option>
             </optgroup>
             <optgroup label="── Trainer Style ──">
               <option value="pikachu">⚡ Pikachu</option>
               <option value="lugia">🌊 Lugia</option>
-              <option value="trainer">🎮 Pokémon Trainer</option>
+              <option value="switch">🕹️ Nintendo Switch</option>
+              <option value="trainer">⚾ Pokémon Trainer</option>
               <option value="snorlax">😴 Snorlax</option>
               <option value="charizard">🔥 Charizard</option>
               <option value="blastoise">💧 Blastoise</option>
@@ -2630,7 +2713,7 @@ function hideSplash(){
 
 // ── Init — Firebase Auth handles session automatically ─
 // ── Theme System ─────────────────────────────────
-const THEMES = ['default','pikachu','lugia','trainer','cyber-neon','gameboy','matrix','crimson','snorlax','charizard','blastoise','bulbasaur','gengar','pokeball'];
+const THEMES = ['default','pikachu','lugia','trainer','switch','cyber-neon','gameboy','matrix','crimson','snorlax','charizard','blastoise','bulbasaur','gengar','pokeball'];
 
 function setTheme(themeName) {
   // Remove all existing theme classes
