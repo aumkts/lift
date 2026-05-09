@@ -2518,15 +2518,15 @@ select.input{
             <optgroup label="── Classic ──">
               <option value="default">Default</option>
               <option value="cyber-neon">🌈 Cyber Neon</option>
-              <option value="gameboy">🎮 Game Boy Classic</option>
-              <option value="matrix">💻 Matrix Terminal</option>
+              <option value="gameboy">🎮Game Boy Classic</option>
+              <option value="matrix">💻  Matrix Terminal</option>
               <option value="crimson">🔴 Crimson Stealth</option>
             </optgroup>
             <optgroup label="── Trainer Style ──">
               <option value="pikachu">⚡ Pikachu</option>
               <option value="lugia">🌊 Lugia</option>
               <option value="switch">🕹️ Nintendo Switch</option>
-              <option value="trainer">⚾ Pokémon Trainer</option>
+              <option value="trainer">🦸‍♂️ Pokémon Trainer</option>
               <option value="snorlax">😴 Snorlax</option>
               <option value="charizard">🔥 Charizard</option>
               <option value="blastoise">💧 Blastoise</option>
@@ -4277,17 +4277,19 @@ init();
       .float-rest-full-btn.primary{border-color:rgba(248,208,48,.3);background:rgba(248,208,48,.08);color:var(--a)}
       /* ── Dual timer slots ── */
       .float-rest-collapsed{display:flex;align-items:stretch;gap:0;padding:0}
-      .fr-slot{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 10px 11px;position:relative}
-      .fr-slot.running{background:rgba(248,208,48,.04)}
+      .fr-slot{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;padding:16px 6px 16px;position:relative;overflow:hidden;min-width:0}
+      .fr-slot.running{background:rgba(248,208,48,.05)}
       .fr-slot.done-state .float-rest-time{color:var(--ok)}
-      .fr-slot-label{font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:none;color:var(--ts);text-align:center;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:0 4px}
-      .fr-slot .float-rest-time{font-size:31px;line-height:1}
-      .fr-slot-btns{display:flex;gap:5px;margin-top:2px}
-      .fr-slot-btns .float-rest-btn{padding:4px 9px;font-size:14px}
+      .fr-slot.over-state .float-rest-time{color:var(--err)!important;animation:timerOverPulse .8s steps(2) infinite}
+      @keyframes timerOverPulse{0%,100%{opacity:1}50%{opacity:.55}}
+      .fr-slot-label{font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:none;color:var(--ts);text-align:center;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:0 4px}
+      .fr-slot .float-rest-time{font-size:34px;line-height:1;font-family:"Press Start 2P",monospace;white-space:nowrap;overflow:hidden;text-overflow:clip;max-width:100%;letter-spacing:-1px}
+      .fr-slot-btns{display:flex;gap:7px;margin-top:4px}
+      .fr-slot-btns .float-rest-btn{padding:7px 14px;font-size:16px;border-radius:6px}
       .fr-divider{width:1px;background:var(--bd);align-self:stretch;margin:8px 0}
-      .float-rest-bar-wrap{height:3px;background:var(--s3);overflow:hidden;display:flex}
-      #fr-bar-A{height:100%;width:0%;background:var(--a);transition:width .4s linear;flex-shrink:0}
-      #fr-bar-B{height:100%;width:0%;background:#38bdf8;transition:width .4s linear;flex-shrink:0}
+      .float-rest-bar-wrap{height:3px;background:var(--s3);overflow:hidden;position:relative}
+      #fr-bar-A{position:absolute;left:0;top:0;height:100%;width:0%;max-width:50%;background:var(--a);transition:width .4s linear}
+      #fr-bar-B{position:absolute;right:0;top:0;height:100%;width:0%;max-width:50%;background:#38bdf8;transition:width .4s linear;direction:rtl}
       .coach-card{background:var(--s2);border:1px solid var(--bd);border-radius:14px;padding:14px 16px;margin-bottom:10px}
       .coach-title{font-size:13px;color:var(--a);text-transform:uppercase;letter-spacing:.12em;font-weight:700;margin-bottom:8px}
       .coach-row{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid var(--bd)}
@@ -4373,12 +4375,27 @@ init();
     const timeEl = document.getElementById('fr-time-'+id);
     const barEl  = document.getElementById('fr-bar-'+id);
     const slot   = document.getElementById('fr-slot-'+id);
-    const pct = t.total ? Math.min(100,((t.total-t.remain)/t.total)*100) : 0;
-    const isDone = !t.running && t.remain<=0 && t.total>0;
-    if(timeEl){ timeEl.textContent=formatMMSS(Math.max(t.remain,0)); timeEl.classList.toggle('done',isDone); }
-    if(barEl) barEl.style.width = pct+'%';
+    const isOver = t.remain < 0;
+    const pct = t.total ? (isOver ? 100 : Math.min(100,((t.total-t.remain)/t.total)*100)) : 0;
+    const isDone = !t.running && t.remain<=0 && t.total>0 && !isOver;
+    if(timeEl){
+      if(isOver){
+        const neg = Math.abs(t.remain);
+        const mm = String(Math.floor(neg/60)).padStart(2,'0');
+        const ss = String(neg%60).padStart(2,'0');
+        timeEl.textContent = '-'+mm+':'+ss;
+      } else {
+        timeEl.textContent = formatMMSS(Math.max(t.remain,0));
+      }
+      timeEl.classList.toggle('done',isDone);
+    }
+    if(barEl){
+      // แต่ละ bar ครอง 50% ของ wrap — scale pct ให้อยู่ใน 50%
+      barEl.style.width = (pct / 2)+'%';
+    }
     if(slot) slot.classList.toggle('running', t.running);
     if(slot) slot.classList.toggle('done-state', isDone);
+    if(slot) slot.classList.toggle('over-state', isOver);
     // อัปเดต label: ชื่อท่า + restSec (ใช้ activeBlock ร่วมกัน)
     const lbl = slot?.querySelector('.fr-slot-label');
     if(lbl){
@@ -4418,12 +4435,11 @@ init();
     t.int = setInterval(()=>{
       t.remain -= 1;
       updateDualUI(id);
-      if(t.remain <= 0){
-        clearInterval(t.int); t.running=false; t.remain=0;
-        updateDualUI(id);
+      if(t.remain === 0){
         if(navigator.vibrate) navigator.vibrate([120,60,120]);
         toast('Timer '+id+' done ✓ Go!','ok');
       }
+      // ไม่ stop — นับต่อเป็นติดลบ (over-time)
     },1000);
   };
   window.frPause = function(id){
@@ -4432,6 +4448,8 @@ init();
   };
   window.frReset = function(id){
     const t = S.dualTimer?.[id]; if(!t) return;
+    const slot = document.getElementById('fr-slot-'+id);
+    if(slot) slot.classList.remove('over-state');
     clearInterval(t.int);
     t.total = getRestSecFromBlock(S.restTimer?.activeBlock);
     t.remain = t.total; t.running=false;
