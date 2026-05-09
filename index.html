@@ -2256,11 +2256,18 @@ function init(){
         displayName: doc.data()?.displayName || firebaseUser.email.split('@')[0],
         username:    doc.data()?.username    || firebaseUser.email.split('@')[0],
       };
-      // โหลด theme จาก Firestore → override localStorage
-      const savedTheme = doc.data()?.theme;
-      if (savedTheme) {
-        localStorage.setItem('lift_theme', savedTheme);
-        setTheme(savedTheme);
+      // โหลด theme: Firestore ชนะ localStorage
+      // ถ้า Firestore ไม่มี (user เก่าหรือยังไม่เคย save) → ดึงจาก localStorage แล้ว sync ขึ้น Firestore
+      const firestoreTheme = doc.data()?.theme;
+      if (firestoreTheme) {
+        // มี theme ใน Firestore → apply และ sync local
+        localStorage.setItem('lift_theme', firestoreTheme);
+        setTheme(firestoreTheme);
+      } else {
+        // ไม่มีใน Firestore → เอา localStorage ขึ้นไปเก็บ (migration ครั้งแรก)
+        const localTheme = localStorage.getItem('lift_theme') || 'default';
+        uref().update({ theme: localTheme }).catch(() => {});
+        setTheme(localTheme);
       }
       await loadExercises();
       await loadPlans();
