@@ -12,6 +12,21 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
 <!-- Firebase SDK (compat v10) -->
+<script>
+// ── Early theme load — prevent flash of default theme ──
+(function(){
+  const t = localStorage.getItem('lift_theme');
+  if(t && t !== 'default') document.body && document.body.classList.add('theme-' + t);
+  // Also fire after body exists (handles pre-body execution)
+  document.addEventListener('DOMContentLoaded', function(){
+    const t2 = localStorage.getItem('lift_theme');
+    if(t2 && t2 !== 'default'){
+      ['cyber-neon','gameboy','matrix','crimson','snorlax','charizard','blastoise','bulbasaur','gengar','pokeball'].forEach(n => document.body.classList.remove('theme-'+n));
+      document.body.classList.add('theme-' + t2);
+    }
+  });
+})();
+</script>
 <script src="https://www.gstatic.com/firebasejs/10.7.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.2/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.2/firebase-firestore-compat.js"></script>
@@ -71,6 +86,573 @@
   --pixel-shadow: 4px 4px 0px rgba(0,0,0,0.8);
   --pixel-shadow-accent: 4px 4px 0px rgba(248,208,48,0.3);
 }
+
+/* ══════════════════════════════════════════════
+   🎨 THEME DEFINITIONS
+   ══════════════════════════════════════════════ */
+
+/* Theme: Cyber Neon — High energy Arcade feel */
+body.theme-cyber-neon {
+  --bg:#0d0221;
+  --s1:#110330;
+  --s2:#1a0540;
+  --s3:#240755;
+  --s4:#2e0a6a;
+  --bd:rgba(0,255,204,.18);
+  --bd2:rgba(0,255,204,.38);
+  --a:#00ffcc;
+  --a2:#00ccaa;
+  --a3:rgba(0,255,204,.12);
+  --t:#f0fff8;
+  --ts:#80ffdd;
+  --td:#3a9980;
+  --pixel-shadow: 4px 4px 0px rgba(0,0,0,0.9);
+  --pixel-shadow-accent: 4px 4px 0px rgba(0,255,204,0.3);
+  box-shadow: 0 0 0 3px #00ffcc, 0 0 0 6px #0d0221, 0 0 40px rgba(0,255,204,0.20) !important;
+  border-left: 3px solid #ff00ff !important;
+  border-right: 3px solid #ff00ff !important;
+}
+body.theme-cyber-neon .header { border-bottom-color: var(--a); }
+body.theme-cyber-neon .bottom-nav { border-top-color: var(--a); }
+body.theme-cyber-neon .btn { box-shadow: 4px 4px 0px #00ccaa, 8px 8px 0px rgba(0,0,0,0.7); }
+body.theme-cyber-neon .auth-logo { text-shadow: 3px 3px 0px #00ccaa, 6px 6px 0px rgba(0,0,0,0.8); }
+body.theme-cyber-neon .header-logo { text-shadow: 2px 2px 0px #00ccaa; }
+body.theme-cyber-neon .stat-num.accent { text-shadow: 2px 2px 0px #00ccaa; }
+body.theme-cyber-neon .prog-kpi-val { text-shadow: 2px 2px 0px #00ccaa; }
+body.theme-cyber-neon .nav-circle { background: var(--a); box-shadow: 4px 4px 0px #00ccaa, 6px 6px 0px rgba(0,0,0,0.7); }
+body.theme-cyber-neon .chip.active { background: var(--a); border-color: var(--a); box-shadow: 3px 3px 0px #00ccaa; }
+body.theme-cyber-neon .loader-logo { text-shadow: 3px 3px 0px #00ccaa, 6px 6px 0px rgba(0,0,0,0.8); }
+body.theme-cyber-neon .loader-fill { background: var(--a); }
+body.theme-cyber-neon .auth-tab.active { background: var(--a); }
+body.theme-cyber-neon .metric-tab.active { background: var(--a); }
+
+/* Theme: Game Boy Classic — DMG-01 original look */
+body.theme-gameboy {
+  /* 4-shade DMG palette:
+     lightest=#9bbc0f  mid-light=#8bac0f  mid-dark=#306230  darkest=#0f380f */
+  --bg:#306230;        /* mid-dark green — body bg */
+  --s1:#1a4f1a;        /* darker — header/nav/modal bg */
+  --s2:#0f380f;        /* darkest — card bg, inputs */
+  --s3:#0f380f;
+  --s4:#0a2a0a;
+  --bd:rgba(155,188,15,.30);
+  --bd2:rgba(155,188,15,.55);
+  --a:#9bbc0f;         /* accent = brightest green */
+  --a2:#8bac0f;
+  --a3:rgba(155,188,15,.15);
+  --t:#9bbc0f;         /* body text = bright on dark cards */
+  --ts:#8bac0f;        /* secondary text, slightly dimmer */
+  --td:#6a9a0a;        /* tertiary — still readable */
+  --err:#e05050;
+  --err2:rgba(224,80,80,.15);
+  --ok:#9bbc0f;
+  --ok2:rgba(155,188,15,.12);
+  --pixel-shadow: 4px 4px 0px rgba(0,0,0,0.7);
+  --pixel-shadow-accent: 4px 4px 0px rgba(15,56,15,0.5);
+  box-shadow: 0 0 0 3px #0f380f, 0 0 0 6px #9bbc0f, 0 0 40px rgba(15,56,15,0.30) !important;
+  border-left: 3px solid #0f380f !important;
+  border-right: 3px solid #0f380f !important;
+}
+body.theme-gameboy .header { border-bottom-color: #9bbc0f; background: #0f380f; }
+body.theme-gameboy .header-logo { color: #9bbc0f; text-shadow: 2px 2px 0px #1a4f1a; }
+body.theme-gameboy .header-user { color: #8bac0f; }
+body.theme-gameboy .header-out { background: #1a4f1a; border-color: rgba(155,188,15,.40); color: #9bbc0f; }
+body.theme-gameboy .bottom-nav { border-top-color: #9bbc0f; background: #0f380f; }
+body.theme-gameboy .nav-btn { color: #6a9a0a; }
+body.theme-gameboy .nav-btn.active { color: #9bbc0f; }
+body.theme-gameboy .nav-btn.active::before { color: #9bbc0f; }
+body.theme-gameboy .nav-circle { background: #9bbc0f; box-shadow: 4px 4px 0px #6a9a0a, 6px 6px 0px rgba(0,0,0,0.6); }
+body.theme-gameboy .nav-circle svg { color: #0f380f; }
+/* Cards: darkest bg, bright text */
+body.theme-gameboy .stat-card { background: #0f380f; border-color: rgba(155,188,15,.50); }
+body.theme-gameboy .stat-wide { background: #0f380f; border-color: rgba(155,188,15,.50); }
+body.theme-gameboy .chart-card { background: #0f380f; border-color: rgba(155,188,15,.50); }
+body.theme-gameboy .ex-block { background: #0f380f; border-color: rgba(155,188,15,.45); }
+body.theme-gameboy .sec-card { background: #0f380f; }
+body.theme-gameboy .card { background: #0f380f; }
+body.theme-gameboy .filter-card { background: #1a4f1a; border-color: rgba(155,188,15,.30); }
+/* Accent items */
+body.theme-gameboy .stat-num.accent { color: #9bbc0f; text-shadow: 2px 2px 0px #1a4f1a; }
+body.theme-gameboy .prog-kpi-val { color: #9bbc0f; text-shadow: 2px 2px 0px #1a4f1a; }
+body.theme-gameboy .prog-kpi { background: #0f380f; border-color: rgba(155,188,15,.45); }
+body.theme-gameboy .sec-title { color: #9bbc0f; }
+body.theme-gameboy .stat-wide-lbl { color: #9bbc0f; }
+body.theme-gameboy .chart-label { color: #9bbc0f; }
+body.theme-gameboy .ex-block-num { color: #9bbc0f; }
+/* Buttons */
+body.theme-gameboy .btn { background: #9bbc0f; color: #0f380f; box-shadow: 4px 4px 0px #6a9a0a, 8px 8px 0px rgba(0,0,0,0.7); }
+body.theme-gameboy .btn-ghost { color: #9bbc0f; border-color: rgba(155,188,15,.60); background: transparent; }
+/* Chips */
+body.theme-gameboy .chip { background: #1a4f1a; border-color: rgba(155,188,15,.40); color: #8bac0f; }
+body.theme-gameboy .chip.active { background: #9bbc0f; border-color: #9bbc0f; color: #0f380f; box-shadow: 3px 3px 0px #6a9a0a; }
+/* Inputs */
+body.theme-gameboy .input { background: #0f380f; color: #9bbc0f; border-color: rgba(155,188,15,.55); }
+body.theme-gameboy .set-inp { background: #0f380f; border-color: rgba(155,188,15,.45); color: #9bbc0f; }
+/* Settings */
+body.theme-gameboy .settings-card { background: #1a4f1a; border-color: rgba(155,188,15,.35); }
+body.theme-gameboy .settings-hd { border-bottom-color: rgba(155,188,15,.25); background: #0f380f; }
+body.theme-gameboy .settings-hd-title { color: #9bbc0f; }
+body.theme-gameboy .field label { color: #9bbc0f; }
+body.theme-gameboy .avatar { background: #9bbc0f; color: #0f380f; box-shadow: 4px 4px 0px #6a9a0a; }
+/* Auth */
+body.theme-gameboy .auth-logo { color: #9bbc0f; text-shadow: 3px 3px 0px #1a4f1a, 6px 6px 0px rgba(0,0,0,0.6); }
+body.theme-gameboy .auth-tab.active { background: #9bbc0f; color: #0f380f; }
+body.theme-gameboy .metric-tab.active { background: #9bbc0f; color: #0f380f; }
+/* Loader */
+body.theme-gameboy .loader-logo { color: #9bbc0f; text-shadow: 3px 3px 0px #1a4f1a, 6px 6px 0px rgba(0,0,0,0.6); }
+body.theme-gameboy .loader-fill { background: #9bbc0f; }
+body.theme-gameboy .toggle-track { background: #0f380f; }
+/* ex-mgmt text visible */
+body.theme-gameboy .ex-mgmt-name { color: #9bbc0f; }
+body.theme-gameboy .badge.bp { background: #1a4f1a; color: #8bac0f; border-color: rgba(155,188,15,.40); }
+
+/* Theme: Matrix Terminal — Minimalist hacker aesthetic */
+body.theme-matrix {
+  --bg:#000000;
+  --s1:#000000;
+  --s2:#0a0a0a;
+  --s3:#0d0d0d;
+  --s4:#111111;
+  --bd:rgba(0,143,17,.30);
+  --bd2:rgba(0,255,65,.35);
+  --a:#00ff41;
+  --a2:#00cc33;
+  --a3:rgba(0,255,65,.10);
+  --t:#00ff41;
+  --ts:#00aa2b;
+  --td:#006618;
+  --err:#ff0040;
+  --err2:rgba(255,0,64,.12);
+  --ok:#00ff41;
+  --ok2:rgba(0,255,65,.12);
+  --pixel-shadow: 4px 4px 0px rgba(0,0,0,1);
+  --pixel-shadow-accent: 4px 4px 0px rgba(0,255,65,0.25);
+  box-shadow: 0 0 0 3px #00ff41, 0 0 0 6px #000, 0 0 40px rgba(0,255,65,0.18) !important;
+  border-left: 3px solid #008f11 !important;
+  border-right: 3px solid #008f11 !important;
+}
+body.theme-matrix .header { border-bottom-color: var(--a); }
+body.theme-matrix .bottom-nav { border-top-color: var(--a); }
+body.theme-matrix .btn { color: #000; box-shadow: 4px 4px 0px #00aa2b, 8px 8px 0px rgba(0,0,0,0.9); }
+body.theme-matrix .auth-logo { text-shadow: 3px 3px 0px #00aa2b, 6px 6px 0px rgba(0,0,0,0.9); }
+body.theme-matrix .header-logo { text-shadow: 2px 2px 0px #00aa2b; }
+body.theme-matrix .stat-num.accent { text-shadow: 2px 2px 0px #00aa2b; }
+body.theme-matrix .prog-kpi-val { text-shadow: 2px 2px 0px #00aa2b; }
+body.theme-matrix .nav-circle { background: var(--a); box-shadow: 4px 4px 0px #00aa2b, 6px 6px 0px rgba(0,0,0,0.9); }
+body.theme-matrix .chip.active { background: var(--a); border-color: var(--a); color: #000; box-shadow: 3px 3px 0px #00aa2b; }
+body.theme-matrix .loader-logo { text-shadow: 3px 3px 0px #00aa2b, 6px 6px 0px rgba(0,0,0,0.9); }
+body.theme-matrix .loader-fill { background: var(--a); }
+body.theme-matrix .auth-tab.active { background: var(--a); }
+body.theme-matrix .metric-tab.active { background: var(--a); }
+body.theme-matrix .input { color: var(--a); }
+
+/* Theme: Crimson Stealth — Aggressive Boss Fight feel */
+body.theme-crimson {
+  --bg:#1a1a1a;
+  --s1:#1f1f1f;
+  --s2:#252525;
+  --s3:#2a2a2a;
+  --s4:#303030;
+  --bd:rgba(230,57,70,.22);
+  --bd2:rgba(230,57,70,.40);
+  --a:#e63946;
+  --a2:#c1121f;
+  --a3:rgba(230,57,70,.12);
+  --t:#f1faee;
+  --ts:#a8b8a0;
+  --td:#5a6a55;
+  --err:#ff6b6b;
+  --err2:rgba(255,107,107,.15);
+  --ok:#52b788;
+  --ok2:rgba(82,183,136,.12);
+  --pixel-shadow: 4px 4px 0px rgba(0,0,0,0.9);
+  --pixel-shadow-accent: 4px 4px 0px rgba(230,57,70,0.35);
+  box-shadow: 0 0 0 3px #e63946, 0 0 0 6px #1a1a1a, 0 0 40px rgba(230,57,70,0.18) !important;
+  border-left: 3px solid #e63946 !important;
+  border-right: 3px solid #e63946 !important;
+}
+body.theme-crimson .header { border-bottom-color: var(--a); }
+body.theme-crimson .bottom-nav { border-top-color: var(--a); }
+body.theme-crimson .btn { color: #f1faee; box-shadow: 4px 4px 0px #c1121f, 8px 8px 0px rgba(0,0,0,0.7); }
+body.theme-crimson .auth-logo { text-shadow: 3px 3px 0px #c1121f, 6px 6px 0px rgba(0,0,0,0.8); }
+body.theme-crimson .header-logo { text-shadow: 2px 2px 0px #c1121f; }
+body.theme-crimson .stat-num.accent { text-shadow: 2px 2px 0px #c1121f; }
+body.theme-crimson .prog-kpi-val { text-shadow: 2px 2px 0px #c1121f; }
+body.theme-crimson .nav-circle { background: var(--a); box-shadow: 4px 4px 0px #c1121f, 6px 6px 0px rgba(0,0,0,0.7); }
+body.theme-crimson .nav-circle svg { color: #f1faee; }
+body.theme-crimson .chip.active { background: var(--a); border-color: var(--a); color: #f1faee; box-shadow: 3px 3px 0px #c1121f; }
+body.theme-crimson .loader-logo { text-shadow: 3px 3px 0px #c1121f, 6px 6px 0px rgba(0,0,0,0.8); }
+body.theme-crimson .loader-fill { background: var(--a); }
+body.theme-crimson .auth-tab.active { background: var(--a); color: #f1faee; }
+body.theme-crimson .metric-tab.active { background: var(--a); color: #f1faee; }
+
+/* ══════════════════════════════════════════════
+   🐾 POKÉMON CHARACTER THEMES
+   ══════════════════════════════════════════════ */
+
+/* Theme: Snorlax — Sleepy Teal Calm */
+body.theme-snorlax {
+  --bg:#1e3a40;
+  --s1:#26474e;
+  --s2:#1a3038;
+  --s3:#13252b;
+  --s4:#0d1c21;
+  --bd:rgba(241,226,193,.25);
+  --bd2:rgba(241,226,193,.50);
+  --a:#f5eacf;
+  --a2:#d4c49e;
+  --a3:rgba(241,226,193,.12);
+  --t:#f5eacf;
+  --ts:#cce0da;
+  --td:#90c0b8;
+  --err:#f07070;
+  --err2:rgba(240,112,112,.15);
+  --ok:#7dd4c0;
+  --ok2:rgba(125,212,192,.12);
+  --pixel-shadow: 4px 4px 0px rgba(0,0,0,0.85);
+  --pixel-shadow-accent: 4px 4px 0px rgba(241,226,193,0.35);
+  box-shadow: 0 0 0 3px #f5eacf, 0 0 0 6px #1e3a40, 0 0 40px rgba(241,226,193,0.18) !important;
+  border-left: 3px solid #1a3038 !important;
+  border-right: 3px solid #1a3038 !important;
+}
+body.theme-snorlax .header { border-bottom-color: var(--a); }
+body.theme-snorlax .bottom-nav { border-top-color: var(--a); }
+body.theme-snorlax .btn { color: #28444a; box-shadow: 4px 4px 0px #d4c49e, 8px 8px 0px rgba(0,0,0,0.6); }
+body.theme-snorlax .auth-logo { text-shadow: 3px 3px 0px #d4c49e, 6px 6px 0px rgba(0,0,0,0.6); }
+body.theme-snorlax .header-logo { text-shadow: 2px 2px 0px #d4c49e; }
+body.theme-snorlax .stat-num.accent { text-shadow: 2px 2px 0px #d4c49e; }
+body.theme-snorlax .prog-kpi-val { text-shadow: 2px 2px 0px #d4c49e; }
+body.theme-snorlax .nav-circle { background: var(--a); box-shadow: 4px 4px 0px #d4c49e, 6px 6px 0px rgba(0,0,0,0.6); }
+body.theme-snorlax .nav-circle svg { color: #28444a; }
+body.theme-snorlax .chip.active { background: var(--a); border-color: var(--a); color: #28444a; box-shadow: 3px 3px 0px #d4c49e; }
+body.theme-snorlax .loader-logo { text-shadow: 3px 3px 0px #d4c49e, 6px 6px 0px rgba(0,0,0,0.6); }
+body.theme-snorlax .loader-fill { background: var(--a); }
+body.theme-snorlax .auth-tab.active { background: var(--a); color: #28444a; }
+body.theme-snorlax .metric-tab.active { background: var(--a); color: #28444a; }
+body.theme-snorlax .avatar { background: var(--a2); color: #28444a; box-shadow: 4px 4px 0px #d4c49e; }
+body.theme-snorlax .sec-title { color: var(--a); }
+body.theme-snorlax .settings-hd-title { color: var(--a); }
+body.theme-snorlax .nav-btn.active { color: var(--a); }
+body.theme-snorlax .btn-ghost { color: var(--a); border-color: var(--bd2); }
+
+/* Theme: Charizard — Fire Orange Blaze */
+body.theme-charizard {
+  --bg:#2a1000;
+  --s1:#3a1800;
+  --s2:#4a2200;
+  --s3:#5a2c00;
+  --s4:#6a3600;
+  --bd:rgba(245,130,32,.28);
+  --bd2:rgba(245,130,32,.55);
+  --a:#f58220;
+  --a2:#e06e10;
+  --a3:rgba(245,130,32,.12);
+  --t:#fff4e6;
+  --ts:#ffd09a;
+  --td:#e09050;
+  --err:#ff6b6b;
+  --err2:rgba(255,107,107,.15);
+  --ok:#50d080;
+  --ok2:rgba(80,208,128,.12);
+  --pixel-shadow: 4px 4px 0px rgba(0,0,0,0.9);
+  --pixel-shadow-accent: 4px 4px 0px rgba(245,130,32,0.5);
+  box-shadow: 0 0 0 3px #f58220, 0 0 0 6px #2a1000, 0 0 40px rgba(245,130,32,0.30) !important;
+  border-left: 3px solid #f58220 !important;
+  border-right: 3px solid #f58220 !important;
+}
+body.theme-charizard .header { border-bottom-color: var(--a); background: #1a0800; }
+body.theme-charizard .bottom-nav { border-top-color: var(--a); background: #1a0800; }
+body.theme-charizard .btn { color: #1a0800; box-shadow: 4px 4px 0px #e06e10, 8px 8px 0px rgba(0,0,0,0.8); }
+body.theme-charizard .auth-logo { text-shadow: 3px 3px 0px #e06e10, 6px 6px 0px rgba(0,0,0,0.8); }
+body.theme-charizard .header-logo { color: #fff4e6; text-shadow: 2px 2px 0px #e06e10; }
+body.theme-charizard .stat-num.accent { color: var(--a); text-shadow: 2px 2px 0px #e06e10; }
+body.theme-charizard .prog-kpi-val { color: var(--a); text-shadow: 2px 2px 0px #e06e10; }
+body.theme-charizard .nav-circle { background: var(--a); box-shadow: 4px 4px 0px #e06e10, 6px 6px 0px rgba(0,0,0,0.8); }
+body.theme-charizard .nav-circle svg { color: #1a0800; }
+body.theme-charizard .chip.active { background: var(--a); border-color: var(--a); color: #1a0800; box-shadow: 3px 3px 0px #e06e10; }
+body.theme-charizard .loader-logo { text-shadow: 3px 3px 0px #e06e10, 6px 6px 0px rgba(0,0,0,0.8); }
+body.theme-charizard .loader-fill { background: var(--a); }
+body.theme-charizard .auth-tab.active { background: var(--a); color: #1a0800; }
+body.theme-charizard .metric-tab.active { background: var(--a); color: #1a0800; }
+body.theme-charizard .avatar { background: var(--a); color: #1a0800; box-shadow: 4px 4px 0px #e06e10; }
+body.theme-charizard .sec-title { color: var(--a); }
+body.theme-charizard .settings-hd-title { color: var(--a); }
+body.theme-charizard .nav-btn { color: #ffd09a; }
+body.theme-charizard .nav-btn.active { color: var(--a); }
+body.theme-charizard .btn-ghost { color: var(--a); border-color: var(--bd2); }
+body.theme-charizard .settings-card { background: #3a1800; border-color: rgba(245,130,32,.50); }
+body.theme-charizard .settings-hd { border-bottom-color: rgba(245,130,32,.30); }
+body.theme-charizard .input { background: #2a1000; color: #fff4e6; border-color: rgba(245,130,32,.55); }
+body.theme-charizard .field label { color: #f58220; }
+body.theme-charizard .sec-card { background: #3a1800; }
+body.theme-charizard .card { background: #3a1800; }
+
+/* Theme: Blastoise — Water Blue Power */
+body.theme-blastoise {
+  --bg:#123b72;
+  --s1:#1a4a8a;
+  --s2:#0e3060;
+  --s3:#0a2448;
+  --s4:#071a34;
+  --bd:rgba(247,214,102,.25);
+  --bd2:rgba(247,214,102,.50);
+  --a:#f7d666;
+  --a2:#e0bc44;
+  --a3:rgba(247,214,102,.12);
+  --t:#e8f4ff;
+  --ts:#c0dcf8;
+  --td:#80b4e8;
+  --err:#ff6b6b;
+  --err2:rgba(255,107,107,.15);
+  --ok:#7dd4c0;
+  --ok2:rgba(125,212,192,.12);
+  --pixel-shadow: 4px 4px 0px rgba(0,0,0,0.85);
+  --pixel-shadow-accent: 4px 4px 0px rgba(247,214,102,0.40);
+  box-shadow: 0 0 0 3px #f7d666, 0 0 0 6px #123b72, 0 0 40px rgba(74,140,209,0.28) !important;
+  border-left: 3px solid #0e3060 !important;
+  border-right: 3px solid #0e3060 !important;
+}
+body.theme-blastoise .header { border-bottom-color: var(--a); background: #071a34; }
+body.theme-blastoise .bottom-nav { border-top-color: var(--a); background: #071a34; }
+body.theme-blastoise .btn { color: #071a34; box-shadow: 4px 4px 0px #e0bc44, 8px 8px 0px rgba(0,0,0,0.85); }
+body.theme-blastoise .auth-logo { text-shadow: 3px 3px 0px #e0bc44, 6px 6px 0px rgba(0,0,0,0.85); }
+body.theme-blastoise .header-logo { color: #e8f4ff; text-shadow: 2px 2px 0px #e0bc44; }
+body.theme-blastoise .stat-num.accent { text-shadow: 2px 2px 0px #e0bc44; }
+body.theme-blastoise .prog-kpi-val { text-shadow: 2px 2px 0px #e0bc44; }
+body.theme-blastoise .nav-circle { background: var(--a); box-shadow: 4px 4px 0px #e0bc44, 6px 6px 0px rgba(0,0,0,0.85); }
+body.theme-blastoise .nav-circle svg { color: #071a34; }
+body.theme-blastoise .chip.active { background: var(--a); border-color: var(--a); color: #071a34; box-shadow: 3px 3px 0px #e0bc44; }
+body.theme-blastoise .loader-logo { text-shadow: 3px 3px 0px #e0bc44, 6px 6px 0px rgba(0,0,0,0.85); }
+body.theme-blastoise .loader-fill { background: var(--a); }
+body.theme-blastoise .auth-tab.active { background: var(--a); color: #071a34; }
+body.theme-blastoise .metric-tab.active { background: var(--a); color: #071a34; }
+body.theme-blastoise .avatar { background: var(--a2); color: #071a34; box-shadow: 4px 4px 0px #e0bc44; }
+body.theme-blastoise .sec-title { color: var(--a); }
+body.theme-blastoise .settings-hd-title { color: var(--a); }
+body.theme-blastoise .nav-btn { color: #c0dcf8; }
+body.theme-blastoise .nav-btn.active { color: var(--a); }
+body.theme-blastoise .btn-ghost { color: var(--a); border-color: var(--bd2); }
+body.theme-blastoise .settings-card { background: #0e3060; border-color: rgba(247,214,102,.50); }
+body.theme-blastoise .settings-hd { border-bottom-color: rgba(247,214,102,.30); }
+body.theme-blastoise .input { background: #071a34; color: #e8f4ff; border-color: rgba(247,214,102,.55); }
+body.theme-blastoise .field label { color: #f7d666; }
+body.theme-blastoise .sec-card { background: #0e3060; }
+body.theme-blastoise .card { background: #0e3060; }
+
+/* Theme: Bulbasaur — Plant Green Growth */
+body.theme-bulbasaur {
+  --bg:#0f3530;
+  --s1:#184540;
+  --s2:#0c2d28;
+  --s3:#082320;
+  --s4:#051918;
+  --bd:rgba(240,128,128,.28);
+  --bd2:rgba(240,128,128,.55);
+  --a:#ff9090;
+  --a2:#e06868;
+  --a3:rgba(255,144,144,.12);
+  --t:#e8fff6;
+  --ts:#b0e8d8;
+  --td:#70c0ae;
+  --err:#ff6060;
+  --err2:rgba(255,96,96,.15);
+  --ok:#7dd4c0;
+  --ok2:rgba(125,212,192,.12);
+  --pixel-shadow: 4px 4px 0px rgba(0,0,0,0.88);
+  --pixel-shadow-accent: 4px 4px 0px rgba(255,144,144,0.40);
+  box-shadow: 0 0 0 3px #ff9090, 0 0 0 6px #0f3530, 0 0 40px rgba(78,168,160,0.25) !important;
+  border-left: 3px solid #0c2d28 !important;
+  border-right: 3px solid #0c2d28 !important;
+}
+body.theme-bulbasaur .header { border-bottom-color: var(--a); background: #051918; }
+body.theme-bulbasaur .bottom-nav { border-top-color: var(--a); background: #051918; }
+body.theme-bulbasaur .btn { color: #051918; box-shadow: 4px 4px 0px #e06868, 8px 8px 0px rgba(0,0,0,0.88); }
+body.theme-bulbasaur .auth-logo { text-shadow: 3px 3px 0px #e06868, 6px 6px 0px rgba(0,0,0,0.88); }
+body.theme-bulbasaur .header-logo { color: #e8fff6; text-shadow: 2px 2px 0px #e06868; }
+body.theme-bulbasaur .stat-num.accent { text-shadow: 2px 2px 0px #e06868; }
+body.theme-bulbasaur .prog-kpi-val { text-shadow: 2px 2px 0px #e06868; }
+body.theme-bulbasaur .nav-circle { background: var(--a); box-shadow: 4px 4px 0px #e06868, 6px 6px 0px rgba(0,0,0,0.88); }
+body.theme-bulbasaur .nav-circle svg { color: #051918; }
+body.theme-bulbasaur .chip.active { background: var(--a); border-color: var(--a); color: #051918; box-shadow: 3px 3px 0px #e06868; }
+body.theme-bulbasaur .loader-logo { text-shadow: 3px 3px 0px #e06868, 6px 6px 0px rgba(0,0,0,0.88); }
+body.theme-bulbasaur .loader-fill { background: var(--a); }
+body.theme-bulbasaur .auth-tab.active { background: var(--a); color: #051918; }
+body.theme-bulbasaur .metric-tab.active { background: var(--a); color: #051918; }
+body.theme-bulbasaur .avatar { background: var(--a2); color: #051918; box-shadow: 4px 4px 0px #e06868; }
+body.theme-bulbasaur .sec-title { color: var(--a); }
+body.theme-bulbasaur .settings-hd-title { color: var(--a); }
+body.theme-bulbasaur .nav-btn { color: #b0e8d8; }
+body.theme-bulbasaur .nav-btn.active { color: var(--a); }
+body.theme-bulbasaur .btn-ghost { color: var(--a); border-color: var(--bd2); }
+body.theme-bulbasaur .settings-card { background: #0c2d28; border-color: rgba(255,144,144,.50); }
+body.theme-bulbasaur .settings-hd { border-bottom-color: rgba(255,144,144,.28); }
+body.theme-bulbasaur .input { background: #051918; color: #e8fff6; border-color: rgba(255,144,144,.55); }
+body.theme-bulbasaur .field label { color: #ff9090; }
+body.theme-bulbasaur .sec-card { background: #0c2d28; }
+body.theme-bulbasaur .card { background: #0c2d28; }
+
+/* Theme: Gengar — Ghost Purple Shadow */
+body.theme-gengar {
+  --bg:#1e0e38;
+  --s1:#281545;
+  --s2:#1a0c30;
+  --s3:#130924;
+  --s4:#0c061a;
+  --bd:rgba(220,120,255,.22);
+  --bd2:rgba(220,120,255,.45);
+  --a:#dc78ff;
+  --a2:#b850e0;
+  --a3:rgba(220,120,255,.12);
+  --t:#f0e8ff;
+  --ts:#d0b0f8;
+  --td:#a080d8;
+  --err:#ff6b6b;
+  --err2:rgba(255,107,107,.15);
+  --ok:#90e8a8;
+  --ok2:rgba(144,232,168,.12);
+  --pixel-shadow: 4px 4px 0px rgba(0,0,0,0.9);
+  --pixel-shadow-accent: 4px 4px 0px rgba(220,120,255,0.40);
+  box-shadow: 0 0 0 3px #dc78ff, 0 0 0 6px #1e0e38, 0 0 40px rgba(81,53,124,0.40) !important;
+  border-left: 3px solid #1a0c30 !important;
+  border-right: 3px solid #1a0c30 !important;
+}
+body.theme-gengar .header { border-bottom-color: var(--a); background: #0c061a; }
+body.theme-gengar .bottom-nav { border-top-color: var(--a); background: #0c061a; }
+body.theme-gengar .btn { color: #1e0e38; box-shadow: 4px 4px 0px #b850e0, 8px 8px 0px rgba(0,0,0,0.9); }
+body.theme-gengar .auth-logo { text-shadow: 3px 3px 0px #b850e0, 6px 6px 0px rgba(0,0,0,0.9); }
+body.theme-gengar .header-logo { text-shadow: 2px 2px 0px #b850e0; }
+body.theme-gengar .stat-num.accent { text-shadow: 2px 2px 0px #b850e0; }
+body.theme-gengar .prog-kpi-val { text-shadow: 2px 2px 0px #b850e0; }
+body.theme-gengar .nav-circle { background: var(--a); box-shadow: 4px 4px 0px #b850e0, 6px 6px 0px rgba(0,0,0,0.9); }
+body.theme-gengar .nav-circle svg { color: #1e0e38; }
+body.theme-gengar .chip.active { background: var(--a); border-color: var(--a); color: #1e0e38; box-shadow: 3px 3px 0px #b850e0; }
+body.theme-gengar .loader-logo { text-shadow: 3px 3px 0px #b850e0, 6px 6px 0px rgba(0,0,0,0.9); }
+body.theme-gengar .loader-fill { background: var(--a); }
+body.theme-gengar .auth-tab.active { background: var(--a); color: #1e0e38; }
+body.theme-gengar .metric-tab.active { background: var(--a); color: #1e0e38; }
+body.theme-gengar .avatar { background: var(--a2); color: #f0e8ff; box-shadow: 4px 4px 0px #b850e0; }
+body.theme-gengar .sec-title { color: var(--a); }
+body.theme-gengar .settings-hd-title { color: var(--a); }
+body.theme-gengar .nav-btn.active { color: var(--a); }
+body.theme-gengar .btn-ghost { color: var(--a); border-color: var(--bd2); }
+body.theme-gengar .settings-card { background: #1a0c30; border-color: rgba(220,120,255,.45); }
+body.theme-gengar .settings-hd { border-bottom-color: rgba(220,120,255,.25); }
+body.theme-gengar .input { background: #0c061a; color: #f0e8ff; border-color: rgba(220,120,255,.50); }
+body.theme-gengar .field label { color: #dc78ff; }
+body.theme-gengar .sec-card { background: #1a0c30; }
+body.theme-gengar .card { background: #1a0c30; }
+
+/* Theme: Pokéball — Classic Red & White */
+body.theme-pokeball {
+  /* Light theme: bg=light grey, cards=white, accents=red, text=near-black */
+  --bg:#e8e8e8;
+  --s1:#d8d8d8;
+  --s2:#ffffff;
+  --s3:#f0f0f0;
+  --s4:#e0e0e0;
+  --bd:rgba(0,0,0,.20);
+  --bd2:rgba(0,0,0,.40);
+  --a:#ee1515;
+  --a2:#cc1010;
+  --a3:rgba(238,21,21,.10);
+  --t:#111111;
+  --ts:#333333;
+  --td:#666666;
+  --err:#cc0000;
+  --err2:rgba(204,0,0,.15);
+  --ok:#006600;
+  --ok2:rgba(0,102,0,.12);
+  --pixel-shadow: 4px 4px 0px rgba(0,0,0,0.28);
+  --pixel-shadow-accent: 4px 4px 0px rgba(238,21,21,0.30);
+  box-shadow: 0 0 0 3px #ee1515, 0 0 0 6px #000000, 0 0 40px rgba(238,21,21,0.15) !important;
+  border-left: 3px solid #000000 !important;
+  border-right: 3px solid #000000 !important;
+}
+body.theme-pokeball .header { border-bottom-color: #ee1515; background: #ee1515; }
+body.theme-pokeball .header-logo { color: #ffffff; text-shadow: 2px 2px 0px #cc1010; }
+body.theme-pokeball .header-user { color: #ffe0e0; }
+body.theme-pokeball .header-out { background: #cc1010; border-color: #aa0a0a; color: #ffffff; }
+body.theme-pokeball .bottom-nav { border-top-color: #111111; background: #111111; }
+body.theme-pokeball .nav-btn { color: #888888; }
+body.theme-pokeball .nav-btn.active { color: #ee1515; }
+body.theme-pokeball .nav-btn.active::before { color: #ee1515; }
+body.theme-pokeball .nav-circle { background: #ee1515; box-shadow: 4px 4px 0px #cc1010, 6px 6px 0px rgba(0,0,0,0.5); }
+body.theme-pokeball .nav-circle svg { color: #ffffff; }
+/* Cards: white on grey bg — clear separation */
+body.theme-pokeball .stat-card { background: #ffffff; border-color: rgba(0,0,0,.22); }
+body.theme-pokeball .stat-wide { background: #ffffff; border-color: rgba(0,0,0,.22); }
+body.theme-pokeball .chart-card { background: #ffffff; border-color: rgba(0,0,0,.22); }
+body.theme-pokeball .ex-block { background: #ffffff; border-color: rgba(0,0,0,.22); }
+body.theme-pokeball .sec-card { background: #ffffff; }
+body.theme-pokeball .card { background: #ffffff; }
+body.theme-pokeball .filter-card { background: #f0f0f0; border-color: rgba(0,0,0,.18); }
+body.theme-pokeball .prog-kpi { background: #ffffff; border-color: rgba(0,0,0,.22); }
+/* Settings */
+body.theme-pokeball .settings-card { background: #ffffff; border-color: rgba(0,0,0,.22); }
+body.theme-pokeball .settings-hd { background: #ffffff; border-bottom-color: rgba(0,0,0,.18); border-left: 4px solid #ee1515; }
+body.theme-pokeball .settings-hd-title { color: #ee1515; }
+body.theme-pokeball .sec-title { color: #ee1515; }
+/* Buttons */
+body.theme-pokeball .btn { color: #ffffff; background: #ee1515; box-shadow: 4px 4px 0px #cc1010, 8px 8px 0px rgba(0,0,0,0.3); }
+body.theme-pokeball .btn-ghost { color: #ee1515; border-color: #ee1515; background: transparent; }
+/* Chips */
+body.theme-pokeball .chip { background: #e8e8e8; border-color: rgba(0,0,0,.28); color: #333333; }
+body.theme-pokeball .chip.active { background: #ee1515; border-color: #ee1515; color: #fff; box-shadow: 3px 3px 0px #cc1010; }
+/* Inputs */
+body.theme-pokeball .input { color: #111; border-color: rgba(0,0,0,.35); background: #fff; }
+body.theme-pokeball .set-inp { background: #f8f8f8; border-color: rgba(0,0,0,.30); color: #111; }
+body.theme-pokeball .field label { color: #ee1515; }
+/* Accent text */
+body.theme-pokeball .stat-num.accent { color: #ee1515; text-shadow: 2px 2px 0px #cc1010; }
+body.theme-pokeball .prog-kpi-val { color: #ee1515; text-shadow: 2px 2px 0px #cc1010; }
+/* Auth */
+body.theme-pokeball .auth-logo { color: #ee1515; text-shadow: 3px 3px 0px #cc1010, 6px 6px 0px rgba(0,0,0,0.3); }
+body.theme-pokeball .auth-tab.active { background: #ee1515; color: #fff; }
+body.theme-pokeball .metric-tab.active { background: #ee1515; color: #fff; }
+/* Avatar / loader */
+body.theme-pokeball .avatar { background: #ee1515; color: #fff; box-shadow: 4px 4px 0px #cc1010; }
+body.theme-pokeball .loader-logo { color: #ee1515; text-shadow: 3px 3px 0px #cc1010, 6px 6px 0px rgba(0,0,0,0.3); }
+body.theme-pokeball .loader-fill { background: #ee1515; }
+/* Misc */
+body.theme-pokeball .badge.bp { background: #f0f0f0; color: #555; border-color: rgba(0,0,0,.25); }
+body.theme-pokeball .ex-mgmt-name { color: #111111; }
+body.theme-pokeball .ex-mgmt-item { border-bottom-color: rgba(0,0,0,.12); }
+body.theme-pokeball .bp-item-name { color: #111111; }
+body.theme-pokeball .bp-item { border-bottom-color: rgba(0,0,0,.12); }
+body.theme-pokeball .wo-name { color: #111111; }
+body.theme-pokeball .wo-meta { color: #444444; }
+body.theme-pokeball .wo-date { color: #666666; }
+body.theme-pokeball .insight-label { color: #444444; }
+body.theme-pokeball .insight-value { color: #111111; }
+body.theme-pokeball .action-title { color: #111111; }
+body.theme-pokeball .action-sub { color: #444444; }
+body.theme-pokeball .plan-card-name { color: #111111; }
+body.theme-pokeball .plan-card-meta { color: #444444; }
+body.theme-pokeball .stat-num { color: #111111; }
+body.theme-pokeball .stat-lbl { color: #555555; }
+body.theme-pokeball .stat-wide-val { color: #111111; }
+body.theme-pokeball .no-data { color: #555555; }
+body.theme-pokeball .day-lbl { color: #333333; }
+body.theme-pokeball .hist-set-val { color: #111111; }
+body.theme-pokeball .wo-dot { background: #ee1515; }
+body.theme-pokeball .action-card,.theme-pokeball .insight-card,.theme-pokeball .prefs-card { background: #ffffff; border-color: rgba(238,21,21,.20); }
+/* Pokeball heatmap: red on grey bg — clearly visible */
+body.theme-pokeball {
+  --hm1: rgba(238,21,21,0.25);
+  --hm1b: rgba(238,21,21,0.20);
+  --hm2: rgba(238,21,21,0.55);
+  --hm2b: rgba(238,21,21,0.40);
+  --hm3: rgba(238,21,21,0.90);
+  --hm3b: rgba(238,21,21,0.70);
+}
+body.theme-pokeball .heatmap-card { background: #ffffff; border-color: rgba(0,0,0,.18); }
+body.theme-pokeball .heatmap-cell { background: rgba(0,0,0,0.07); border-color: rgba(0,0,0,.15); }
+body.theme-pokeball .heatmap-cell::after { color: rgba(0,0,0,0.45); }
+body.theme-pokeball .heatmap-legend { color: #444444; }
+body.theme-pokeball .heatmap-legend-box { background: rgba(0,0,0,0.07); border-color: rgba(0,0,0,.15); }
+body.theme-pokeball .heatmap-week-labels { color: #555555; }
+body.theme-pokeball .progress-chart-shell { background: #ffffff; border-color: rgba(0,0,0,.22); }
+
 
 /* ── Pokemon-style scanline overlay ── */
 body::before {
@@ -824,12 +1406,12 @@ select.input{cursor:pointer}
   border-radius:0!important;
   image-rendering:pixelated!important;
 }
-.heatmap-cell.level-1{ background:rgba(248,208,48,.2)!important; border-color:rgba(248,208,48,.15)!important; }
-.heatmap-cell.level-2{ background:rgba(248,208,48,.5)!important; border-color:rgba(248,208,48,.3)!important; }
-.heatmap-cell.level-3{ background:rgba(248,208,48,.9)!important; border-color:rgba(248,208,48,.5)!important; }
-.heatmap-legend-box.level-1{ background:rgba(248,208,48,.2)!important; }
-.heatmap-legend-box.level-2{ background:rgba(248,208,48,.5)!important; }
-.heatmap-legend-box.level-3{ background:rgba(248,208,48,.9)!important; }
+.heatmap-cell.level-1{ background:var(--hm1,rgba(248,208,48,.2))!important; border-color:var(--hm1b,rgba(248,208,48,.15))!important; }
+.heatmap-cell.level-2{ background:var(--hm2,rgba(248,208,48,.5))!important; border-color:var(--hm2b,rgba(248,208,48,.3))!important; }
+.heatmap-cell.level-3{ background:var(--hm3,rgba(248,208,48,.9))!important; border-color:var(--hm3b,rgba(248,208,48,.5))!important; }
+.heatmap-legend-box.level-1{ background:var(--hm1,rgba(248,208,48,.2))!important; }
+.heatmap-legend-box.level-2{ background:var(--hm2,rgba(248,208,48,.5))!important; }
+.heatmap-legend-box.level-3{ background:var(--hm3,rgba(248,208,48,.9))!important; }
 
 /* Plan cards pixel style */
 .plan-card{
@@ -1434,6 +2016,33 @@ select.input{
         <button class="btn" style="margin-top:12px;font-size:19px;font-family:'VT323',monospace;font-weight:600;letter-spacing:0" onclick="savePrefs()">Save Preferences</button>
       </div>
     </div>
+    <!-- Appearance / Theme -->
+    <div class="settings-card">
+      <div class="settings-hd"><div class="settings-hd-title">🎨 Appearance</div></div>
+      <div style="padding:14px 16px">
+        <div class="field" style="margin-bottom:10px">
+          <label>Color Theme</label>
+          <select id="theme-select" class="input" onchange="setTheme(this.value)">
+            <optgroup label="── Classic ──">
+              <option value="default">🟡 Pokémon Yellow (Default)</option>
+              <option value="cyber-neon">🌈 Cyber Neon</option>
+              <option value="gameboy">🎮 Game Boy Classic</option>
+              <option value="matrix">💻 Matrix Terminal</option>
+              <option value="crimson">🔴 Crimson Stealth</option>
+            </optgroup>
+            <optgroup label="── Trainer Style ──">
+              <option value="snorlax">😴 Snorlax</option>
+              <option value="charizard">🔥 Charizard</option>
+              <option value="blastoise">💧 Blastoise</option>
+              <option value="bulbasaur">🌿 Bulbasaur</option>
+              <option value="gengar">👻 Gengar</option>
+              <option value="pokeball">🔴 Pokéball</option>
+            </optgroup>
+          </select>
+        </div>
+        <div style="font-size:15px;color:var(--ts);margin-top:4px">Theme is saved automatically and persists on refresh.</div>
+      </div>
+    </div>
     <!-- Version -->
     <div style="text-align:center;padding:16px 0 4px">
       <div style="font-family:'Press Start 2P',monospace;font-size:25px;font-weight:700;color:var(--a);letter-spacing:2px">LIFT</div>
@@ -1607,7 +2216,32 @@ function hideSplash(){
 }
 
 // ── Init — Firebase Auth handles session automatically ─
+// ── Theme System ─────────────────────────────────
+const THEMES = ['default','cyber-neon','gameboy','matrix','crimson','snorlax','charizard','blastoise','bulbasaur','gengar','pokeball'];
+
+function setTheme(themeName) {
+  // Remove all existing theme classes
+  THEMES.forEach(t => document.body.classList.remove('theme-' + t));
+  // Apply new theme (default has no extra class)
+  if (themeName && themeName !== 'default') {
+    document.body.classList.add('theme-' + themeName);
+  }
+  // Persist selection
+  localStorage.setItem('lift_theme', themeName || 'default');
+  // Sync the dropdown if visible
+  const sel = document.getElementById('theme-select');
+  if (sel) sel.value = themeName || 'default';
+
+}
+
+function loadSavedTheme() {
+  const saved = localStorage.getItem('lift_theme') || 'default';
+  setTheme(saved);
+}
+
 function init(){
+  // Load persisted theme before rendering
+  loadSavedTheme();
   // onAuthStateChanged fires on every page load
   // Firebase auto-restores session from IndexedDB (offline too)
   auth.onAuthStateChanged(async firebaseUser => {
@@ -1798,32 +2432,78 @@ function renderStats(d){
     <div class="stat-wide" style="animation:countUp .35s .17s ease both"><div class="stat-wide-lbl">This Week's Volume</div><div class="stat-big"><span>${d.totalWeight.toLocaleString()}</span><span class="stat-unit" id="stat-unit-lbl">kg</span></div></div>`;
 }
 
+// ── Theme-aware chart colors ──
+function getChartColors(){
+  const st = getComputedStyle(document.body);
+  const accent = st.getPropertyValue('--a').trim() || '#f8d030';
+  const bg     = st.getPropertyValue('--bg').trim() || '#0a0a1a';
+  const s1     = st.getPropertyValue('--s1').trim() || '#0f0f2a';
+  const ts     = st.getPropertyValue('--ts').trim() || '#9898c8';
+  const t      = st.getPropertyValue('--t').trim()  || '#e8e8f8';
+  // Detect light theme: if bg is light, use dark grid/label colors
+  const isLight = isLightColor(bg);
+  return {
+    accent,
+    line: accent,
+    dot: accent,
+    dotStroke: isLight ? '#ffffff' : '#06070c',
+    area: hexToRgba(accent, 0.15),
+    areaTop: hexToRgba(accent, 0.22),
+    grid: isLight ? 'rgba(0,0,0,0.10)' : 'rgba(255,255,255,0.07)',
+    axisLabel: isLight ? '#444444' : '#8d95bc',
+    dateLabel: isLight ? '#666666' : '#7a7a96',
+    todayLabel: accent,
+    barFill: isLight ? hexToRgba(accent, 0.85) : hexToRgba(accent, 0.75),
+    barLabel: isLight ? '#111111' : '#eeeef4',
+    barCount: isLight ? '#444444' : '#7a7a96',
+    legendText: isLight ? '#333333' : '#eeeef4',
+    heatEmpty: isLight ? 'rgba(0,0,0,0.08)' : 'rgba(255,255,255,0.05)',
+    heat1: isLight ? hexToRgba(accent, 0.35) : hexToRgba(accent, 0.22),
+    heat2: isLight ? hexToRgba(accent, 0.65) : hexToRgba(accent, 0.52),
+    heat3: isLight ? hexToRgba(accent, 0.95) : hexToRgba(accent, 0.90),
+  };
+}
+function isLightColor(hex){
+  // strip spaces, handle rgb/rgba too
+  const h = hex.replace(/\s/g,'');
+  if(!h.startsWith('#')) return false;
+  const r=parseInt(h.slice(1,3),16), g=parseInt(h.slice(3,5),16), b=parseInt(h.slice(5,7),16);
+  return (r*299 + g*587 + b*114) / 1000 > 140;
+}
+function hexToRgba(hex, alpha){
+  const h = hex.replace(/\s/g,'');
+  if(!h.startsWith('#')) return `rgba(248,208,48,${alpha})`;
+  const r=parseInt(h.slice(1,3),16), g=parseInt(h.slice(3,5),16), b=parseInt(h.slice(5,7),16);
+  return `rgba(${r},${g},${b},${alpha})`;
+}
+
 function renderDashChart(workouts){
   const today=new Date(),todayStr=today.toISOString().slice(0,10);
   const days=[];
   for(let i=29;i>=0;i--){const d=new Date(today);d.setDate(d.getDate()-i);days.push({date:d.toISOString().slice(0,10),d,count:0});}
   workouts.forEach(w=>{const f=days.find(x=>x.date===w.date);if(f)f.count++;});
   document.getElementById('dash-meta').textContent=`${days.filter(d=>d.count>0).length} workout days`;
+  const C=getChartColors();
   const maxV=Math.max(...days.map(d=>d.count),1);
   const W=360,H=110,PL=6,PR=6,PT=14,PB=28,cW=W-PL-PR,cH=H-PT-PB,n=days.length;
   const xs=i=>PL+(i/(n-1))*cW,ys=v=>PT+cH-(v/maxV)*cH;
   const pts=days.map((d,i)=>`${xs(i).toFixed(1)},${ys(d.count).toFixed(1)}`).join(' ');
   const areaPts=`${xs(0).toFixed(1)},${(PT+cH).toFixed(1)} ${pts} ${xs(n-1).toFixed(1)},${(PT+cH).toFixed(1)}`;
-  const yLines=[0,.5,1].map(t=>`<line x1="${PL}" y1="${ys(maxV*t).toFixed(1)}" x2="${W-PR}" y2="${ys(maxV*t).toFixed(1)}" stroke="rgba(255,255,255,.04)" stroke-width="1"/>`).join('');
+  const yLines=[0,.5,1].map(t=>`<line x1="${PL}" y1="${ys(maxV*t).toFixed(1)}" x2="${W-PR}" y2="${ys(maxV*t).toFixed(1)}" stroke="${C.grid}" stroke-width="1"/>`).join('');
   const xLabels=days.map((d,i)=>{
     if(i!==0&&i!==14&&i!==n-1)return'';
     const isT=d.date===todayStr,lbl=isT?'Today':`${d.d.getDate()}/${d.d.getMonth()+1}`;
-    return`<text x="${xs(i).toFixed(1)}" y="${H-5}" text-anchor="${i===0?'start':i===n-1?'end':'middle'}" fill="${isT?'#f8d030':'#7a7a96'}" font-size="10" font-weight="${isT?'700':'400'}" font-family="monospace">${lbl}</text>`;
+    return`<text x="${xs(i).toFixed(1)}" y="${H-5}" text-anchor="${i===0?'start':i===n-1?'end':'middle'}" fill="${isT?C.todayLabel:C.dateLabel}" font-size="10" font-weight="${isT?'700':'400'}" font-family="monospace">${lbl}</text>`;
   }).join('');
   const dots=days.map((d,i)=>{
     if(!d.count)return'';
     const isT=d.date===todayStr,cx=xs(i).toFixed(1),cy=ys(d.count).toFixed(1);
-    return`<circle cx="${cx}" cy="${cy}" r="${isT?5.5:3.5}" fill="${isT?'#f8d030':'rgba(248,208,48,.8)'}" stroke="#09090d" stroke-width="2"/>${isT?`<circle cx="${cx}" cy="${cy}" r="9" fill="none" stroke="rgba(248,208,48,.18)" stroke-width="1.5"/>`:''}`;
+    return`<circle cx="${cx}" cy="${cy}" r="${isT?5.5:3.5}" fill="${C.dot}" stroke="${C.dotStroke}" stroke-width="2"/>${isT?`<circle cx="${cx}" cy="${cy}" r="9" fill="none" stroke="${hexToRgba(C.accent,0.22)}" stroke-width="1.5"/>`:''}`;
   }).join('');
   document.getElementById('dash-chart').innerHTML=`<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
-    <defs><linearGradient id="dg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#f8d030" stop-opacity="0.14"/><stop offset="100%" stop-color="#f8d030" stop-opacity="0"/></linearGradient></defs>
+    <defs><linearGradient id="dg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="${C.accent}" stop-opacity="0.18"/><stop offset="100%" stop-color="${C.accent}" stop-opacity="0"/></linearGradient></defs>
     ${yLines}<polygon points="${areaPts}" fill="url(#dg)"/>
-    <polyline points="${pts}" fill="none" stroke="#f8d030" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+    <polyline points="${pts}" fill="none" stroke="${C.line}" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
     ${dots}${xLabels}</svg>`;
 }
 
@@ -2052,61 +2732,46 @@ const metricLbl=m=>({weight:`Weight (${unitLabel()})`,volume:'Volume',reps:'Reps
 // ── SVG Charts ─────────────────────────────────────
 
 function svgProgressChart(data,metric,title){
+  const C=getChartColors();
   const W=392,H=248,PL=48,PR=12,PT=26,PB=42,cW=W-PL-PR,cH=H-PT-PB;
   const vals=data.map(d=>Number(d.v)||0);
   let minV=Math.min(...vals), maxV=Math.max(...vals);
-  if(minV===maxV){
-    minV=Math.max(0,minV-1);
-    maxV=maxV+1;
-  }
+  if(minV===maxV){minV=Math.max(0,minV-1);maxV=maxV+1;}
   const pad=(maxV-minV)*0.12 || 1;
-  minV=Math.max(0,minV-pad);
-  maxV=maxV+pad;
+  minV=Math.max(0,minV-pad); maxV=maxV+pad;
   const vR=maxV-minV || 1;
   const xs=i=>PL + (i/Math.max(data.length-1,1))*cW;
   const ys=v=>PT + cH - ((v-minV)/vR)*cH;
   const fmtAxis=v=>{
-    if(metric==='volume'){
-      const n=Math.round(v);
-      return n>=1000 ? (n/1000).toFixed(1)+'k' : String(n);
-    }
+    if(metric==='volume'){const n=Math.round(v);return n>=1000?(n/1000).toFixed(1)+'k':String(n);}
     if(metric==='sessions') return String(Math.round(v));
     return String(fmt(v));
   };
-  const ticks=[0,1/3,2/3,1].map(t=>{
-    const v=minV + vR*t;
-    const y=ys(v);
-    return {v,y};
-  });
+  const ticks=[0,1/3,2/3,1].map(t=>{const v=minV+vR*t;return{v,y:ys(v)};});
   const yLines=ticks.map(({v,y})=>
-    `<line x1="${PL}" y1="${y.toFixed(1)}" x2="${W-PR}" y2="${y.toFixed(1)}" stroke="rgba(255,255,255,.08)" stroke-width="1"/>`+
-    `<text x="${PL-8}" y="${(y+4).toFixed(1)}" text-anchor="end" fill="#8d95bc" font-size="10" font-family="monospace">${fmtAxis(v)}</text>`
+    `<line x1="${PL}" y1="${y.toFixed(1)}" x2="${W-PR}" y2="${y.toFixed(1)}" stroke="${C.grid}" stroke-width="1"/>`+
+    `<text x="${PL-8}" y="${(y+4).toFixed(1)}" text-anchor="end" fill="${C.axisLabel}" font-size="10" font-family="monospace">${fmtAxis(v)}</text>`
   ).join('');
-  const idxs=[...new Set([0, Math.floor((data.length-1)/3), Math.floor((data.length-1)*2/3), data.length-1])].filter(i=>i>=0);
-  const xLabels=idxs.map(i=>{
-    const dt=new Date(data[i].date+'T00:00:00');
-    return `<text x="${xs(i).toFixed(1)}" y="${H-10}" text-anchor="middle" fill="#8d95bc" font-size="10" font-family="monospace">${dt.getDate()} ${MONTHS_TH[dt.getMonth()]}</text>`;
-  }).join('');
+  const idxs=[...new Set([0,Math.floor((data.length-1)/3),Math.floor((data.length-1)*2/3),data.length-1])].filter(i=>i>=0);
+  const xLabels=idxs.map(i=>{const dt=new Date(data[i].date+'T00:00:00');return`<text x="${xs(i).toFixed(1)}" y="${H-10}" text-anchor="middle" fill="${C.axisLabel}" font-size="10" font-family="monospace">${dt.getDate()} ${MONTHS_TH[dt.getMonth()]}</text>`;}).join('');
   const pts=data.map((d,i)=>`${xs(i).toFixed(1)},${ys(d.v).toFixed(1)}`).join(' ');
   const areaPts=`${PL},${(PT+cH).toFixed(1)} ${pts} ${(W-PR).toFixed(1)},${(PT+cH).toFixed(1)}`;
-  const dots=data.map((d,i)=>`
-    <circle cx="${xs(i).toFixed(1)}" cy="${ys(d.v).toFixed(1)}" r="8.5" fill="#f8d030" stroke="#06070c" stroke-width="4"/>
-  `).join('');
-  const rangeText = `${new Date(data[0].date+'T00:00:00').toLocaleDateString('en-GB',{month:'2-digit',day:'2-digit'})} - ${new Date(data[data.length-1].date+'T00:00:00').toLocaleDateString('en-GB',{month:'2-digit',day:'2-digit'})}`;
+  const dots=data.map((d,i)=>`<circle cx="${xs(i).toFixed(1)}" cy="${ys(d.v).toFixed(1)}" r="8.5" fill="${C.dot}" stroke="${C.dotStroke}" stroke-width="4"/>`).join('');
+  const rangeText=`${new Date(data[0].date+'T00:00:00').toLocaleDateString('en-GB',{month:'2-digit',day:'2-digit'})} - ${new Date(data[data.length-1].date+'T00:00:00').toLocaleDateString('en-GB',{month:'2-digit',day:'2-digit'})}`;
   return `<div class="progress-chart-shell">
     <svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" class="progress-chart-svg" aria-label="${esc(title||'Progress chart')}">
       <defs>
         <linearGradient id="progArea" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stop-color="#f8d030" stop-opacity="0.26"/>
-          <stop offset="100%" stop-color="#f8d030" stop-opacity="0.03"/>
+          <stop offset="0%" stop-color="${C.accent}" stop-opacity="0.26"/>
+          <stop offset="100%" stop-color="${C.accent}" stop-opacity="0.03"/>
         </linearGradient>
         <linearGradient id="progStroke" x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0%" stop-color="#f8d030"/>
-          <stop offset="100%" stop-color="#d7ff66"/>
+          <stop offset="0%" stop-color="${C.accent}"/>
+          <stop offset="100%" stop-color="${C.accent}"/>
         </linearGradient>
       </defs>
-      <text x="${PL}" y="14" fill="#98a1cf" font-size="11" font-family="monospace">${esc(title||'Progress')}</text>
-      <text x="${W-PR}" y="14" text-anchor="end" fill="#f8d030" font-size="11" font-weight="700" font-family="monospace">${rangeText}</text>
+      <text x="${PL}" y="14" fill="${C.axisLabel}" font-size="11" font-family="monospace">${esc(title||'Progress')}</text>
+      <text x="${W-PR}" y="14" text-anchor="end" fill="${C.accent}" font-size="11" font-weight="700" font-family="monospace">${rangeText}</text>
       ${yLines}
       <polygon points="${areaPts}" fill="url(#progArea)"/>
       <polyline points="${pts}" fill="none" stroke="url(#progStroke)" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>
@@ -2117,54 +2782,57 @@ function svgProgressChart(data,metric,title){
 }
 
 function svgLine(data,metric,showTrend=false){
+  const C=getChartColors();
   const W=360,H=190,PL=46,PR=14,PT=12,PB=36,cW=W-PL-PR,cH=H-PT-PB;
   const vals=data.map(d=>d.v),minV=Math.min(...vals),maxV=Math.max(...vals),vR=maxV-minV||1;
   const xs=i=>PL+(i/Math.max(data.length-1,1))*cW,ys=v=>PT+cH-((v-minV)/vR)*cH;
-  const yLines=[0,.33,.67,1].map(t=>{const v=minV+vR*t,y=ys(v).toFixed(1);const lbl=metric==='volume'&&v>=1000?(v/1000).toFixed(1)+'k':Math.round(v);return`<line x1="${PL}" y1="${y}" x2="${W-PR}" y2="${y}" stroke="rgba(255,255,255,.05)" stroke-width="1"/><text x="${PL-4}" y="${(parseFloat(y)+4).toFixed(1)}" text-anchor="end" fill="#7a7a96" font-size="10" font-family="monospace">${lbl}</text>`;}).join('');
+  const yLines=[0,.33,.67,1].map(t=>{const v=minV+vR*t,y=ys(v).toFixed(1);const lbl=metric==='volume'&&v>=1000?(v/1000).toFixed(1)+'k':Math.round(v);return`<line x1="${PL}" y1="${y}" x2="${W-PR}" y2="${y}" stroke="${C.grid}" stroke-width="1"/><text x="${PL-4}" y="${(parseFloat(y)+4).toFixed(1)}" text-anchor="end" fill="${C.axisLabel}" font-size="10" font-family="monospace">${lbl}</text>`;}).join('');
   const step=Math.max(1,Math.ceil(data.length/5));
   const idxs=[...new Set([0,...data.map((_,i)=>i).filter(i=>i%step===0),data.length-1])];
-  const xLabels=idxs.map(i=>{const dt=new Date(data[i].date+'T00:00:00');return`<text x="${xs(i).toFixed(1)}" y="${H-5}" text-anchor="middle" fill="#7a7a96" font-size="10" font-family="monospace">${dt.getDate()} ${MONTHS_TH[dt.getMonth()]}</text>`;}).join('');
+  const xLabels=idxs.map(i=>{const dt=new Date(data[i].date+'T00:00:00');return`<text x="${xs(i).toFixed(1)}" y="${H-5}" text-anchor="middle" fill="${C.dateLabel}" font-size="10" font-family="monospace">${dt.getDate()} ${MONTHS_TH[dt.getMonth()]}</text>`;}).join('');
   const pts=data.map((d,i)=>`${xs(i).toFixed(1)},${ys(d.v).toFixed(1)}`).join(' ');
   const areaPts=`${PL},${(PT+cH).toFixed(1)} ${pts} ${(W-PR).toFixed(1)},${(PT+cH).toFixed(1)}`;
   const dotR=data.length<=14?4.5:data.length<=30?3.5:2.5;
-  const dots=data.map((d,i)=>`<circle cx="${xs(i).toFixed(1)}" cy="${ys(d.v).toFixed(1)}" r="${dotR}" fill="#f8d030" stroke="#09090d" stroke-width="2"/>`).join('');
+  const dots=data.map((d,i)=>`<circle cx="${xs(i).toFixed(1)}" cy="${ys(d.v).toFixed(1)}" r="${dotR}" fill="${C.dot}" stroke="${C.dotStroke}" stroke-width="2"/>`).join('');
   let trendSvg='';
   if(showTrend&&data.length>=3){
     const n=data.length,sumX=n*(n-1)/2,sumX2=n*(n-1)*(2*n-1)/6,sumY=data.reduce((s,d)=>s+d.v,0),sumXY=data.reduce((s,d,i)=>s+i*d.v,0);
     const slope=(n*sumXY-sumX*sumY)/(n*sumX2-sumX*sumX),intercept=(sumY-slope*sumX)/n;
     const ty0=intercept,ty1=slope*(n-1)+intercept;
     const ty0c=Math.max(minV,Math.min(maxV,ty0)),ty1c=Math.max(minV,Math.min(maxV,ty1));
-    trendSvg=`<line x1="${xs(0).toFixed(1)}" y1="${ys(ty0c).toFixed(1)}" x2="${xs(n-1).toFixed(1)}" y2="${ys(ty1c).toFixed(1)}" stroke="rgba(248,208,48,.35)" stroke-width="1.5" stroke-dasharray="5,4"/>`;
+    trendSvg=`<line x1="${xs(0).toFixed(1)}" y1="${ys(ty0c).toFixed(1)}" x2="${xs(n-1).toFixed(1)}" y2="${ys(ty1c).toFixed(1)}" stroke="${hexToRgba(C.accent,0.40)}" stroke-width="1.5" stroke-dasharray="5,4"/>`;
     const pct=ty0>0?((ty1-ty0)/ty0*100):0;
-    if(Math.abs(pct)>0.5){const up=pct>0;trendSvg+=`<text x="${W-PR-2}" y="${PT-2}" text-anchor="end" fill="${up?'#f8d030':'#ff4f5a'}" font-size="10" font-weight="700" font-family="monospace">${up?'▲':'▼'} ${Math.abs(pct).toFixed(1)}%</text>`;}
+    if(Math.abs(pct)>0.5){const up=pct>0;trendSvg+=`<text x="${W-PR-2}" y="${PT-2}" text-anchor="end" fill="${up?C.accent:'#ff4f5a'}" font-size="10" font-weight="700" font-family="monospace">${up?'▲':'▼'} ${Math.abs(pct).toFixed(1)}%</text>`;}
   }
   return`<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
-    <defs><linearGradient id="ag" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#f8d030" stop-opacity="0.15"/><stop offset="100%" stop-color="#f8d030" stop-opacity="0"/></linearGradient></defs>
+    <defs><linearGradient id="ag" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="${C.accent}" stop-opacity="0.18"/><stop offset="100%" stop-color="${C.accent}" stop-opacity="0"/></linearGradient></defs>
     ${yLines}<polygon points="${areaPts}" fill="url(#ag)"/>
-    <polyline points="${pts}" fill="none" stroke="#f8d030" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+    <polyline points="${pts}" fill="none" stroke="${C.line}" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
     ${trendSvg}${dots}${xLabels}</svg>`;
 }
 const MULTI_COLORS=['#f8d030','#38bdf8','#fb923c','#a78bfa','#f472b6'];
 function svgMultiLine(series,metric){
   if(!series.length)return'<div class="no-data">No data</div>';
+  const C=getChartColors();
   const allDates=[...new Set(series.flatMap(s=>s.data.map(d=>d.date)))].sort();
   if(allDates.length<2)return`<svg viewBox="0 0 360 40" style="width:100%"><text x="180" y="24" text-anchor="middle" fill="#7a7a96" font-size="12" font-family="monospace">Need at least 2 dates</text></svg>`;
   const allVals=series.flatMap(s=>s.data.map(d=>d.v)),minV=Math.min(...allVals),maxV=Math.max(...allVals),vR=maxV-minV||1;
   const n=allDates.length,W=360,H=200,PL=46,PR=14,PT=12,PB=44,cW=W-PL-PR,cH=H-PT-PB;
   const xs=i=>PL+(i/(n-1))*cW,ys=v=>PT+cH-((v-minV)/vR)*cH;
-  const yLines=[0,.5,1].map(t=>{const v=minV+vR*t,y=ys(v).toFixed(1);const lbl=metric==='volume'&&v>=1000?(v/1000).toFixed(1)+'k':Math.round(v);return`<line x1="${PL}" y1="${y}" x2="${W-PR}" y2="${y}" stroke="rgba(255,255,255,.05)" stroke-width="1"/><text x="${PL-4}" y="${(parseFloat(y)+4).toFixed(1)}" text-anchor="end" fill="#7a7a96" font-size="10" font-family="monospace">${lbl}</text>`;}).join('');
+  const yLines=[0,.5,1].map(t=>{const v=minV+vR*t,y=ys(v).toFixed(1);const lbl=metric==='volume'&&v>=1000?(v/1000).toFixed(1)+'k':Math.round(v);return`<line x1="${PL}" y1="${y}" x2="${W-PR}" y2="${y}" stroke="${C.grid}" stroke-width="1"/><text x="${PL-4}" y="${(parseFloat(y)+4).toFixed(1)}" text-anchor="end" fill="${C.axisLabel}" font-size="10" font-family="monospace">${lbl}</text>`;}).join('');
   const step=Math.max(1,Math.ceil(n/4));
   const idxs=[...new Set([0,...allDates.map((_,i)=>i).filter(i=>i%step===0),n-1])];
-  const xLabels=idxs.map(i=>{const dt=new Date(allDates[i]+'T00:00:00');return`<text x="${xs(i).toFixed(1)}" y="${H-PB+14}" text-anchor="middle" fill="#7a7a96" font-size="10" font-family="monospace">${dt.getDate()} ${MONTHS_TH[dt.getMonth()]}</text>`;}).join('');
-  const lines=series.map((s,si)=>{const color=MULTI_COLORS[si%MULTI_COLORS.length];const dateMap=Object.fromEntries(s.data.map(d=>[d.date,d.v]));const validPts=allDates.map((dt,i)=>dateMap[dt]!=null?{i,v:dateMap[dt]}:null).filter(Boolean);if(!validPts.length)return'';const pts=validPts.map(p=>`${xs(p.i).toFixed(1)},${ys(p.v).toFixed(1)}`).join(' ');const dots=validPts.map(p=>`<circle cx="${xs(p.i).toFixed(1)}" cy="${ys(p.v).toFixed(1)}" r="3" fill="${color}" stroke="#09090d" stroke-width="1.5"/>`).join('');return`<polyline points="${pts}" fill="none" stroke="${color}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" opacity="0.9"/>${dots}`;}).join('');
-  const legend=series.map((s,si)=>{const color=MULTI_COLORS[si%MULTI_COLORS.length];const lbl=s.name.length>12?s.name.slice(0,12)+'…':s.name;const lx=PL+(si%3)*(cW/3),ly=H-PB+26+(Math.floor(si/3)*14);return`<circle cx="${lx+5}" cy="${ly-4}" r="4" fill="${color}"/><text x="${lx+13}" y="${ly}" fill="#eeeef4" font-size="10" font-family="monospace">${esc(lbl)}</text>`;}).join('');
+  const xLabels=idxs.map(i=>{const dt=new Date(allDates[i]+'T00:00:00');return`<text x="${xs(i).toFixed(1)}" y="${H-PB+14}" text-anchor="middle" fill="${C.dateLabel}" font-size="10" font-family="monospace">${dt.getDate()} ${MONTHS_TH[dt.getMonth()]}</text>`;}).join('');
+  const lines=series.map((s,si)=>{const color=MULTI_COLORS[si%MULTI_COLORS.length];const dateMap=Object.fromEntries(s.data.map(d=>[d.date,d.v]));const validPts=allDates.map((dt,i)=>dateMap[dt]!=null?{i,v:dateMap[dt]}:null).filter(Boolean);if(!validPts.length)return'';const pts=validPts.map(p=>`${xs(p.i).toFixed(1)},${ys(p.v).toFixed(1)}`).join(' ');const dots=validPts.map(p=>`<circle cx="${xs(p.i).toFixed(1)}" cy="${ys(p.v).toFixed(1)}" r="3" fill="${color}" stroke="${C.dotStroke}" stroke-width="1.5"/>`).join('');return`<polyline points="${pts}" fill="none" stroke="${color}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" opacity="0.9"/>${dots}`;}).join('');
+  const legend=series.map((s,si)=>{const color=MULTI_COLORS[si%MULTI_COLORS.length];const lbl=s.name.length>12?s.name.slice(0,12)+'…':s.name;const lx=PL+(si%3)*(cW/3),ly=H-PB+26+(Math.floor(si/3)*14);return`<circle cx="${lx+5}" cy="${ly-4}" r="4" fill="${color}"/><text x="${lx+13}" y="${ly}" fill="${C.legendText}" font-size="10" font-family="monospace">${esc(lbl)}</text>`;}).join('');
   return`<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">${yLines}${lines}${xLabels}${legend}</svg>`;
 }
 function svgBar(data){
   if(!data.length)return'<div class="no-data">No data</div>';
+  const C=getChartColors();
   const maxV=Math.max(...data.map(d=>d.v));
   const rowH=32,gap=7,W=360,PL=74,PR=44,bW=W-PL-PR,H=data.length*(rowH+gap)+gap;
-  const bars=data.map((d,i)=>{const y=gap+i*(rowH+gap),bw=Math.max((d.v/maxV)*bW,4);const lbl=d.l.length>9?d.l.slice(0,9)+'…':d.l;return`<text x="${PL-8}" y="${(y+rowH*.66).toFixed(1)}" text-anchor="end" fill="#eeeef4" font-size="12" font-weight="500" font-family="monospace">${esc(lbl)}</text><rect x="${PL}" y="${y+7}" width="${bw.toFixed(1)}" height="${rowH-14}" rx="5" fill="rgba(248,208,48,.75)"/><text x="${(PL+bw+7).toFixed(1)}" y="${(y+rowH*.66).toFixed(1)}" fill="#7a7a96" font-size="12" font-weight="600" font-family="monospace">${d.v}</text>`;}).join('');
+  const bars=data.map((d,i)=>{const y=gap+i*(rowH+gap),bw=Math.max((d.v/maxV)*bW,4);const lbl=d.l.length>9?d.l.slice(0,9)+'…':d.l;return`<text x="${PL-8}" y="${(y+rowH*.66).toFixed(1)}" text-anchor="end" fill="${C.barLabel}" font-size="12" font-weight="500" font-family="monospace">${esc(lbl)}</text><rect x="${PL}" y="${y+7}" width="${bw.toFixed(1)}" height="${rowH-14}" rx="5" fill="${C.barFill}"/><text x="${(PL+bw+7).toFixed(1)}" y="${(y+rowH*.66).toFixed(1)}" fill="${C.barCount}" font-size="12" font-weight="600" font-family="monospace">${d.v}</text>`;}).join('');
   return`<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">${bars}</svg>`;
 }
 
@@ -3100,7 +3768,7 @@ init();
       .fr-slot{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 10px 11px;position:relative}
       .fr-slot.running{background:rgba(248,208,48,.04)}
       .fr-slot.done-state .float-rest-time{color:var(--ok)}
-      .fr-slot-label{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ts)}
+      .fr-slot-label{font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:none;color:var(--ts);text-align:center;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:0 4px}
       .fr-slot .float-rest-time{font-size:31px;line-height:1}
       .fr-slot-btns{display:flex;gap:5px;margin-top:2px}
       .fr-slot-btns .float-rest-btn{padding:4px 9px;font-size:14px}
@@ -3136,6 +3804,16 @@ init();
     ensureFloatTimer();
   }
 
+  // ── Helper: ดึงชื่อท่าจาก ex-block ──
+  function getExNameFromBlock(block){
+    if(!block) return '';
+    const custom = block.querySelector('.custom-ex');
+    if(custom && custom.style.display !== 'none' && custom.value.trim()) return custom.value.trim();
+    const sel = block.querySelector('.ex-sel');
+    if(sel && sel.value) return sel.options[sel.selectedIndex]?.text || '';
+    return '';
+  }
+
   function ensureFloatTimer(){
     if(document.getElementById('float-rest')) return;
     const el = document.createElement('div');
@@ -3168,10 +3846,10 @@ init();
       </div>
     `;
     document.body.appendChild(el);
-    // Init dual timer state
+    const def = Number(S.prefs.defaultRest||90);
     S.dualTimer = {
-      A:{ total:Number(S.prefs.defaultRest||90), remain:Number(S.prefs.defaultRest||90), running:false, int:null },
-      B:{ total:Number(S.prefs.defaultRest||90), remain:Number(S.prefs.defaultRest||90), running:false, int:null }
+      A:{ total:def, remain:def, running:false, int:null },
+      B:{ total:def, remain:def, running:false, int:null }
     };
   }
 
@@ -3189,6 +3867,31 @@ init();
     if(barEl) barEl.style.width = pct+'%';
     if(slot) slot.classList.toggle('running', t.running);
     if(slot) slot.classList.toggle('done-state', isDone);
+    // อัปเดต label: ชื่อท่า + restSec (ใช้ activeBlock ร่วมกัน)
+    const lbl = slot?.querySelector('.fr-slot-label');
+    if(lbl){
+      const block = S.restTimer?.activeBlock;
+      const exName = getExNameFromBlock(block);
+      const sec = t.total;
+      const side = id === 'A' ? 'R' : 'L';
+      if(exName) lbl.textContent = (exName.length>12 ? exName.slice(0,11)+'…' : exName)+' ('+side+') · '+sec+'s';
+      else lbl.textContent = 'Timer '+id+' · '+sec+'s';
+    }
+  }
+
+  // เมื่อ active block เปลี่ยน → sync restSec ของ timer ที่ไม่ running ทั้งคู่
+  function updateTimerExerciseLabel(){
+    const block = S.restTimer?.activeBlock;
+    if(!S.dualTimer) return;
+    const restSec = getRestSecFromBlock(block);
+    ['A','B'].forEach(id=>{
+      const t = S.dualTimer[id];
+      if(!t.running){
+        t.total = restSec;
+        t.remain = restSec;
+      }
+      updateDualUI(id); // refresh label เสมอ
+    });
   }
 
   window.frStart = function(id){
@@ -3218,7 +3921,8 @@ init();
   window.frReset = function(id){
     const t = S.dualTimer?.[id]; if(!t) return;
     clearInterval(t.int);
-    t.total=Number(S.prefs.defaultRest||90); t.remain=t.total; t.running=false;
+    t.total = getRestSecFromBlock(S.restTimer?.activeBlock);
+    t.remain = t.total; t.running=false;
     updateDualUI(id);
   };
 
@@ -3948,6 +4652,8 @@ init();
       S.restTimer.remain = sec;
       updateRestUI();
     }
+    // อัปเดต label + sync timer ที่ไม่ running ให้แสดง restSec ของท่านี้
+    updateTimerExerciseLabel();
   }
 
   function updateRestUI(){
@@ -4007,7 +4713,7 @@ init();
     setRestTimerFromBlock(activeBlock);
     S.restTimer._everStarted = true;
     updateRestUI();
-    // Auto-start Timer A when ticking set done or adding set
+    // Auto-start Timer A (ข้างขวา) — user กด Start บน Timer B เองสำหรับข้างซ้าย
     window.frStart?.('A');
   };
 
