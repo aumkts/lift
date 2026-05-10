@@ -5091,6 +5091,8 @@ init();
         display:none;
       }
       #float-rest.visible{display:block;transform:translateX(-50%) translateY(0)}
+      /* FIX: push Log tab content down when rest timer visible so btn-save is never hidden */
+      body.timer-visible #tab-log { padding-bottom: calc(var(--nav) + var(--sab) + 135px) !important; }
       .float-rest-bar-wrap{height:3px;background:var(--s3);overflow:hidden}
       .float-rest-bar-fill{height:100%;width:0%;background:var(--a);transition:width .4s linear}
       .float-rest-collapsed{display:flex;align-items:center;gap:10px;padding:9px 16px;cursor:pointer}
@@ -5266,6 +5268,8 @@ init();
     updateDualUI(id);
     const fr = document.getElementById('float-rest');
     if(fr) fr.classList.add('visible');
+    // FIX: add body class so #tab-log gets extra bottom padding and btn-save stays visible
+    document.body.classList.add('timer-visible');
     t.int = setInterval(()=>{
       t.remain -= 1;
       updateDualUI(id);
@@ -6028,10 +6032,13 @@ init();
       const onLog = !document.getElementById('tab-log')?.classList.contains('hidden');
       if(onLog){
         fr.classList.add('visible');
+        document.body.classList.add('timer-visible');
+        // FIX: 135px ensures Log Workout btn clears the dual timer bar height
         const logPane = document.getElementById('tab-log');
-        if(logPane) logPane.style.paddingBottom = 'calc(var(--nav) + var(--sab) + 90px)';
+        if(logPane) logPane.style.paddingBottom = 'calc(var(--nav) + var(--sab) + 135px)';
       } else {
         fr.classList.remove('visible');
+        document.body.classList.remove('timer-visible');
       }
     }
   }
@@ -7015,10 +7022,13 @@ init();
     if(fr){
       if(tab==='log'){
         fr.classList.add('visible');
+        document.body.classList.add('timer-visible');
+        // FIX: 135px ensures Log Workout btn clears the dual timer bar height
         const logPane = document.getElementById('tab-log');
-        if(logPane) logPane.style.paddingBottom = 'calc(var(--nav) + var(--sab) + 90px)';
+        if(logPane) logPane.style.paddingBottom = 'calc(var(--nav) + var(--sab) + 135px)';
       } else {
         fr.classList.remove('visible');
+        document.body.classList.remove('timer-visible');
       }
     }
     return result;
@@ -7354,12 +7364,14 @@ init();
         nextSteps: computed.nextSteps,
         prs: computed.prs,
         deltaPercent: computed.deltaPercent,
-        inlineMain: computed.mainBodyPart ? `Today focused on ${titleCaseBodyPart(computed.mainBodyPart)} ` : 'Today's workout summary with insights',
+        inlineMain: computed.mainBodyPart ? `Today focused on ${titleCaseBodyPart(computed.mainBodyPart)} ` : 'Today\'s workout summary with insights',
         inlineSub: computed.deltaPercent==null
           ? `This week: ${computed.weekDates}/${computed.goal} sessions`
           : `vs last: ${computed.deltaPercent>=0?'+':''}${Math.abs(Math.round(computed.deltaPercent))}% · This week: ${computed.weekDates}/${computed.goal} sessions`
       });
       initLog();
+      // FIX: refresh dashboard so Today's Action card updates immediately after save
+      if(typeof loadDash === 'function') loadDash();
     }catch(err){
       console.error('saveWorkout failed:', err);
       toast(err.message||'Save failed','err');
@@ -7373,5 +7385,572 @@ init();
   }
   document.addEventListener('DOMContentLoaded', initV73);
   setTimeout(initV73, 120);
+})();
+</script>
+
+<script>
+/* ══════════════════════════════════════════════════════
+   ↕️  LIFT — Exercise Reorder (drag + ▲▼ buttons) v1.0
+   Works on mobile (touch) and desktop (mouse).
+   Uses DOM insertBefore/after — no data re-render needed.
+   ══════════════════════════════════════════════════════ */
+(function(){
+
+  /* ── Styles ── */
+  function ensureReorderStyles(){
+    if(document.getElementById('reorder-style')) return;
+    const s = document.createElement('style');
+    s.id = 'reorder-style';
+    s.textContent = `
+      /* drag handle */
+      .ex-drag-handle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 28px;
+        height: 28px;
+        cursor: grab;
+        color: var(--td);
+        flex-shrink: 0;
+        border-radius: 4px;
+        touch-action: none;
+        transition: color .12s;
+        -webkit-user-select: none;
+        user-select: none;
+      }
+      .ex-drag-handle:active { cursor: grabbing; color: var(--a); }
+      .ex-drag-handle svg { pointer-events: none; }
+
+      /* ▲▼ buttons */
+      .ex-move-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 28px;
+        height: 28px;
+        background: none;
+        border: 1px solid var(--bd);
+        border-radius: 4px;
+        color: var(--ts);
+        font-size: 14px;
+        cursor: pointer;
+        padding: 0;
+        flex-shrink: 0;
+        transition: color .1s, border-color .1s, background .1s;
+        -webkit-user-select: none;
+        user-select: none;
+      }
+      .ex-move-btn:active { color: var(--a); border-color: var(--a); background: var(--a3); }
+      .ex-move-btn:disabled { opacity: .25; cursor: default; }
+
+      /* head layout: handle | num | spacer | move-up | move-dn | del */
+      .ex-block-head {
+        display: flex !important;
+        align-items: center !important;
+        gap: 6px !important;
+        padding: 10px 12px 0 !important;
+      }
+      .ex-block-num { flex: 1; }
+
+      /* ghost while dragging */
+      .ex-block.dragging {
+        opacity: .35;
+        box-shadow: none !important;
+      }
+      /* drop target highlight */
+      .ex-block.drag-over {
+        outline: 2px dashed var(--a);
+        outline-offset: -2px;
+      }
+      /* smooth reorder animation */
+      #log-exercises .ex-block {
+        transition: transform .15s ease;
+      }
+    `;
+    document.head.appendChild(s);
+  }
+
+  /* ── Renumber blocks after any move ── */
+  function renumber(){
+    document.querySelectorAll('#log-exercises .ex-block').forEach((b,i)=>{
+      const num = b.querySelector('.ex-block-num');
+      if(num) num.textContent = 'EXERCISE '+(i+1);
+      // update move btn disabled states
+      const up  = b.querySelector('.ex-move-up');
+      const dn  = b.querySelector('.ex-move-dn');
+      const all = [...document.querySelectorAll('#log-exercises .ex-block')];
+      if(up) up.disabled  = i === 0;
+      if(dn) dn.disabled  = i === all.length-1;
+    });
+    if(typeof refreshExBlockControls === 'function') refreshExBlockControls();
+  }
+
+  /* ── Move block up/down ── */
+  function moveBlock(block, dir){
+    const container = document.getElementById('log-exercises');
+    if(!container) return;
+    if(dir === -1){
+      const prev = block.previousElementSibling;
+      if(prev) container.insertBefore(block, prev);
+    } else {
+      const next = block.nextElementSibling;
+      if(next) container.insertBefore(next, block);
+    }
+    renumber();
+    block.scrollIntoView({behavior:'smooth', block:'nearest'});
+  }
+
+  /* ── Build head HTML for a block ── */
+  function buildHead(block, idx, total){
+    const head = block.querySelector('.ex-block-head');
+    if(!head) return;
+
+    // Keep existing num & del button, inject handle + move buttons
+    // Avoid double-inject
+    if(head.querySelector('.ex-drag-handle')) return;
+
+    const num = head.querySelector('.ex-block-num');
+    const del = head.querySelector('.ex-block-del');
+
+    // Remove existing children temporarily
+    head.innerHTML = '';
+
+    // Drag handle
+    const handle = document.createElement('div');
+    handle.className = 'ex-drag-handle';
+    handle.setAttribute('aria-label','Drag to reorder');
+    handle.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="4" y1="8" x2="20" y2="8"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="16" x2="20" y2="16"/></svg>`;
+    head.appendChild(handle);
+
+    // Num label
+    const numEl = num || document.createElement('span');
+    numEl.className = 'ex-block-num';
+    numEl.textContent = 'EXERCISE '+(idx+1);
+    head.appendChild(numEl);
+
+    // ▲ button
+    const upBtn = document.createElement('button');
+    upBtn.type = 'button';
+    upBtn.className = 'ex-move-btn ex-move-up';
+    upBtn.setAttribute('aria-label','Move up');
+    upBtn.disabled = idx === 0;
+    upBtn.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="18 15 12 9 6 15"/></svg>`;
+    upBtn.addEventListener('click', ()=> moveBlock(block, -1));
+    head.appendChild(upBtn);
+
+    // ▼ button
+    const dnBtn = document.createElement('button');
+    dnBtn.type = 'button';
+    dnBtn.className = 'ex-move-btn ex-move-dn';
+    dnBtn.setAttribute('aria-label','Move down');
+    dnBtn.disabled = idx === total-1;
+    dnBtn.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>`;
+    dnBtn.addEventListener('click', ()=> moveBlock(block, 1));
+    head.appendChild(dnBtn);
+
+    // Del button (keep original or recreate)
+    const delEl = del || document.createElement('button');
+    delEl.type = 'button';
+    delEl.className = 'ex-block-del';
+    if(!del){
+      delEl.setAttribute('aria-label','Remove');
+      delEl.textContent = '×';
+      delEl.addEventListener('click', ()=>{ if(typeof delExBlock==='function') delExBlock(delEl); });
+    }
+    head.appendChild(delEl);
+
+    // ── Touch/mouse drag ──
+    attachDrag(handle, block);
+  }
+
+  /* ── Drag-and-drop ── */
+  function attachDrag(handle, block){
+    let dragging = false;
+    let startY   = 0;
+    let origIdx  = 0;
+    let placeholder = null;
+
+    function getBlocks(){ return [...document.querySelectorAll('#log-exercises .ex-block')]; }
+    function getContainer(){ return document.getElementById('log-exercises'); }
+
+    function onStart(e){
+      dragging = true;
+      startY   = e.touches ? e.touches[0].clientY : e.clientY;
+      origIdx  = getBlocks().indexOf(block);
+      block.classList.add('dragging');
+      // Create invisible placeholder
+      placeholder = document.createElement('div');
+      placeholder.style.cssText = `height:${block.offsetHeight}px;margin-bottom:12px;border:2px dashed var(--bd2);border-radius:0;background:var(--a3);`;
+      block.parentNode.insertBefore(placeholder, block.nextSibling);
+      e.preventDefault();
+    }
+
+    function onMove(e){
+      if(!dragging) return;
+      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+      const delta   = clientY - startY;
+      block.style.transform = `translateY(${delta}px)`;
+
+      // Find which block we're hovering over
+      const blocks = getBlocks().filter(b => b !== block && b !== placeholder);
+      let target = null;
+      for(const b of blocks){
+        const rect = b.getBoundingClientRect();
+        if(clientY > rect.top && clientY < rect.bottom){
+          target = b;
+          break;
+        }
+      }
+      // Move placeholder
+      if(target){
+        const rect = target.getBoundingClientRect();
+        const mid  = rect.top + rect.height/2;
+        if(clientY < mid){
+          target.parentNode.insertBefore(placeholder, target);
+        } else {
+          target.parentNode.insertBefore(placeholder, target.nextSibling);
+        }
+      }
+    }
+
+    function onEnd(){
+      if(!dragging) return;
+      dragging = false;
+      block.style.transform = '';
+      block.classList.remove('dragging');
+
+      // Place block where placeholder is
+      const container = getContainer();
+      container.insertBefore(block, placeholder);
+      placeholder.remove();
+      placeholder = null;
+
+      renumber();
+      if(typeof refreshLogSummary === 'function') refreshLogSummary();
+    }
+
+    // Touch
+    handle.addEventListener('touchstart', onStart, {passive:false});
+    document.addEventListener('touchmove', onMove, {passive:false});
+    document.addEventListener('touchend',  onEnd);
+    // Mouse
+    handle.addEventListener('mousedown', onStart);
+    document.addEventListener('mousemove', onMove);
+    document.addEventListener('mouseup',   onEnd);
+  }
+
+  /* ── Inject heads into all current blocks ── */
+  function injectAllHeads(){
+    const blocks = [...document.querySelectorAll('#log-exercises .ex-block')];
+    blocks.forEach((b,i) => buildHead(b, i, blocks.length));
+    renumber();
+  }
+
+  /* ── Patch addExBlock ── */
+  const _origAddExBlock2 = window.addExBlock;
+  window.addExBlock = function(){
+    if(_origAddExBlock2) _origAddExBlock2.apply(this, arguments);
+    // Rebuild all heads so indices & disabled states are correct
+    setTimeout(injectAllHeads, 30);
+  };
+
+  /* ── Patch initLog ── */
+  const _origInitLog2 = window.initLog;
+  window.initLog = function(){
+    if(_origInitLog2) _origInitLog2.apply(this, arguments);
+    setTimeout(injectAllHeads, 80);
+  };
+
+  /* ── MutationObserver for new ex-blocks (direct children only) ── */
+  const mo2 = new MutationObserver(mutations => {
+    // Only act when actual ex-blocks are added (not internal DOM changes)
+    const hasNewBlock = mutations.some(m =>
+      [...m.addedNodes].some(n => n.classList && n.classList.contains('ex-block'))
+    );
+    if(hasNewBlock) setTimeout(injectAllHeads, 40);
+  });
+  function startObs2(){
+    const c = document.getElementById('log-exercises');
+    if(!c || mo2._s) return;
+    mo2.observe(c, {childList:true}); // subtree:false — only direct children
+    mo2._s = true;
+  }
+
+  function init(){
+    ensureReorderStyles();
+    startObs2();
+    injectAllHeads();
+  }
+
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
+  setTimeout(init, 1600);
+  setTimeout(injectAllHeads, 3200);
+
+})();
+</script>
+
+<script>
+/* ══════════════════════════════════════════════════════
+   🏆 LIFT — PR BADGE (Personal Record) v1.0
+   Real-time badge that appears on set rows when the
+   current input beats the user's all-time record.
+   Compares against S.lastByExercise (primed on login).
+   ══════════════════════════════════════════════════════ */
+(function(){
+
+  /* ── Styles ── */
+  function ensurePRStyles(){
+    if(document.getElementById('pr-badge-style')) return;
+    const s = document.createElement('style');
+    s.id = 'pr-badge-style';
+    s.textContent = `
+      .pr-badge {
+        display: inline-flex;
+        align-items: center;
+        padding: 2px 8px;
+        border-radius: 4px;
+        background: rgba(248,208,48,.15);
+        border: 2px solid rgba(248,208,48,.55);
+        color: var(--a);
+        font-family: 'VT323', monospace;
+        font-size: 15px;
+        font-weight: 700;
+        letter-spacing: .04em;
+        white-space: nowrap;
+        pointer-events: none;
+        animation: prPop .25s cubic-bezier(.34,1.56,.64,1) both;
+        grid-column: 1 / -1;
+        margin-top: 2px;
+      }
+      @keyframes prPop {
+        from { opacity:0; transform:scale(.7) translateY(4px); }
+        to   { opacity:1; transform:scale(1)  translateY(0);   }
+      }
+      .set-inp.pr-glow {
+        border-color: rgba(248,208,48,.7) !important;
+        box-shadow: 0 0 0 2px rgba(248,208,48,.18) !important;
+        transition: border-color .2s, box-shadow .2s;
+      }
+      .set-row.is-pr {
+        background: rgba(248,208,48,.04);
+      }
+      .ex-pr-count {
+        display: inline-flex;
+        align-items: center;
+        padding: 2px 9px;
+        border-radius: 4px;
+        background: rgba(248,208,48,.13);
+        border: 1px solid rgba(248,208,48,.38);
+        color: var(--a);
+        font-family: 'VT323', monospace;
+        font-size: 16px;
+        font-weight: 700;
+        animation: prPop .2s cubic-bezier(.34,1.56,.64,1) both;
+        margin-left: auto;
+      }
+    `;
+    document.head.appendChild(s);
+  }
+
+  /* ── Helpers ── */
+  function getExNameFromBlock(block) {
+    if (!block) return '';
+    const sel = block.querySelector('.ex-sel');
+    if (sel && sel.value && sel.value !== '__custom') return sel.value;
+    const cust = block.querySelector('.custom-ex');
+    if (cust && cust.value.trim()) return cust.value.trim();
+    return '';
+  }
+
+  function getPRRecord(exName) {
+    if (!exName || typeof S === 'undefined' || !S.lastByExercise) return null;
+    return S.lastByExercise[exName] || null;
+  }
+
+  /* Returns: null | 'first' | 'weight' | 'reps' */
+  function checkRowPR(row, exName) {
+    const rec = getPRRecord(exName);
+    const repsInp   = row.querySelector('[name=reps]');
+    const weightInp = row.querySelector('[name=weight]');
+    if (!repsInp || !weightInp) return null;
+
+    const curReps   = Number(repsInp.value)   || 0;
+    const curWeight = (typeof fromDisplay === 'function')
+      ? fromDisplay(weightInp.value)
+      : Number(weightInp.value) || 0;
+
+    if (!rec) {
+      return (curWeight > 0 || curReps > 0) ? 'first' : null;
+    }
+
+    const mode = row.dataset.mode || 'reps';
+    if (mode === 'sec') {
+      if (curReps   > (rec.reps   || 0) && curReps > 0)  return 'reps';
+      if (curWeight > (rec.weight || 0) && curWeight > 0) return 'weight';
+    } else {
+      if (curWeight > (rec.weight || 0) && curWeight > 0) return 'weight';
+      if (curReps > (rec.reps || 0) && curWeight >= (rec.weight || 0) && curReps > 0) return 'reps';
+    }
+    return null;
+  }
+
+  /* Inject / remove badge on a single row */
+  function applyPRBadgeToRow(row, exName) {
+    const prType = checkRowPR(row, exName);
+
+    row.querySelector('.pr-badge')?.remove();
+    row.classList.remove('is-pr');
+    row.querySelectorAll('.set-inp').forEach(i => i.classList.remove('pr-glow'));
+
+    if (!prType) return false;
+
+    const rec  = getPRRecord(exName);
+    const unit = (typeof unitLabel === 'function') ? unitLabel() : 'kg';
+    let label  = '🏆 PR';
+
+    if (prType === 'first') {
+      label = '🏆 First record!';
+    } else if (prType === 'weight') {
+      const weightInp = row.querySelector('[name=weight]');
+      const curW = (typeof toDisplay === 'function')
+        ? toDisplay(fromDisplay(weightInp.value))
+        : Number(weightInp.value);
+      const oldW = (typeof toDisplay === 'function')
+        ? toDisplay(rec.weight || 0)
+        : (rec.weight || 0);
+      const diff = Math.round((curW - oldW) * 10) / 10;
+      label = `🏆 PR  ·  ${curW} ${unit}  (+${diff} ${unit})`;
+    } else if (prType === 'reps') {
+      const repsInp = row.querySelector('[name=reps]');
+      const curR = Number(repsInp.value);
+      const oldR = rec.reps || 0;
+      const mode = row.dataset.mode || 'reps';
+      label = mode === 'sec'
+        ? `🏆 PR  ·  ${curR} sec  (+${curR - oldR} sec)`
+        : `🏆 PR  ·  ${curR} reps  (+${curR - oldR} reps)`;
+    }
+
+    const badge = document.createElement('div');
+    badge.className = 'pr-badge';
+    badge.textContent = label;
+    row.appendChild(badge);
+    row.classList.add('is-pr');
+    row.querySelectorAll('.set-inp').forEach(i => i.classList.add('pr-glow'));
+    return true;
+  }
+
+  /* Refresh all rows in one block */
+  function refreshBlockPR(block) {
+    if (!block) return 0;
+    const exName = getExNameFromBlock(block);
+    const rows   = [...block.querySelectorAll('.sets-list .set-row')];
+    let prCount  = 0;
+
+    rows.forEach(row => { if (applyPRBadgeToRow(row, exName)) prCount++; });
+
+    const head = block.querySelector('.ex-block-head');
+    let chip = block.querySelector('.ex-pr-count');
+    if (prCount > 0) {
+      if (!chip && head) { chip = document.createElement('span'); chip.className = 'ex-pr-count'; head.appendChild(chip); }
+      if (chip) chip.textContent = `🏆 x${prCount} PR`;
+    } else {
+      chip?.remove();
+    }
+    return prCount;
+  }
+
+  /* Attach input listeners to one row */
+  function attachPRToRow(row, block) {
+    if (!row || !block || row._prAttached) return;
+    row._prAttached = true;
+    ['reps', 'weight'].forEach(name => {
+      const inp = row.querySelector(`[name=${name}]`);
+      if (!inp) return;
+      inp.addEventListener('input',  () => refreshBlockPR(block));
+      inp.addEventListener('change', () => refreshBlockPR(block));
+    });
+  }
+
+  /* ── Monkey-patch addSetRow ── */
+  const _origAddSetRow = window.addSetRow;
+  window.addSetRow = function(sl, n, prefill) {
+    if (_origAddSetRow) _origAddSetRow.apply(this, arguments);
+    const row   = sl ? sl.lastElementChild : null;
+    const block = sl ? sl.closest('.ex-block') : null;
+    if (row && block) { attachPRToRow(row, block); setTimeout(() => refreshBlockPR(block), 80); }
+  };
+
+  /* ── Monkey-patch addExBlock ── */
+  const _origAddExBlock = window.addExBlock;
+  window.addExBlock = function() {
+    if (_origAddExBlock) _origAddExBlock.apply(this, arguments);
+    const blocks = [...document.querySelectorAll('#log-exercises .ex-block')];
+    const block  = blocks[blocks.length - 1];
+    if (!block) return;
+    const sel = block.querySelector('.ex-sel');
+    if (sel) sel.addEventListener('change', () => setTimeout(() => refreshBlockPR(block), 80));
+    block.querySelectorAll('.sets-list .set-row').forEach(row => attachPRToRow(row, block));
+  };
+
+  /* ── Monkey-patch initLog ── */
+  const _origInitLog = window.initLog;
+  window.initLog = function() {
+    if (_origInitLog) _origInitLog.apply(this, arguments);
+    setTimeout(wireAllBlocks, 250);
+  };
+
+  /* ── MutationObserver ── */
+  const mo = new MutationObserver(mutations => {
+    mutations.forEach(m => {
+      m.addedNodes.forEach(node => {
+        if (!(node instanceof Element)) return;
+        if (node.classList.contains('set-row')) {
+          const block = node.closest('.ex-block');
+          if (block) { attachPRToRow(node, block); setTimeout(() => refreshBlockPR(block), 80); }
+        }
+        if (node.classList.contains('ex-block')) {
+          const sel = node.querySelector('.ex-sel');
+          if (sel) sel.addEventListener('change', () => setTimeout(() => refreshBlockPR(node), 80));
+          node.querySelectorAll('.sets-list .set-row').forEach(row => attachPRToRow(row, node));
+          setTimeout(() => refreshBlockPR(node), 120);
+        }
+      });
+    });
+  });
+
+  function wireAllBlocks() {
+    document.querySelectorAll('#log-exercises .ex-block').forEach(block => {
+      const sel = block.querySelector('.ex-sel');
+      if (sel && !sel._prWired) {
+        sel._prWired = true;
+        sel.addEventListener('change', () => setTimeout(() => refreshBlockPR(block), 80));
+      }
+      block.querySelectorAll('.sets-list .set-row').forEach(row => attachPRToRow(row, block));
+      refreshBlockPR(block);
+    });
+  }
+
+  function startObserver() {
+    const container = document.getElementById('log-exercises');
+    if (!container || mo._started) return;
+    mo.observe(container, { childList: true, subtree: true });
+    mo._started = true;
+  }
+
+  function init() {
+    ensurePRStyles();
+    startObserver();
+    wireAllBlocks();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+  setTimeout(init, 1800);
+  setTimeout(wireAllBlocks, 3500);
+
 })();
 </script>
