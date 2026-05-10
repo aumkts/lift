@@ -21,7 +21,7 @@
   document.addEventListener('DOMContentLoaded', function(){
     const t2 = localStorage.getItem('lift_theme');
     if(t2 && t2 !== 'default'){
-      ['pikachu','lugia','trainer','switch','cyber-neon','gameboy','matrix','crimson','snorlax','charizard','blastoise','bulbasaur','gengar','pokeball','flareon','vaporeon','jolteon','espeon','umbreon','leafeon','glaceon','sylveon'].forEach(n => document.body.classList.remove('theme-'+n));
+      ['pikachu','lugia','trainer','switch','cyber-neon','gameboy','matrix','crimson','snorlax','charizard','blastoise','bulbasaur','gengar','pokeball','flareon','vaporeon','jolteon','espeon','umbreon','leafeon','glaceon','sylveon','gryffindor','ravenclaw','hufflepuff','slytherin'].forEach(n => document.body.classList.remove('theme-'+n));
       document.body.classList.add('theme-' + t2);
     }
   });
@@ -1678,6 +1678,292 @@ body.theme-gengar .nav-btn { color: #a080d8; }
 /* ── pokeball heatmap (already set above in pokeball block, just add nav) ── */
 body.theme-pokeball .nav-btn { color: #888888; }
 
+/* ══════════════════════════════════════════════
+   ⚡ HARRY POTTER HOUSE THEMES
+   ══════════════════════════════════════════════ */
+
+/* Theme: Gryffindor — Scarlet & Gold */
+body.theme-gryffindor {
+  --bg:#1a0000;
+  --s1:#2a0000;
+  --s2:#380000;
+  --s3:#440202;
+  --s4:#550404;
+  --bd:rgba(238,186,48,.22);
+  --bd2:rgba(238,186,48,.48);
+  --bd-card:rgba(174,0,1,.22);
+  --a:#eeba30;
+  --a2:#d3a625;
+  --a3:rgba(238,186,48,.12);
+  --t:#fff8e0;
+  --ts:#f0c860;
+  --td:#b08820;
+  --err:#e82020;
+  --err2:rgba(232,32,32,.15);
+  --ok:#38c878;
+  --ok2:rgba(56,200,120,.12);
+  --abg:#1a0000;
+  --pixel-shadow: 4px 4px 0px rgba(0,0,0,0.9);
+  --pixel-shadow-accent: 4px 4px 0px rgba(238,186,48,0.50);
+  --hm1: rgba(238,186,48,0.20);
+  --hm1b: rgba(238,186,48,0.14);
+  --hm2: rgba(174,0,1,0.55);
+  --hm2b: rgba(174,0,1,0.38);
+  --hm3: rgba(238,186,48,0.90);
+  --hm3b: rgba(238,186,48,0.65);
+  box-shadow: 0 0 0 3px #ae0001, 0 0 0 6px #eeba30, 0 0 40px rgba(174,0,1,0.35) !important;
+  border-left: 3px solid #740001 !important;
+  border-right: 3px solid #740001 !important;
+}
+body.theme-gryffindor .header { border-bottom-color: #ae0001; background: #120000; }
+body.theme-gryffindor .bottom-nav { border-top-color: #ae0001; background: #120000; }
+body.theme-gryffindor .btn { color: #120000; box-shadow: 4px 4px 0px #d3a625, 8px 8px 0px rgba(0,0,0,0.85); }
+body.theme-gryffindor .auth-logo { color: #eeba30; text-shadow: 3px 3px 0px #ae0001, 6px 6px 0px rgba(0,0,0,0.85); }
+body.theme-gryffindor .header-logo { color: #eeba30; text-shadow: 2px 2px 0px #ae0001; }
+body.theme-gryffindor .stat-num.accent { color: var(--a); text-shadow: 2px 2px 0px #ae0001; }
+body.theme-gryffindor .prog-kpi-val { color: var(--a); text-shadow: 2px 2px 0px #ae0001; }
+body.theme-gryffindor .nav-circle { background: #ae0001; box-shadow: 4px 4px 0px #740001, 6px 6px 0px rgba(0,0,0,0.85); }
+body.theme-gryffindor .nav-circle svg { color: #eeba30; }
+body.theme-gryffindor .nav-btn { color: #b08820; }
+body.theme-gryffindor .nav-btn.active { color: var(--a); }
+body.theme-gryffindor .chip.active { background: var(--a); border-color: var(--a); color: #120000; box-shadow: 3px 3px 0px #ae0001; }
+body.theme-gryffindor .loader-logo { color: #eeba30; text-shadow: 3px 3px 0px #ae0001, 6px 6px 0px rgba(0,0,0,0.85); }
+body.theme-gryffindor .loader-fill { background: #ae0001; }
+body.theme-gryffindor .auth-tab.active { background: #ae0001; color: #eeba30; }
+body.theme-gryffindor .metric-tab.active { background: #ae0001; color: #eeba30; }
+body.theme-gryffindor .avatar { background: #ae0001; color: #eeba30; box-shadow: 4px 4px 0px #740001; }
+body.theme-gryffindor .sec-title { color: var(--a); }
+body.theme-gryffindor .settings-hd-title { color: var(--a); }
+body.theme-gryffindor .btn-ghost { color: var(--a); border-color: var(--bd2); }
+body.theme-gryffindor .settings-card { background: #2a0000; border-color: rgba(238,186,48,.40); }
+body.theme-gryffindor .settings-hd { border-bottom-color: rgba(174,0,1,.35); }
+body.theme-gryffindor .input { background: #120000; color: #fff8e0; border-color: rgba(238,186,48,.50); }
+body.theme-gryffindor .field label { color: #eeba30; }
+body.theme-gryffindor .sec-card { background: #2a0000; }
+body.theme-gryffindor .card { background: #2a0000; }
+body.theme-gryffindor .heatmap-card { background: #2a0000; border-color: rgba(238,186,48,.28); }
+body.theme-gryffindor .heatmap-cell { background: rgba(174,0,1,0.10); border-color: rgba(238,186,48,0.18); }
+body.theme-gryffindor .heatmap-cell::after { color: rgba(255,248,224,.55); }
+body.theme-gryffindor .heatmap-legend { color: var(--ts); }
+body.theme-gryffindor .heatmap-legend-box { background: rgba(174,0,1,0.10); border-color: rgba(238,186,48,0.18); }
+body.theme-gryffindor .heatmap-week-labels { color: var(--ts); }
+body.theme-gryffindor .progress-chart-shell { background: #2a0000; border-color: rgba(238,186,48,.28); }
+
+/* Theme: Ravenclaw — Blue & Bronze */
+body.theme-ravenclaw {
+  --bg:#040e1e;
+  --s1:#071828;
+  --s2:#0a2238;
+  --s3:#0e2c48;
+  --s4:#123658;
+  --bd:rgba(33,168,213,.22);
+  --bd2:rgba(33,168,213,.48);
+  --bd-card:rgba(29,114,180,.22);
+  --a:#21a8d5;
+  --a2:#1d72b4;
+  --a3:rgba(33,168,213,.12);
+  --t:#f2dba5;
+  --ts:#e89d41;
+  --td:#573817;
+  --err:#e05050;
+  --err2:rgba(224,80,80,.15);
+  --ok:#5dd4b8;
+  --ok2:rgba(93,212,184,.12);
+  --abg:#040e1e;
+  --pixel-shadow: 4px 4px 0px rgba(0,0,0,0.9);
+  --pixel-shadow-accent: 4px 4px 0px rgba(33,168,213,0.45);
+  --hm1: rgba(33,168,213,0.20);
+  --hm1b: rgba(33,168,213,0.14);
+  --hm2: rgba(29,114,180,0.55);
+  --hm2b: rgba(29,114,180,0.38);
+  --hm3: rgba(33,168,213,0.90);
+  --hm3b: rgba(33,168,213,0.65);
+  box-shadow: 0 0 0 3px #1d72b4, 0 0 0 6px #e89d41, 0 0 40px rgba(29,114,180,0.35) !important;
+  border-left: 3px solid #1d72b4 !important;
+  border-right: 3px solid #573817 !important;
+}
+body.theme-ravenclaw .header { border-bottom-color: #1d72b4; background: #020810; }
+body.theme-ravenclaw .bottom-nav { border-top-color: #1d72b4; background: #020810; }
+body.theme-ravenclaw .btn { color: #020810; box-shadow: 4px 4px 0px #1d72b4, 8px 8px 0px rgba(0,0,0,0.85); }
+body.theme-ravenclaw .auth-logo { color: #21a8d5; text-shadow: 3px 3px 0px #1d72b4, 6px 6px 0px rgba(0,0,0,0.85); }
+body.theme-ravenclaw .header-logo { color: #f2dba5; text-shadow: 2px 2px 0px #1d72b4; }
+body.theme-ravenclaw .stat-num.accent { color: var(--a); text-shadow: 2px 2px 0px #1d72b4; }
+body.theme-ravenclaw .prog-kpi-val { color: var(--a); text-shadow: 2px 2px 0px #1d72b4; }
+body.theme-ravenclaw .nav-circle { background: #1d72b4; box-shadow: 4px 4px 0px #040e1e, 6px 6px 0px rgba(0,0,0,0.85); }
+body.theme-ravenclaw .nav-circle svg { color: #f2dba5; }
+body.theme-ravenclaw .nav-btn { color: #573817; }
+body.theme-ravenclaw .nav-btn.active { color: var(--a); }
+body.theme-ravenclaw .chip.active { background: var(--a); border-color: var(--a); color: #020810; box-shadow: 3px 3px 0px #1d72b4; }
+body.theme-ravenclaw .loader-logo { color: #21a8d5; text-shadow: 3px 3px 0px #1d72b4, 6px 6px 0px rgba(0,0,0,0.85); }
+body.theme-ravenclaw .loader-fill { background: #1d72b4; }
+body.theme-ravenclaw .auth-tab.active { background: #1d72b4; color: #f2dba5; }
+body.theme-ravenclaw .metric-tab.active { background: #1d72b4; color: #f2dba5; }
+body.theme-ravenclaw .avatar { background: #1d72b4; color: #f2dba5; box-shadow: 4px 4px 0px #040e1e; }
+body.theme-ravenclaw .sec-title { color: var(--a); }
+body.theme-ravenclaw .settings-hd-title { color: var(--a); }
+body.theme-ravenclaw .btn-ghost { color: var(--a); border-color: var(--bd2); }
+body.theme-ravenclaw .settings-card { background: #0a2238; border-color: rgba(33,168,213,.40); }
+body.theme-ravenclaw .settings-hd { border-bottom-color: rgba(29,114,180,.35); }
+body.theme-ravenclaw .input { background: #040e1e; color: #f2dba5; border-color: rgba(33,168,213,.50); }
+body.theme-ravenclaw .field label { color: #21a8d5; }
+body.theme-ravenclaw .sec-card { background: #0a2238; }
+body.theme-ravenclaw .card { background: #0a2238; }
+body.theme-ravenclaw .heatmap-card { background: #071828; border-color: rgba(33,168,213,.25); }
+body.theme-ravenclaw .heatmap-cell { background: rgba(29,114,180,0.10); border-color: rgba(33,168,213,0.18); }
+body.theme-ravenclaw .heatmap-cell::after { color: rgba(242,219,165,.55); }
+body.theme-ravenclaw .heatmap-legend { color: var(--ts); }
+body.theme-ravenclaw .heatmap-legend-box { background: rgba(29,114,180,0.10); border-color: rgba(33,168,213,0.18); }
+body.theme-ravenclaw .heatmap-week-labels { color: var(--ts); }
+body.theme-ravenclaw .progress-chart-shell { background: #071828; border-color: rgba(33,168,213,.28); }
+
+/* Theme: Hufflepuff — Yellow & Black */
+body.theme-hufflepuff {
+  --bg:#0e0a00;
+  --s1:#1c1400;
+  --s2:#2a1e00;
+  --s3:#362800;
+  --s4:#443200;
+  --bd:rgba(236,185,57,.22);
+  --bd2:rgba(236,185,57,.48);
+  --bd-card:rgba(114,98,85,.28);
+  --a:#ecb939;
+  --a2:#f0c75e;
+  --a3:rgba(236,185,57,.12);
+  --t:#fff8dc;
+  --ts:#f0c75e;
+  --td:#726255;
+  --err:#e05050;
+  --err2:rgba(224,80,80,.15);
+  --ok:#5dd4b8;
+  --ok2:rgba(93,212,184,.12);
+  --abg:#0e0a00;
+  --pixel-shadow: 4px 4px 0px rgba(0,0,0,0.9);
+  --pixel-shadow-accent: 4px 4px 0px rgba(236,185,57,0.50);
+  --hm1: rgba(236,185,57,0.20);
+  --hm1b: rgba(236,185,57,0.14);
+  --hm2: rgba(236,185,57,0.55);
+  --hm2b: rgba(236,185,57,0.38);
+  --hm3: rgba(236,185,57,0.92);
+  --hm3b: rgba(236,185,57,0.68);
+  box-shadow: 0 0 0 3px #ecb939, 0 0 0 6px #372e29, 0 0 40px rgba(236,185,57,0.30) !important;
+  border-left: 3px solid #726255 !important;
+  border-right: 3px solid #372e29 !important;
+}
+body.theme-hufflepuff .header { border-bottom-color: #ecb939; background: #070500; }
+body.theme-hufflepuff .bottom-nav { border-top-color: #ecb939; background: #070500; }
+body.theme-hufflepuff .btn { color: #0e0a00; box-shadow: 4px 4px 0px #c8960a, 8px 8px 0px rgba(0,0,0,0.85); }
+body.theme-hufflepuff .auth-logo { color: #ecb939; text-shadow: 3px 3px 0px #726255, 6px 6px 0px rgba(0,0,0,0.85); }
+body.theme-hufflepuff .header-logo { color: #ecb939; text-shadow: 2px 2px 0px #726255; }
+body.theme-hufflepuff .stat-num.accent { color: var(--a); text-shadow: 2px 2px 0px #726255; }
+body.theme-hufflepuff .prog-kpi-val { color: var(--a); text-shadow: 2px 2px 0px #726255; }
+body.theme-hufflepuff .nav-circle { background: #ecb939; box-shadow: 4px 4px 0px #c8960a, 6px 6px 0px rgba(0,0,0,0.85); }
+body.theme-hufflepuff .nav-circle svg { color: #0e0a00; }
+body.theme-hufflepuff .nav-btn { color: #726255; }
+body.theme-hufflepuff .nav-btn.active { color: var(--a); }
+body.theme-hufflepuff .chip.active { background: var(--a); border-color: var(--a); color: #0e0a00; box-shadow: 3px 3px 0px #c8960a; }
+body.theme-hufflepuff .loader-logo { color: #ecb939; text-shadow: 3px 3px 0px #726255, 6px 6px 0px rgba(0,0,0,0.85); }
+body.theme-hufflepuff .loader-fill { background: #ecb939; }
+body.theme-hufflepuff .auth-tab.active { background: #ecb939; color: #0e0a00; }
+body.theme-hufflepuff .metric-tab.active { background: #ecb939; color: #0e0a00; }
+body.theme-hufflepuff .avatar { background: #ecb939; color: #0e0a00; box-shadow: 4px 4px 0px #c8960a; }
+body.theme-hufflepuff .sec-title { color: var(--a); }
+body.theme-hufflepuff .settings-hd-title { color: var(--a); }
+body.theme-hufflepuff .btn-ghost { color: var(--a); border-color: var(--bd2); }
+body.theme-hufflepuff .settings-card { background: #1c1400; border-color: rgba(236,185,57,.40); }
+body.theme-hufflepuff .settings-hd { border-bottom-color: rgba(114,98,85,.40); }
+body.theme-hufflepuff .input { background: #0e0a00; color: #fff8dc; border-color: rgba(236,185,57,.50); }
+body.theme-hufflepuff .field label { color: #ecb939; }
+body.theme-hufflepuff .sec-card { background: #1c1400; }
+body.theme-hufflepuff .card { background: #1c1400; }
+body.theme-hufflepuff .heatmap-card { background: #1c1400; border-color: rgba(236,185,57,.25); }
+body.theme-hufflepuff .heatmap-cell { background: rgba(236,185,57,0.10); border-color: rgba(236,185,57,0.20); }
+body.theme-hufflepuff .heatmap-cell::after { color: rgba(255,248,220,.55); }
+body.theme-hufflepuff .heatmap-legend { color: var(--ts); }
+body.theme-hufflepuff .heatmap-legend-box { background: rgba(236,185,57,0.10); border-color: rgba(236,185,57,0.20); }
+body.theme-hufflepuff .heatmap-week-labels { color: var(--ts); }
+body.theme-hufflepuff .progress-chart-shell { background: #1c1400; border-color: rgba(236,185,57,.28); }
+
+/* Theme: Slytherin — Green & Silver */
+body.theme-slytherin {
+  --bg:#060e08;
+  --s1:#0c1a10;
+  --s2:#112618;
+  --s3:#163020;
+  --s4:#1a3a28;
+  --bd:rgba(26,71,42,.45);
+  --bd2:rgba(42,98,61,.65);
+  --bd-card:rgba(42,98,61,.28);
+  --a:#2a623d;
+  --a2:#1a472a;
+  --a3:rgba(42,98,61,.14);
+  --t:#d8e8dc;
+  --ts:#aaaaaa;
+  --td:#5d5d5d;
+  --err:#e05050;
+  --err2:rgba(224,80,80,.15);
+  --ok:#5dd4b8;
+  --ok2:rgba(93,212,184,.12);
+  --abg:#060e08;
+  --pixel-shadow: 4px 4px 0px rgba(0,0,0,0.9);
+  --pixel-shadow-accent: 4px 4px 0px rgba(42,98,61,0.50);
+  --hm1: rgba(42,98,61,0.20);
+  --hm1b: rgba(42,98,61,0.14);
+  --hm2: rgba(42,98,61,0.55);
+  --hm2b: rgba(42,98,61,0.38);
+  --hm3: rgba(170,170,170,0.90);
+  --hm3b: rgba(170,170,170,0.65);
+  box-shadow: 0 0 0 3px #2a623d, 0 0 0 6px #aaaaaa, 0 0 40px rgba(26,71,42,0.40) !important;
+  border-left: 3px solid #1a472a !important;
+  border-right: 3px solid #5d5d5d !important;
+}
+body.theme-slytherin .header { border-bottom-color: #2a623d; background: #030806; }
+body.theme-slytherin .bottom-nav { border-top-color: #2a623d; background: #030806; }
+body.theme-slytherin .btn { color: #d8e8dc; box-shadow: 4px 4px 0px #1a472a, 8px 8px 0px rgba(0,0,0,0.85); }
+body.theme-slytherin .auth-logo { color: #aaaaaa; text-shadow: 3px 3px 0px #2a623d, 6px 6px 0px rgba(0,0,0,0.85); }
+body.theme-slytherin .header-logo { color: #aaaaaa; text-shadow: 2px 2px 0px #2a623d; }
+body.theme-slytherin .stat-num.accent { color: #aaaaaa; text-shadow: 2px 2px 0px #2a623d; }
+body.theme-slytherin .prog-kpi-val { color: #aaaaaa; text-shadow: 2px 2px 0px #2a623d; }
+body.theme-slytherin .nav-circle { background: #2a623d; box-shadow: 4px 4px 0px #1a472a, 6px 6px 0px rgba(0,0,0,0.85); }
+body.theme-slytherin .nav-circle svg { color: #d8e8dc; }
+body.theme-slytherin .nav-btn { color: #5d5d5d; }
+body.theme-slytherin .nav-btn.active { color: #aaaaaa; }
+body.theme-slytherin .chip.active { background: #2a623d; border-color: #2a623d; color: #d8e8dc; box-shadow: 3px 3px 0px #1a472a; }
+body.theme-slytherin .loader-logo { color: #aaaaaa; text-shadow: 3px 3px 0px #2a623d, 6px 6px 0px rgba(0,0,0,0.85); }
+body.theme-slytherin .loader-fill { background: #2a623d; }
+body.theme-slytherin .auth-tab.active { background: #2a623d; color: #d8e8dc; }
+body.theme-slytherin .metric-tab.active { background: #2a623d; color: #d8e8dc; }
+body.theme-slytherin .avatar { background: #2a623d; color: #d8e8dc; box-shadow: 4px 4px 0px #1a472a; }
+body.theme-slytherin .sec-title { color: #aaaaaa; }
+body.theme-slytherin .settings-hd-title { color: #aaaaaa; }
+body.theme-slytherin .btn-ghost { color: #aaaaaa; border-color: rgba(170,170,170,.45); }
+body.theme-slytherin .settings-card { background: #0c1a10; border-color: rgba(42,98,61,.50); }
+body.theme-slytherin .settings-hd { border-bottom-color: rgba(42,98,61,.35); }
+body.theme-slytherin .input { background: #060e08; color: #d8e8dc; border-color: rgba(42,98,61,.55); }
+body.theme-slytherin .field label { color: #aaaaaa; }
+body.theme-slytherin .sec-card { background: #0c1a10; }
+body.theme-slytherin .card { background: #0c1a10; }
+body.theme-slytherin .heatmap-card { background: #0c1a10; border-color: rgba(42,98,61,.28); }
+body.theme-slytherin .heatmap-cell { background: rgba(42,98,61,0.10); border-color: rgba(42,98,61,0.20); }
+body.theme-slytherin .heatmap-cell::after { color: rgba(216,232,220,.55); }
+body.theme-slytherin .heatmap-legend { color: var(--ts); }
+body.theme-slytherin .heatmap-legend-box { background: rgba(42,98,61,0.10); border-color: rgba(42,98,61,0.20); }
+body.theme-slytherin .heatmap-week-labels { color: var(--ts); }
+body.theme-slytherin .progress-chart-shell { background: #0c1a10; border-color: rgba(42,98,61,.28); }
+
+/* ══════════════════════════════════════════════
+   📊 RECENT SUMMARY VALUE — PER-THEME CONTRAST OVERRIDES
+   ══════════════════════════════════════════════ */
+body.theme-lugia .recent-summary-v { color:#ffffff!important; text-shadow:2px 2px 0px #4f83c5, 0 0 16px rgba(79,131,197,0.5)!important; }
+body.theme-snorlax .recent-summary-v { color:#ffffff!important; text-shadow:2px 2px 0px #27728a, 0 0 14px rgba(39,114,138,0.5)!important; }
+body.theme-glaceon .recent-summary-v { color:#e8fffc!important; text-shadow:2px 2px 0px #1a4a60, 0 0 14px rgba(82,176,197,0.5)!important; }
+body.theme-pokeball .recent-summary-v { color:#cc0000!important; text-shadow:2px 2px 0px rgba(0,0,0,0.3)!important; }
+body.theme-espeon .recent-summary-v { color:#c8a4ff!important; text-shadow:2px 2px 0px #1a0c18, 0 0 14px rgba(198,72,99,0.4)!important; }
+body.theme-slytherin .recent-summary-v { color:#4cff80!important; text-shadow:2px 2px 0px #000000, 0 0 12px rgba(76,255,128,0.35)!important; }
+body.theme-leafeon .recent-summary-v { color:#a8ffce!important; text-shadow:2px 2px 0px #0c1e10, 0 0 12px rgba(122,200,158,0.4)!important; }
+body.theme-jolteon .recent-summary-v { color:#ffe040!important; text-shadow:2px 2px 0px #3a2800, 0 0 14px rgba(251,213,112,0.5)!important; }
+body.theme-vaporeon .recent-summary-v { color:#a8f0ff!important; text-shadow:2px 2px 0px #040e18, 0 0 14px rgba(121,206,224,0.5)!important; }
+body.theme-gameboy .recent-summary-v { color:#e8ff80!important; text-shadow:2px 2px 0px #0f380f!important; }
+
 /* ── Pokemon-style scanline overlay ── */
 body::before {
   content: '';
@@ -2505,7 +2791,7 @@ select.input{cursor:pointer}
 .recent-summary-v{
   font-family:'Press Start 2P',monospace!important;
   font-size:23px!important;
-  text-shadow:2px 2px 0px var(--a2)!important;
+  text-shadow:2px 2px 0px rgba(0,0,0,0.85), 0 0 12px rgba(0,0,0,0.4)!important;
 }
 
 /* Pick plan sheet Pokemon style */
@@ -3076,6 +3362,12 @@ select.input{
               <option value="glaceon">❄️ Glaceon</option>
               <option value="sylveon">🎀 Sylveon</option>
             </optgroup>
+            <optgroup label="── Harry Potter ──">
+              <option value="gryffindor">🦁 Gryffindor</option>
+              <option value="ravenclaw">🦅 Ravenclaw</option>
+              <option value="hufflepuff">🦡 Hufflepuff</option>
+              <option value="slytherin">🐍 Slytherin</option>
+            </optgroup>
           </select>
         </div>
         <div style="font-size:15px;color:var(--ts);margin-top:4px">Theme is saved automatically and persists on refresh.</div>
@@ -3255,7 +3547,7 @@ function hideSplash(){
 
 // ── Init — Firebase Auth handles session automatically ─
 // ── Theme System ─────────────────────────────────
-const THEMES = ['default','pikachu','lugia','trainer','switch','cyber-neon','gameboy','matrix','crimson','snorlax','charizard','blastoise','bulbasaur','gengar','pokeball','flareon','vaporeon','jolteon','espeon','umbreon','leafeon','glaceon','sylveon'];
+const THEMES = ['default','pikachu','lugia','trainer','switch','cyber-neon','gameboy','matrix','crimson','snorlax','charizard','blastoise','bulbasaur','gengar','pokeball','flareon','vaporeon','jolteon','espeon','umbreon','leafeon','glaceon','sylveon','gryffindor','ravenclaw','hufflepuff','slytherin'];
 
 function setTheme(themeName) {
   // Remove all existing theme classes
