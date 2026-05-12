@@ -19,7 +19,52 @@
       "sizes": "512x512",
       "type": "image/svg+xml",
       "purpose": "any maskable"
+    }{
+  "name": "LIFT \u2014 Workout Logger",
+  "short_name": "LIFT",
+  "description": "Track your gym workouts, sets, reps and personal records",
+  "start_url": "/lift/index.html",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#09090d",
+  "theme_color": "#09090d",
+  "icons": [
+    {
+      "src": "apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
     }
+  ],
+  "categories": [
+    "health",
+    "fitness",
+    "sports"
+  ],
+  "screenshots": [],
+  "shortcuts": [
+    {
+      "name": "Log Workout",
+      "short_name": "Log",
+      "url": "/index.html#log",
+      "description": "Quickly log a new workout"
+    }
+  ],
+  "scope": "/lift/",
+  "id": "/lift/"
+}
   ],
   "categories": [
     "health",
