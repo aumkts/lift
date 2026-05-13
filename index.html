@@ -4267,7 +4267,8 @@ function addExBlock(){
     <div class="target-hint" style="display:none"></div>
     <div class="set-toolbar" style="display:none">
       <button type="button" class="mini-chip" onclick="copyLastSet(this)">Fill from last session</button>
-      <button type="button" class="mini-chip" onclick="addSuggestedWeight(this)">+${S.prefs.defaultIncrement||2.5}${unitLabel()}</button>
+      <button type="button" class="mini-chip" onclick="decRep(this)">-1 rep</button>
+      <button type="button" class="mini-chip" onclick="incRep(this)">+1 rep</button>
     </div>
     <button type="button" class="add-set-btn" onclick="addSetToBlock(this)">
       <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add Set
@@ -4405,14 +4406,17 @@ async function saveWorkout(){
     const exName=sel.value==='__custom'?cust.value.trim():sel.value;
     if(!exName)return toast(`Please select exercise ${i+1}`,'err');
     const notes=block.querySelector('[name=notes]').value||'';
+    let _si1=0;
     [...block.querySelectorAll('.sets-list .set-row')].forEach((row,j)=>{
+      if(row.dataset.completed!=='1') return;
       const repsVal=Number(row.querySelector('[name=reps]').value)||0;
       const wVal=fromDisplay(row.querySelector('[name=weight]').value);
       const mode=row.dataset.mode||'reps';
-      docs.push({date,exerciseName:exName,sets:1,reps:repsVal,weight:wVal,duration:mode==='sec'?repsVal:0,notes:j===0?notes:'',mode,unit:S.unit,setOrder:j,createdAt:TS()});
+      docs.push({date,exerciseName:exName,sets:1,reps:repsVal,weight:wVal,duration:mode==='sec'?repsVal:0,notes:_si1===0?notes:'',mode,unit:S.unit,setOrder:_si1++,createdAt:TS()});
     });
   }
-  if(!docs.length)return toast('No data to save','err');
+  const totalSets=[...document.querySelectorAll('.ex-block .sets-list .set-row')].length;
+  if(!docs.length)return toast('ยังไม่ได้ติ๊กเซตไหนเลย — ติ๊กเซตที่ทำเสร็จก่อน save','err');
   const btn=document.getElementById('btn-save');
   btn.disabled=true;btn.textContent='Saving...';
   try{
@@ -5396,7 +5400,7 @@ init();
   function openWorkoutSummary(data){
     ensureSummaryModal();
     document.getElementById('sum-ex').textContent = data.exercises;
-    document.getElementById('sum-sets').textContent = data.sets;
+    document.getElementById('sum-sets').textContent = data.totalSets != null && data.totalSets !== data.sets ? `${data.sets}/${data.totalSets}` : data.sets;
     document.getElementById('sum-vol').textContent = `${Math.round(toDisplayVolume(data.volume)).toLocaleString()} ${unitLabel()}`;
     document.getElementById('sum-mins').textContent = data.minutes;
     const prWrap = document.getElementById('sum-pr-wrap');
@@ -5676,9 +5680,8 @@ init();
       <div class="target-hint" style="display:none"></div>
       <div class="set-toolbar" style="display:none">
         <button type="button" class="mini-chip" onclick="copyLastSet(this)">Fill from last session</button>
-        <button type="button" class="mini-chip" onclick="copyPreviousSet(this)">Copy prev set</button>
-        <button type="button" class="mini-chip" onclick="addSuggestedWeight(this)">+${S.prefs.defaultIncrement||2.5}${unitLabel()}</button>
         <button type="button" class="mini-chip" onclick="decRep(this)">-1 rep</button>
+        <button type="button" class="mini-chip" onclick="incRep(this)">+1 rep</button>
       </div>
       <button type="button" class="add-set-btn" onclick="addSetToBlock(this)">
         <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add Set
@@ -5740,6 +5743,16 @@ init();
     rows.forEach(r=>{
       const inp = r.querySelector('[name=reps]');
       inp.value = Math.max((Number(inp.value)||0)-1, 0);
+      applyRepRangeState(r);
+    });
+    refreshLogSummary();
+  };
+
+  window.incRep = function(btn){
+    const rows = [...btn.closest('.ex-block').querySelectorAll('.set-row')];
+    rows.forEach(r=>{
+      const inp = r.querySelector('[name=reps]');
+      inp.value = (Number(inp.value)||0)+1;
       applyRepRangeState(r);
     });
     refreshLogSummary();
@@ -6012,19 +6025,21 @@ init();
       const min = Number(block.dataset.targetMin || 0);
       const max = Number(block.dataset.targetMax || 0);
       const restSec = Number(block.dataset.restSec || S.prefs.defaultRest || 90);
+      let _si2=0;
       [...block.querySelectorAll('.sets-list .set-row')].forEach((row,j)=>{
+        if(row.dataset.completed!=='1') return;
         const repsVal=Number(row.querySelector('[name=reps]').value)||0;
         const wVal=fromDisplay(row.querySelector('[name=weight]').value);
         const mode=row.dataset.mode||'reps';
         docs.push({
           date, exerciseName:exName, sets:1, reps:repsVal, weight:wVal,
-          duration:mode==='sec'?repsVal:0, notes:j===0?notes:'', mode, unit:S.unit,
+          duration:mode==='sec'?repsVal:0, notes:_si2===0?notes:'', mode, unit:S.unit,
           targetMinReps:min || null, targetMaxReps:max || null, restSec,
-          setOrder:j, planId: activePlan?.id || null, createdAt:TS()
+          setOrder:_si2++, planId: activePlan?.id || null, createdAt:TS()
         });
       });
     }
-    if(!docs.length)return toast('No data to save','err');
+    if(!docs.length)return toast('ยังไม่ได้ติ๊กเซตไหนเลย — ติ๊กเซตที่ทำเสร็จก่อน save','err');
 
     const prevSnap = await woCol().get();
     const prevRows = prevSnap.docs.map(d=>({...d.data(), workoutId:d.id}));
@@ -6053,6 +6068,7 @@ init();
       openWorkoutSummary({
         exercises: new Set(docs.map(d=>d.exerciseName)).size,
         sets: docs.length,
+        totalSets: typeof totalSets !== 'undefined' ? totalSets : docs.length,
         volume,
         minutes,
         prs
@@ -6770,6 +6786,9 @@ init();
     row.dataset.completed = active ? '1' : '0';
     // Auto-start rest timer when marking a set as done
     if(active) window.autoStartRestTimer?.(row);
+    // Refresh PR badge immediately when tick state changes
+    const block=row.closest('.ex-block');
+    if(block && typeof refreshBlockPR==='function') refreshBlockPR(block);
   };
 
   function attachV71RowEvents(row){
@@ -6828,9 +6847,8 @@ init();
       <div class="target-hint" style="display:none"></div>
       <div class="set-toolbar" style="display:none">
         <button type="button" class="mini-chip" onclick="copyLastSet(this)">Fill from last session</button>
-        <button type="button" class="mini-chip" onclick="copyPreviousSet(this)">Copy prev set</button>
-        <button type="button" class="mini-chip" onclick="addSuggestedWeight(this)">+${S.prefs.defaultIncrement||2.5}${unitLabel()}</button>
         <button type="button" class="mini-chip" onclick="decRep(this)">-1 rep</button>
+        <button type="button" class="mini-chip" onclick="incRep(this)">+1 rep</button>
       </div>
       <button type="button" class="add-set-btn" onclick="addSetToBlock(this)">
         <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add Set
@@ -6918,20 +6936,22 @@ init();
       const min = Number(block.dataset.targetMin || 0);
       const max = Number(block.dataset.targetMax || 0);
       const restSec = Number(block.dataset.restSec || S.prefs.defaultRest || 90);
+      let _si3=0;
       [...block.querySelectorAll('.sets-list .set-row')].forEach((row,j)=>{
+        if(row.dataset.completed!=='1') return;
         const repsVal=Number(row.querySelector('[name=reps]').value)||0;
         const wVal=fromDisplay(row.querySelector('[name=weight]').value);
         const mode=row.dataset.mode||'reps';
         docs.push({
           date, exerciseName:exName, sets:1, reps:repsVal, weight:wVal,
-          duration:mode==='sec'?repsVal:0, notes:j===0?notes:'', mode, unit:S.unit,
+          duration:mode==='sec'?repsVal:0, notes:_si3===0?notes:'', mode, unit:S.unit,
           targetMinReps:min || null, targetMaxReps:max || null, restSec,
-          completed: row.dataset.completed==='1',
-          setOrder:j, planId: activePlan?.id || null, createdAt:TS()
+          completed: true,
+          setOrder:_si3++, planId: activePlan?.id || null, createdAt:TS()
         });
       });
     }
-    if(!docs.length)return toast('No data to save','err');
+    if(!docs.length)return toast('ยังไม่ได้ติ๊กเซตไหนเลย — ติ๊กเซตที่ทำเสร็จก่อน save','err');
 
     const btn=document.getElementById('btn-save');
     btn.disabled=true;btn.textContent='Saving...';
@@ -6960,9 +6980,11 @@ init();
 
       const minutes = Math.max(1, Math.round(((Date.now() - (S.logStartedAt || Date.now()))/60000)));
       toast(`Today: ${currentSummary.exercises} Exercise / ${currentSummary.sets} sets`, 'ok');
+      const _totalSets2=[...document.querySelectorAll('.ex-block .sets-list .set-row')].length;
       openWorkoutSummary({
         exercises: currentSummary.exercises,
         sets: currentSummary.sets,
+        totalSets: _totalSets2,
         volume: currentSummary.volume,
         minutes,
         prs,
@@ -7505,20 +7527,22 @@ if ('serviceWorker' in navigator) {
       const min = Number(block.dataset.targetMin || 0);
       const max = Number(block.dataset.targetMax || 0);
       const restSec = Number(block.dataset.restSec || S.prefs.defaultRest || 90);
+      let _si4=0;
       [...block.querySelectorAll('.sets-list .set-row')].forEach((row,j)=>{
+        if(row.dataset.completed!=='1') return;
         const repsVal=safeNum(row.querySelector('[name=reps]').value);
         const wVal=fromDisplay(row.querySelector('[name=weight]').value);
         const mode=row.dataset.mode||'reps';
         docs.push({
           date, exerciseName:exName, sets:1, reps:repsVal, weight:wVal,
-          duration:mode==='sec'?repsVal:0, notes:j===0?notes:'', mode, unit:S.unit,
+          duration:mode==='sec'?repsVal:0, notes:_si4===0?notes:'', mode, unit:S.unit,
           targetMinReps:min || null, targetMaxReps:max || null, restSec,
-          completed: row.dataset.completed==='1',
-          setOrder:j, planId: activePlan?.id || null, createdAt:TS()
+          completed: true,
+          setOrder:_si4++, planId: activePlan?.id || null, createdAt:TS()
         });
       });
     }
-    if(!docs.length)return toast('No data to save','err');
+    if(!docs.length)return toast('ยังไม่ได้ติ๊กเซตไหนเลย — ติ๊กเซตที่ทำเสร็จก่อน save','err');
 
     const btn=document.getElementById('btn-save');
     btn.disabled=true;btn.textContent='Saving...';
@@ -7551,10 +7575,12 @@ if ('serviceWorker' in navigator) {
         if (typeof wireAllBlocks === 'function') wireAllBlocks();
       }).catch(()=>{});
 
+      const _totalSets3=[...document.querySelectorAll('.ex-block .sets-list .set-row')].length;
       toast('Saved 💪','ok');
       openWorkoutSummary({
         exercises: new Set(docs.map(d=>d.exerciseName)).size,
         sets: docs.length,
+        totalSets: _totalSets3,
         volume: computed.currentWeightVol,
         minutes: Math.max(1, Math.round(((Date.now() - (S.logStartedAt || Date.now()))/60000))),
         summaryLine: computed.summaryLine,
@@ -7950,6 +7976,27 @@ if ('serviceWorker' in navigator) {
         animation: prPop .2s cubic-bezier(.34,1.56,.64,1) both;
         margin-left: auto;
       }
+      .ex-vol-chip {
+        display: inline-flex;
+        align-items: center;
+        padding: 2px 9px;
+        border-radius: 4px;
+        font-family: 'VT323', monospace;
+        font-size: 16px;
+        font-weight: 700;
+        animation: prPop .2s cubic-bezier(.34,1.56,.64,1) both;
+        margin-left: 6px;
+      }
+      .ex-vol-chip.up {
+        background: rgba(0,230,130,.12);
+        border: 1px solid rgba(0,230,130,.35);
+        color: #00e682;
+      }
+      .ex-vol-chip.down {
+        background: rgba(255,79,90,.12);
+        border: 1px solid rgba(255,79,90,.35);
+        color: #ff4f5a;
+      }
     `;
     document.head.appendChild(s);
   }
@@ -7998,6 +8045,8 @@ if ('serviceWorker' in navigator) {
 
   /* Returns: null | 'first' | 'weight' | 'reps' */
   function checkRowPR(row, exName) {
+    // Only show PR badge if the set has been ticked (completed)
+    if (row.dataset.completed !== '1') return null;
     const repsInp   = row.querySelector('[name=reps]');
     const weightInp = row.querySelector('[name=weight]');
     if (!repsInp || !weightInp) return null;
@@ -8087,6 +8136,8 @@ if ('serviceWorker' in navigator) {
     rows.forEach(row => { if (applyPRBadgeToRow(row, exName)) prCount++; });
 
     const head = block.querySelector('.ex-block-head');
+
+    // ── PR chip ──
     let chip = block.querySelector('.ex-pr-count');
     if (prCount > 0) {
       if (!chip && head) { chip = document.createElement('span'); chip.className = 'ex-pr-count'; head.appendChild(chip); }
@@ -8094,6 +8145,50 @@ if ('serviceWorker' in navigator) {
     } else {
       chip?.remove();
     }
+
+    // ── Volume chip ──
+    const rec = getPRRecord(exName);
+    let volChip = block.querySelector('.ex-vol-chip');
+
+    if (rec && rec.sets && rec.sets.length) {
+      // คำนวณ volume วันนี้
+      let curVol = 0;
+      rows.forEach((row, i) => {
+        const r = Number(row.querySelector('[name=reps]')?.value) || 0;
+        const wRaw = row.querySelector('[name=weight]')?.value;
+        const w = (typeof fromDisplay === 'function') ? fromDisplay(wRaw) : (Number(wRaw) || 0);
+        curVol += r * w;
+      });
+
+      // คำนวณ volume session ก่อน
+      let prevVol = 0;
+      rec.sets.forEach(s => {
+        prevVol += (Number(s.reps) || 0) * (Number(s.weight) || 0);
+      });
+
+      if (prevVol > 0 && curVol > 0) {
+        const pct = Math.round((curVol - prevVol) / prevVol * 100);
+        if (Math.abs(pct) >= 1) {
+          const isUp = pct > 0;
+          if (!volChip && head) {
+            volChip = document.createElement('span');
+            volChip.className = 'ex-vol-chip';
+            head.appendChild(volChip);
+          }
+          if (volChip) {
+            volChip.className = `ex-vol-chip ${isUp ? 'up' : 'down'}`;
+            volChip.textContent = `${isUp ? '📈' : '📉'} ${isUp ? '+' : ''}${pct}%`;
+          }
+        } else {
+          volChip?.remove();
+        }
+      } else {
+        volChip?.remove();
+      }
+    } else {
+      volChip?.remove();
+    }
+
     return prCount;
   }
 
