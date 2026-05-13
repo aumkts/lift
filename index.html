@@ -7546,7 +7546,10 @@ if ('serviceWorker' in navigator) {
 
       S._pc=null;
       // primeLastExerciseMap may hang offline — don't await, fire and forget
-      primeLastExerciseMap().catch(()=>{});
+      // When it finishes, refresh PR badges so new session shows correct PRs
+      primeLastExerciseMap().then(() => {
+        if (typeof wireAllBlocks === 'function') wireAllBlocks();
+      }).catch(()=>{});
 
       toast('Saved 💪','ok');
       openWorkoutSummary({
@@ -7966,18 +7969,24 @@ if ('serviceWorker' in navigator) {
     return S.lastByExercise[exName] || null;
   }
 
-  // Get best reps & weight from last session's sets[] array
+  // Get best reps & weight from last session — supports both formats
   function getPRBest(exName) {
     const rec = getPRRecord(exName);
     if (!rec) return null;
-    // New format: { date, notes, sets:[{reps,weight,mode}] }
+    let bestWeight = Number(rec.weight) || 0;
+    let bestReps   = Number(rec.reps)   || 0;
+    // New format: sets:[{reps,weight,mode}] — take the best across all sets
     if (rec.sets && rec.sets.length) {
-      const bestWeight = Math.max(0, ...rec.sets.map(s => Number(s.weight) || 0));
-      const bestReps   = Math.max(0, ...rec.sets.map(s => Number(s.reps)   || 0));
-      return { weight: bestWeight, reps: bestReps, date: rec.date };
+      rec.sets.forEach(s => {
+        const w = Number(s.weight) || 0;
+        const r = Number(s.reps)   || 0;
+        if (w > bestWeight) bestWeight = w;
+        if (r > bestReps)   bestReps   = r;
+      });
     }
-    // Old format fallback: { reps, weight, date }
-    return { weight: Number(rec.weight) || 0, reps: Number(rec.reps) || 0, date: rec.date };
+    // If we found nothing meaningful, treat as no record
+    if (bestWeight === 0 && bestReps === 0) return null;
+    return { weight: bestWeight, reps: bestReps, date: rec.date || '' };
   }
 
   /* Returns: null | 'first' | 'weight' | 'reps' */
@@ -7999,12 +8008,12 @@ if ('serviceWorker' in navigator) {
     const mode = row.dataset.mode || 'reps';
     if (mode === 'sec') {
       // Sec mode: longer hold = PR, heavier weight = PR
-      if (curReps   > best.reps   && curReps > 0)   return 'reps';
       if (curWeight > best.weight && curWeight > 0)  return 'weight';
+      if (curReps   > best.reps   && curReps > 0)    return 'reps';
     } else {
-      // Weight PR: more kg (same or more reps)
+      // Weight PR: strictly more kg
       if (curWeight > best.weight && curWeight > 0)  return 'weight';
-      // Rep PR: more reps at same or heavier weight (includes bodyweight: weight=0)
+      // Rep PR: more reps, weight same or heavier (bodyweight OK: weight=0 >= 0)
       if (curReps > best.reps && curReps > 0 && curWeight >= best.weight) return 'reps';
     }
     return null;
@@ -8112,7 +8121,11 @@ if ('serviceWorker' in navigator) {
   const _origInitLog = window.initLog;
   window.initLog = function() {
     if (_origInitLog) _origInitLog.apply(this, arguments);
-    setTimeout(wireAllBlocks, 250);
+    // Wire immediately for instant feedback on inputs already visible
+    setTimeout(wireAllBlocks, 80);
+    // Also wire after a longer delay to catch any async primeLastExerciseMap
+    setTimeout(wireAllBlocks, 1200);
+    setTimeout(wireAllBlocks, 3000);
   };
 
   /* ── MutationObserver ── */
