@@ -6788,7 +6788,7 @@ init();
     if(active) window.autoStartRestTimer?.(row);
     // Refresh PR badge immediately when tick state changes
     const block=row.closest('.ex-block');
-    if(block && typeof refreshBlockPR==='function') refreshBlockPR(block);
+    if(block) setTimeout(()=>{ if(typeof window.refreshBlockPR==='function') window.refreshBlockPR(block); }, 0);
   };
 
   function attachV71RowEvents(row){
@@ -8191,6 +8191,8 @@ if ('serviceWorker' in navigator) {
 
     return prCount;
   }
+
+  window.refreshBlockPR = refreshBlockPR;
 
   /* Attach input listeners to one row */
   function attachPRToRow(row, block) {
