@@ -7525,15 +7525,32 @@ if ('serviceWorker' in navigator) {
 
     const btn=document.getElementById('btn-save');
     btn.disabled=true;btn.textContent='Saving...';
+
+    // Helper: race a promise against a timeout (ms), resolves to fallback on timeout
+    const withTimeout = (promise, ms, fallback) =>
+      Promise.race([promise, new Promise(res => setTimeout(() => res(fallback), ms))]);
+
     try{
-      const prevSnap = await woCol().get();
-      const prevRows = prevSnap.docs.map(d=>({...d.data(), workoutId:d.id}));
+      // Fetch prev rows — cap at 4s so offline mode doesn't hang here
+      let prevRows = [];
+      try {
+        const prevSnap = await withTimeout(woCol().get(), 4000, null);
+        if (prevSnap) prevRows = prevSnap.docs.map(d=>({...d.data(), workoutId:d.id}));
+        else prevRows = S._hd || []; // fall back to cached history
+      } catch(_) { prevRows = S._hd || []; }
+
       const computed = computePostSaveInsights(docs, prevRows, date);
+
+      // Write batch — Firestore offline persistence queues this locally
+      // and resolves immediately; cap at 6s just in case
       const batch=db.batch();
       docs.forEach(d=>batch.set(woCol().doc(),d));
-      await batch.commit();
+      await withTimeout(batch.commit(), 6000, 'offline');
+
       S._pc=null;
-      await primeLastExerciseMap();
+      // primeLastExerciseMap may hang offline — don't await, fire and forget
+      primeLastExerciseMap().catch(()=>{});
+
       toast('Saved 💪','ok');
       openWorkoutSummary({
         exercises: new Set(docs.map(d=>d.exerciseName)).size,
@@ -7555,7 +7572,6 @@ if ('serviceWorker' in navigator) {
           : `vs last: ${computed.deltaPercent>=0?'+':''}${Math.abs(Math.round(computed.deltaPercent))}% · This week: ${computed.weekDates}/${computed.goal} sessions`
       });
       initLog();
-      // FIX: refresh dashboard so Today's Action card updates immediately after save
       if(typeof loadDash === 'function') loadDash();
     }catch(err){
       console.error('saveWorkout failed:', err);
@@ -7953,29 +7969,46 @@ if ('serviceWorker' in navigator) {
     return S.lastByExercise[exName] || null;
   }
 
+  // Get best reps & weight from last session's sets[] array
+  function getPRBest(exName) {
+    const rec = getPRRecord(exName);
+    if (!rec) return null;
+    // New format: { date, notes, sets:[{reps,weight,mode}] }
+    if (rec.sets && rec.sets.length) {
+      const bestWeight = Math.max(0, ...rec.sets.map(s => Number(s.weight) || 0));
+      const bestReps   = Math.max(0, ...rec.sets.map(s => Number(s.reps)   || 0));
+      return { weight: bestWeight, reps: bestReps, date: rec.date };
+    }
+    // Old format fallback: { reps, weight, date }
+    return { weight: Number(rec.weight) || 0, reps: Number(rec.reps) || 0, date: rec.date };
+  }
+
   /* Returns: null | 'first' | 'weight' | 'reps' */
   function checkRowPR(row, exName) {
-    const rec = getPRRecord(exName);
     const repsInp   = row.querySelector('[name=reps]');
     const weightInp = row.querySelector('[name=weight]');
     if (!repsInp || !weightInp) return null;
 
-    const curReps   = Number(repsInp.value)   || 0;
+    const curReps   = Number(repsInp.value) || 0;
     const curWeight = (typeof fromDisplay === 'function')
       ? fromDisplay(weightInp.value)
       : Number(weightInp.value) || 0;
 
-    if (!rec) {
+    const best = getPRBest(exName);
+    if (!best) {
       return (curWeight > 0 || curReps > 0) ? 'first' : null;
     }
 
     const mode = row.dataset.mode || 'reps';
     if (mode === 'sec') {
-      if (curReps   > (rec.reps   || 0) && curReps > 0)  return 'reps';
-      if (curWeight > (rec.weight || 0) && curWeight > 0) return 'weight';
+      // Sec mode: longer hold = PR, heavier weight = PR
+      if (curReps   > best.reps   && curReps > 0)   return 'reps';
+      if (curWeight > best.weight && curWeight > 0)  return 'weight';
     } else {
-      if (curWeight > (rec.weight || 0) && curWeight > 0) return 'weight';
-      if (curReps > (rec.reps || 0) && curWeight >= (rec.weight || 0) && curReps > 0) return 'reps';
+      // Weight PR: more kg (same or more reps)
+      if (curWeight > best.weight && curWeight > 0)  return 'weight';
+      // Rep PR: more reps at same or heavier weight (includes bodyweight: weight=0)
+      if (curReps > best.reps && curReps > 0 && curWeight >= best.weight) return 'reps';
     }
     return null;
   }
@@ -7990,7 +8023,7 @@ if ('serviceWorker' in navigator) {
 
     if (!prType) return false;
 
-    const rec  = getPRRecord(exName);
+    const best = getPRBest(exName);
     const unit = (typeof unitLabel === 'function') ? unitLabel() : 'kg';
     let label  = '🏆 PR';
 
@@ -8002,14 +8035,14 @@ if ('serviceWorker' in navigator) {
         ? toDisplay(fromDisplay(weightInp.value))
         : Number(weightInp.value);
       const oldW = (typeof toDisplay === 'function')
-        ? toDisplay(rec.weight || 0)
-        : (rec.weight || 0);
+        ? toDisplay(best ? best.weight : 0)
+        : (best ? best.weight : 0);
       const diff = Math.round((curW - oldW) * 10) / 10;
       label = `🏆 PR  ·  ${curW} ${unit}  (+${diff} ${unit})`;
     } else if (prType === 'reps') {
       const repsInp = row.querySelector('[name=reps]');
       const curR = Number(repsInp.value);
-      const oldR = rec.reps || 0;
+      const oldR = best ? best.reps : 0;
       const mode = row.dataset.mode || 'reps';
       label = mode === 'sec'
         ? `🏆 PR  ·  ${curR} sec  (+${curR - oldR} sec)`
