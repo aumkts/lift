@@ -7969,24 +7969,31 @@ if ('serviceWorker' in navigator) {
     return S.lastByExercise[exName] || null;
   }
 
-  // Get best reps & weight from last session — supports both formats
-  function getPRBest(exName) {
+  // Get the previous session's data for a specific set index (0-based).
+  // If that set index doesn't exist in the previous session, fall back to
+  // the last set that was recorded (so adding extra sets still gets a baseline).
+  function getPRBest(exName, setIdx) {
     const rec = getPRRecord(exName);
     if (!rec) return null;
-    let bestWeight = Number(rec.weight) || 0;
-    let bestReps   = Number(rec.reps)   || 0;
-    // New format: sets:[{reps,weight,mode}] — take the best across all sets
+
+    // Primary: sets array indexed by setOrder
     if (rec.sets && rec.sets.length) {
-      rec.sets.forEach(s => {
+      // Use exact index if available, else use the last set as fallback
+      const idx = setIdx < rec.sets.length ? setIdx : rec.sets.length - 1;
+      const s = rec.sets[idx];
+      if (s) {
         const w = Number(s.weight) || 0;
         const r = Number(s.reps)   || 0;
-        if (w > bestWeight) bestWeight = w;
-        if (r > bestReps)   bestReps   = r;
-      });
+        if (w > 0 || r > 0) return { weight: w, reps: r, date: rec.date || '' };
+      }
     }
-    // If we found nothing meaningful, treat as no record
-    if (bestWeight === 0 && bestReps === 0) return null;
-    return { weight: bestWeight, reps: bestReps, date: rec.date || '' };
+
+    // Fallback: old flat format (rec.weight / rec.reps at root level)
+    const flatW = Number(rec.weight) || 0;
+    const flatR = Number(rec.reps)   || 0;
+    if (flatW > 0 || flatR > 0) return { weight: flatW, reps: flatR, date: rec.date || '' };
+
+    return null;
   }
 
   /* Returns: null | 'first' | 'weight' | 'reps' */
@@ -8000,20 +8007,24 @@ if ('serviceWorker' in navigator) {
       ? fromDisplay(weightInp.value)
       : Number(weightInp.value) || 0;
 
-    const best = getPRBest(exName);
+    // Determine this row's 0-based index within its sets-list
+    const sl = row.closest('.sets-list');
+    const setIdx = sl ? [...sl.children].indexOf(row) : 0;
+
+    const best = getPRBest(exName, setIdx);
     if (!best) {
       return (curWeight > 0 || curReps > 0) ? 'first' : null;
     }
 
     const mode = row.dataset.mode || 'reps';
     if (mode === 'sec') {
-      // Sec mode: longer hold = PR, heavier weight = PR
-      if (curWeight > best.weight && curWeight > 0)  return 'weight';
-      if (curReps   > best.reps   && curReps > 0)    return 'reps';
+      // Sec mode: longer hold = PR, heavier weight = PR (independent)
+      if (curWeight > best.weight && curWeight > 0) return 'weight';
+      if (curReps   > best.reps   && curReps > 0)   return 'reps';
     } else {
-      // Weight PR: strictly more kg
-      if (curWeight > best.weight && curWeight > 0)  return 'weight';
-      // Rep PR: more reps, weight same or heavier (bodyweight OK: weight=0 >= 0)
+      // Weight PR: strictly more kg (reps don't matter)
+      if (curWeight > best.weight && curWeight > 0) return 'weight';
+      // Rep PR: more reps AND weight same or heavier
       if (curReps > best.reps && curReps > 0 && curWeight >= best.weight) return 'reps';
     }
     return null;
@@ -8029,7 +8040,9 @@ if ('serviceWorker' in navigator) {
 
     if (!prType) return false;
 
-    const best = getPRBest(exName);
+    const sl2 = row.closest('.sets-list');
+    const setIdx2 = sl2 ? [...sl2.children].indexOf(row) : 0;
+    const best = getPRBest(exName, setIdx2);
     const unit = (typeof unitLabel === 'function') ? unitLabel() : 'kg';
     let label  = '🏆 PR';
 
